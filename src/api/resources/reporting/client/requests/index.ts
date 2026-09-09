@@ -1,0 +1,12 @@
+export type { GetFacebookAdReportingRequest } from "./GetFacebookAdReportingRequest.js";
+export type { GetLandingPageReportingRequest } from "./GetLandingPageReportingRequest.js";
+export type { GetSurveyQuestionReportingRequest } from "./GetSurveyQuestionReportingRequest.js";
+export type { GetSurveyReportingRequest } from "./GetSurveyReportingRequest.js";
+export type { GetSurveyResponsReportingRequest } from "./GetSurveyResponsReportingRequest.js";
+export type { ListFacebookAdEcommerceProductActivityReportingRequest } from "./ListFacebookAdEcommerceProductActivityReportingRequest.js";
+export type { ListFacebookAdsReportingRequest } from "./ListFacebookAdsReportingRequest.js";
+export type { ListLandingPagesReportingRequest } from "./ListLandingPagesReportingRequest.js";
+export type { ListSurveyQuestionAnswersReportingRequest } from "./ListSurveyQuestionAnswersReportingRequest.js";
+export type { ListSurveyQuestionsReportingRequest } from "./ListSurveyQuestionsReportingRequest.js";
+export type { ListSurveyResponsesReportingRequest } from "./ListSurveyResponsesReportingRequest.js";
+export type { ListSurveysReportingRequest } from "./ListSurveysReportingRequest.js";

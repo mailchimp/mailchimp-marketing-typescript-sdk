@@ -1,0 +1,16 @@
+{
+    "cliVersion": "5.89.4",
+    "generatorName": "fernapi/fern-typescript-sdk",
+    "generatorVersion": "3.88.3",
+    "generatorConfig": {
+        "namespaceExport": "Mailchimp",
+        "allowCustomFetcher": true,
+        "skipResponseValidation": true,
+        "includeApiReference": true
+    },
+    "originGitCommit": "384aaf6a41058d842e2bd8e463c291ffed6c8a46",
+    "originGitCommitIsDirty": false,
+    "invokedBy": "ci",
+    "ciProvider": "github",
+    "sdkVersion": "0.0.116"
+}
