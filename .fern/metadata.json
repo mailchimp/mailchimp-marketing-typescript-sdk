@@ -8,9 +8,8 @@
         "skipResponseValidation": true,
         "includeApiReference": true
     },
-    "originGitCommit": "61a4b73c1f14346e5430b6f2be05983303242fb0",
-    "originGitCommitIsDirty": false,
-    "invokedBy": "ci",
-    "ciProvider": "github",
-    "sdkVersion": "0.0.126"
+    "originGitCommit": "d01ed293423e0b9d2edfd1532e74c60d93b3b8ae",
+    "originGitCommitIsDirty": true,
+    "invokedBy": "manual",
+    "sdkVersion": "0.0.146"
 }
