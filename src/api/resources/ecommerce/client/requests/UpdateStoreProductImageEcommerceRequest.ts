@@ -1,32 +1,26 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../../../../index.js";
+
 /**
  * @example
  *     {
- *         store_id: "store_id",
- *         product_id: "product_id",
- *         image_id: "image_id"
+ *         storeId: "store_id",
+ *         productId: "product_id",
+ *         imageId: "image_id"
  *     }
  */
 export interface UpdateStoreProductImageEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     /** The id for the product of a store. */
-    product_id: string;
+    productId: string;
     /** The id for the product image. */
-    image_id: string;
+    imageId: string;
     /** A unique identifier for the product image. */
     id?: string;
     /** The URL for a product image. */
     url?: string;
     /** The list of product variants using the image. */
-    variant_ids?: UpdateStoreProductImageEcommerceRequest.VariantIds.Item[];
-}
-
-export namespace UpdateStoreProductImageEcommerceRequest {
-    export type VariantIds = VariantIds.Item[];
-
-    export namespace VariantIds {
-        export type Item = string | number;
-    }
+    variantIds?: Mailchimp.UpdateStoreProductImageEcommerceRequestVariantIdsItem[];
 }

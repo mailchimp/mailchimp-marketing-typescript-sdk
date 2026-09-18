@@ -15,7 +15,17 @@ describe("EcommerceClient", () => {
         server.mockEndpoint().get("/3.0/ecommerce").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.ecommerce.list();
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+        });
     });
 
     test("list-orders", async () => {
@@ -111,7 +121,94 @@ describe("EcommerceClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            orders: [
+                {
+                    links: [{}],
+                    billingAddress: {
+                        address1: "675 Ponce de Leon Ave NE",
+                        address2: "Suite 5000",
+                        city: "Atlanta",
+                        country: "United States",
+                        countryCode: "US",
+                        latitude: 45.427408,
+                        longitude: -75.68903,
+                        name: "Freddie Chimpenheimer",
+                        phone: "8675309",
+                        postalCode: "30308",
+                        province: "Georgia",
+                        provinceCode: "GA",
+                    },
+                    campaignId: "839488a60b",
+                    cartId: "cart-123",
+                    cancelledAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+                    currencyCode: "currency_code",
+                    customer: {
+                        address: {
+                            address1: "675 Ponce de Leon Ave NE",
+                            address2: "Suite 5000",
+                            city: "Atlanta",
+                            country: "United States",
+                            countryCode: "US",
+                            postalCode: "30308",
+                            province: "Georgia",
+                            provinceCode: "GA",
+                        },
+                        createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                        ordersCount: 4,
+                        updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+                    },
+                    discountTotal: 1.1,
+                    financialStatus: "financial_status",
+                    fulfillmentStatus: "fulfillment_status",
+                    id: "id",
+                    landingSite: "http://www.example.com?source=abc",
+                    lines: [{}],
+                    orderTotal: 1.1,
+                    orderUrl: "order_url",
+                    outreach: {
+                        id: "839488a60b",
+                        name: "Freddie's Jokes",
+                        publishedTime: new Date("2017-06-06T13:56:12.000Z"),
+                        type: "regular",
+                    },
+                    processedAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+                    promos: [{}],
+                    shippingAddress: {
+                        address1: "675 Ponce de Leon Ave NE",
+                        address2: "Suite 5000",
+                        city: "Atlanta",
+                        country: "United States",
+                        countryCode: "US",
+                        latitude: 45.427408,
+                        longitude: -75.68903,
+                        name: "Freddie Chimpenheimer",
+                        phone: "8675309",
+                        postalCode: "30308",
+                        province: "Georgia",
+                        provinceCode: "GA",
+                    },
+                    shippingTotal: 1.1,
+                    storeId: "store_id",
+                    taxTotal: 1.1,
+                    trackingCarrier: "tracking_carrier",
+                    trackingCode: "prec",
+                    trackingNumber: "tracking_number",
+                    trackingUrl: "tracking_url",
+                    updatedAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.ecommerce.listOrders();
 
         expect(expected.orders).toEqual(page.data);
@@ -181,7 +278,68 @@ describe("EcommerceClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            stores: [
+                {
+                    links: [{}],
+                    address: {
+                        address1: "675 Ponce de Leon Ave NE",
+                        address2: "Suite 5000",
+                        city: "Atlanta",
+                        country: "United States",
+                        countryCode: "US",
+                        latitude: 45.427408,
+                        longitude: -75.68903,
+                        postalCode: "30308",
+                        province: "Georgia",
+                        provinceCode: "GA",
+                    },
+                    automations: {
+                        abandonedBrowse: {
+                            id: "355a72bfc3",
+                            isSupported: false,
+                        },
+                        abandonedCart: {
+                            id: "355a72bfc3",
+                            isSupported: false,
+                        },
+                    },
+                    connectedSite: {
+                        siteForeignId: "a180c384d7db88b if created in-app, MC001 if created via API",
+                        siteScript: {
+                            fragment:
+                                '<script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/{user-hash}/{site-hash}.js");</script>',
+                            url: "https://chimpstatic.com/mcjs-connected/js/users/{user-hash}/{site-hash}.js",
+                        },
+                    },
+                    createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                    currencyCode: "USD",
+                    domain: "example.com",
+                    emailAddress: "freddie@mailchimp.com",
+                    id: "example_store",
+                    isSyncing: true,
+                    listId: "1a2df69511",
+                    listIsActive: true,
+                    moneyFormat: "$",
+                    name: "Freddie's Cat Hat Emporium",
+                    phone: "+16155550128",
+                    platform: "platform",
+                    primaryLocale: "fr",
+                    timezone: "Eastern",
+                    updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.ecommerce.listStores();
 
         expect(expected.stores).toEqual(page.data);
@@ -252,12 +410,69 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.createStore({
-            currency_code: "USD",
+            currencyCode: "USD",
             id: "example_store",
-            list_id: "1a2df69511",
+            listId: "1a2df69511",
             name: "Freddie's Cat Hat Emporium",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            address: {
+                address1: "675 Ponce de Leon Ave NE",
+                address2: "Suite 5000",
+                city: "Atlanta",
+                country: "United States",
+                countryCode: "US",
+                latitude: 45.427408,
+                longitude: -75.68903,
+                postalCode: "30308",
+                province: "Georgia",
+                provinceCode: "GA",
+            },
+            automations: {
+                abandonedBrowse: {
+                    id: "355a72bfc3",
+                    isSupported: false,
+                    status: "save",
+                },
+                abandonedCart: {
+                    id: "355a72bfc3",
+                    isSupported: false,
+                    status: "save",
+                },
+            },
+            connectedSite: {
+                siteForeignId: "a180c384d7db88b if created in-app, MC001 if created via API",
+                siteScript: {
+                    fragment:
+                        '<script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/{user-hash}/{site-hash}.js");</script>',
+                    url: "https://chimpstatic.com/mcjs-connected/js/users/{user-hash}/{site-hash}.js",
+                },
+            },
+            createdAt: new Date("2015-07-15T19:28:00.000Z"),
+            currencyCode: "USD",
+            domain: "example.com",
+            emailAddress: "freddie@mailchimp.com",
+            id: "example_store",
+            isSyncing: true,
+            listId: "1a2df69511",
+            listIsActive: true,
+            moneyFormat: "$",
+            name: "Freddie's Cat Hat Emporium",
+            phone: "+16155550128",
+            platform: "platform",
+            primaryLocale: "fr",
+            timezone: "Eastern",
+            updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+        });
     });
 
     test("get-store", async () => {
@@ -316,9 +531,66 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.getStore({
-            store_id: "store_id",
+            storeId: "store_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            address: {
+                address1: "675 Ponce de Leon Ave NE",
+                address2: "Suite 5000",
+                city: "Atlanta",
+                country: "United States",
+                countryCode: "US",
+                latitude: 45.427408,
+                longitude: -75.68903,
+                postalCode: "30308",
+                province: "Georgia",
+                provinceCode: "GA",
+            },
+            automations: {
+                abandonedBrowse: {
+                    id: "355a72bfc3",
+                    isSupported: false,
+                    status: "save",
+                },
+                abandonedCart: {
+                    id: "355a72bfc3",
+                    isSupported: false,
+                    status: "save",
+                },
+            },
+            connectedSite: {
+                siteForeignId: "a180c384d7db88b if created in-app, MC001 if created via API",
+                siteScript: {
+                    fragment:
+                        '<script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/{user-hash}/{site-hash}.js");</script>',
+                    url: "https://chimpstatic.com/mcjs-connected/js/users/{user-hash}/{site-hash}.js",
+                },
+            },
+            createdAt: new Date("2015-07-15T19:28:00.000Z"),
+            currencyCode: "USD",
+            domain: "example.com",
+            emailAddress: "freddie@mailchimp.com",
+            id: "example_store",
+            isSyncing: true,
+            listId: "1a2df69511",
+            listIsActive: true,
+            moneyFormat: "$",
+            name: "Freddie's Cat Hat Emporium",
+            phone: "+16155550128",
+            platform: "platform",
+            primaryLocale: "fr",
+            timezone: "Eastern",
+            updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+        });
     });
 
     test("delete-store", async () => {
@@ -328,7 +600,7 @@ describe("EcommerceClient", () => {
         server.mockEndpoint().delete("/3.0/ecommerce/stores/store_id").respondWith().statusCode(200).build();
 
         const response = await client.ecommerce.deleteStore({
-            store_id: "store_id",
+            storeId: "store_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -390,9 +662,66 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.updateStore({
-            store_id: "store_id",
+            storeId: "store_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            address: {
+                address1: "675 Ponce de Leon Ave NE",
+                address2: "Suite 5000",
+                city: "Atlanta",
+                country: "United States",
+                countryCode: "US",
+                latitude: 45.427408,
+                longitude: -75.68903,
+                postalCode: "30308",
+                province: "Georgia",
+                provinceCode: "GA",
+            },
+            automations: {
+                abandonedBrowse: {
+                    id: "355a72bfc3",
+                    isSupported: false,
+                    status: "save",
+                },
+                abandonedCart: {
+                    id: "355a72bfc3",
+                    isSupported: false,
+                    status: "save",
+                },
+            },
+            connectedSite: {
+                siteForeignId: "a180c384d7db88b if created in-app, MC001 if created via API",
+                siteScript: {
+                    fragment:
+                        '<script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/{user-hash}/{site-hash}.js");</script>',
+                    url: "https://chimpstatic.com/mcjs-connected/js/users/{user-hash}/{site-hash}.js",
+                },
+            },
+            createdAt: new Date("2015-07-15T19:28:00.000Z"),
+            currencyCode: "USD",
+            domain: "example.com",
+            emailAddress: "freddie@mailchimp.com",
+            id: "example_store",
+            isSyncing: true,
+            listId: "1a2df69511",
+            listIsActive: true,
+            moneyFormat: "$",
+            name: "Freddie's Cat Hat Emporium",
+            phone: "+16155550128",
+            platform: "platform",
+            primaryLocale: "fr",
+            timezone: "Eastern",
+            updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+        });
     });
 
     test("list-store-carts", async () => {
@@ -442,9 +771,50 @@ describe("EcommerceClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            carts: [
+                {
+                    links: [{}],
+                    campaignId: "839488a60b",
+                    checkoutUrl: "checkout_url",
+                    createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                    currencyCode: "currency_code",
+                    customer: {
+                        address: {
+                            address1: "675 Ponce de Leon Ave NE",
+                            address2: "Suite 5000",
+                            city: "Atlanta",
+                            country: "United States",
+                            countryCode: "US",
+                            postalCode: "30308",
+                            province: "Georgia",
+                            provinceCode: "GA",
+                        },
+                        createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                        ordersCount: 4,
+                        updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+                    },
+                    id: "id",
+                    lines: [{}],
+                    orderTotal: 1.1,
+                    taxTotal: 1.1,
+                    updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+                },
+            ],
+            storeId: "store_id",
+            totalItems: 1,
+        };
         const page = await client.ecommerce.listStoreCarts({
-            store_id: "store_id",
+            storeId: "store_id",
         });
 
         expect(expected.carts).toEqual(page.data);
@@ -529,8 +899,8 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.createStoreCart({
-            store_id: "store_id",
-            currency_code: "currency_code",
+            storeId: "store_id",
+            currencyCode: "currency_code",
             customer: {
                 id: "id",
             },
@@ -539,14 +909,68 @@ describe("EcommerceClient", () => {
                 {
                     id: "id",
                     price: 1.1,
-                    product_id: "product_id",
-                    product_variant_id: "product_variant_id",
+                    productId: "product_id",
+                    productVariantId: "product_variant_id",
                     quantity: 1,
                 },
             ],
-            order_total: 1.1,
+            orderTotal: 1.1,
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "839488a60b",
+            checkoutUrl: "checkout_url",
+            createdAt: new Date("2015-07-15T19:28:00.000Z"),
+            currencyCode: "currency_code",
+            customer: {
+                links: [{}],
+                address: {
+                    address1: "675 Ponce de Leon Ave NE",
+                    address2: "Suite 5000",
+                    city: "Atlanta",
+                    country: "United States",
+                    countryCode: "US",
+                    postalCode: "30308",
+                    province: "Georgia",
+                    provinceCode: "GA",
+                },
+                company: "company",
+                createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                emailAddress: "email_address",
+                firstName: "first_name",
+                id: "id",
+                lastName: "last_name",
+                optInStatus: true,
+                ordersCount: 4,
+                smsPhoneNumber: "sms_phone_number",
+                totalSpent: 1.1,
+                updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+            },
+            id: "id",
+            lines: [
+                {
+                    links: [{}],
+                    id: "id",
+                    price: 1.1,
+                    productId: "product_id",
+                    productTitle: "product_title",
+                    productVariantId: "product_variant_id",
+                    productVariantTitle: "product_variant_title",
+                    quantity: 1,
+                },
+            ],
+            orderTotal: 1.1,
+            taxTotal: 1.1,
+            updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+        });
     });
 
     test("get-store-cart", async () => {
@@ -610,10 +1034,64 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.getStoreCart({
-            store_id: "store_id",
-            cart_id: "cart_id",
+            storeId: "store_id",
+            cartId: "cart_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "839488a60b",
+            checkoutUrl: "checkout_url",
+            createdAt: new Date("2015-07-15T19:28:00.000Z"),
+            currencyCode: "currency_code",
+            customer: {
+                links: [{}],
+                address: {
+                    address1: "675 Ponce de Leon Ave NE",
+                    address2: "Suite 5000",
+                    city: "Atlanta",
+                    country: "United States",
+                    countryCode: "US",
+                    postalCode: "30308",
+                    province: "Georgia",
+                    provinceCode: "GA",
+                },
+                company: "company",
+                createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                emailAddress: "email_address",
+                firstName: "first_name",
+                id: "id",
+                lastName: "last_name",
+                optInStatus: true,
+                ordersCount: 4,
+                smsPhoneNumber: "sms_phone_number",
+                totalSpent: 1.1,
+                updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+            },
+            id: "id",
+            lines: [
+                {
+                    links: [{}],
+                    id: "id",
+                    price: 1.1,
+                    productId: "product_id",
+                    productTitle: "product_title",
+                    productVariantId: "product_variant_id",
+                    productVariantTitle: "product_variant_title",
+                    quantity: 1,
+                },
+            ],
+            orderTotal: 1.1,
+            taxTotal: 1.1,
+            updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+        });
     });
 
     test("delete-store-cart", async () => {
@@ -628,8 +1106,8 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.deleteStoreCart({
-            store_id: "store_id",
-            cart_id: "cart_id",
+            storeId: "store_id",
+            cartId: "cart_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -696,10 +1174,64 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.updateStoreCart({
-            store_id: "store_id",
-            cart_id: "cart_id",
+            storeId: "store_id",
+            cartId: "cart_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "839488a60b",
+            checkoutUrl: "checkout_url",
+            createdAt: new Date("2015-07-15T19:28:00.000Z"),
+            currencyCode: "currency_code",
+            customer: {
+                links: [{}],
+                address: {
+                    address1: "675 Ponce de Leon Ave NE",
+                    address2: "Suite 5000",
+                    city: "Atlanta",
+                    country: "United States",
+                    countryCode: "US",
+                    postalCode: "30308",
+                    province: "Georgia",
+                    provinceCode: "GA",
+                },
+                company: "company",
+                createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                emailAddress: "email_address",
+                firstName: "first_name",
+                id: "id",
+                lastName: "last_name",
+                optInStatus: true,
+                ordersCount: 4,
+                smsPhoneNumber: "sms_phone_number",
+                totalSpent: 1.1,
+                updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+            },
+            id: "id",
+            lines: [
+                {
+                    links: [{}],
+                    id: "id",
+                    price: 1.1,
+                    productId: "product_id",
+                    productTitle: "product_title",
+                    productVariantId: "product_variant_id",
+                    productVariantTitle: "product_variant_title",
+                    quantity: 1,
+                },
+            ],
+            orderTotal: 1.1,
+            taxTotal: 1.1,
+            updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+        });
     });
 
     test("list-store-cart-lines", async () => {
@@ -733,10 +1265,35 @@ describe("EcommerceClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            cartId: "cart_id",
+            lines: [
+                {
+                    links: [{}],
+                    id: "id",
+                    price: 1.1,
+                    productId: "product_id",
+                    productTitle: "product_title",
+                    productVariantId: "product_variant_id",
+                    productVariantTitle: "product_variant_title",
+                    quantity: 1,
+                },
+            ],
+            storeId: "store_id",
+            totalItems: 1,
+        };
         const page = await client.ecommerce.listStoreCartLines({
-            store_id: "store_id",
-            cart_id: "cart_id",
+            storeId: "store_id",
+            cartId: "cart_id",
         });
 
         expect(expected.lines).toEqual(page.data);
@@ -776,15 +1333,32 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.createStoreCartLine({
-            store_id: "store_id",
-            cart_id: "cart_id",
+            storeId: "store_id",
+            cartId: "cart_id",
             id: "id",
             price: 1.1,
-            product_id: "product_id",
-            product_variant_id: "product_variant_id",
+            productId: "product_id",
+            productVariantId: "product_variant_id",
             quantity: 1,
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            id: "id",
+            price: 1.1,
+            productId: "product_id",
+            productTitle: "product_title",
+            productVariantId: "product_variant_id",
+            productVariantTitle: "product_variant_title",
+            quantity: 1,
+        });
     });
 
     test("get-store-cart-line", async () => {
@@ -811,11 +1385,28 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.getStoreCartLine({
-            store_id: "store_id",
-            cart_id: "cart_id",
-            line_id: "line_id",
+            storeId: "store_id",
+            cartId: "cart_id",
+            lineId: "line_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            id: "id",
+            price: 1.1,
+            productId: "product_id",
+            productTitle: "product_title",
+            productVariantId: "product_variant_id",
+            productVariantTitle: "product_variant_title",
+            quantity: 1,
+        });
     });
 
     test("delete-store-cart-line", async () => {
@@ -830,9 +1421,9 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.deleteStoreCartLine({
-            store_id: "store_id",
-            cart_id: "cart_id",
-            line_id: "line_id",
+            storeId: "store_id",
+            cartId: "cart_id",
+            lineId: "line_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -862,11 +1453,28 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.updateStoreCartLine({
-            store_id: "store_id",
-            cart_id: "cart_id",
-            line_id: "line_id",
+            storeId: "store_id",
+            cartId: "cart_id",
+            lineId: "line_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            id: "id",
+            price: 1.1,
+            productId: "product_id",
+            productTitle: "product_title",
+            productVariantId: "product_variant_id",
+            productVariantTitle: "product_variant_title",
+            quantity: 1,
+        });
     });
 
     test("list-store-customers", async () => {
@@ -913,9 +1521,47 @@ describe("EcommerceClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            customers: [
+                {
+                    links: [{}],
+                    address: {
+                        address1: "675 Ponce de Leon Ave NE",
+                        address2: "Suite 5000",
+                        city: "Atlanta",
+                        country: "United States",
+                        countryCode: "US",
+                        postalCode: "30308",
+                        province: "Georgia",
+                        provinceCode: "GA",
+                    },
+                    company: "company",
+                    createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                    emailAddress: "email_address",
+                    firstName: "first_name",
+                    id: "id",
+                    lastName: "last_name",
+                    optInStatus: true,
+                    ordersCount: 4,
+                    smsPhoneNumber: "sms_phone_number",
+                    totalSpent: 1.1,
+                    updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+                },
+            ],
+            storeId: "store_id",
+            totalItems: 1,
+        };
         const page = await client.ecommerce.listStoreCustomers({
-            store_id: "store_id",
+            storeId: "store_id",
         });
 
         expect(expected.customers).toEqual(page.data);
@@ -963,11 +1609,42 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.createStoreCustomer({
-            store_id: "store_id",
+            storeId: "store_id",
             id: "id",
-            opt_in_status: true,
+            optInStatus: true,
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            address: {
+                address1: "675 Ponce de Leon Ave NE",
+                address2: "Suite 5000",
+                city: "Atlanta",
+                country: "United States",
+                countryCode: "US",
+                postalCode: "30308",
+                province: "Georgia",
+                provinceCode: "GA",
+            },
+            company: "company",
+            createdAt: new Date("2015-07-15T19:28:00.000Z"),
+            emailAddress: "email_address",
+            firstName: "first_name",
+            id: "id",
+            lastName: "last_name",
+            optInStatus: true,
+            ordersCount: 4,
+            smsPhoneNumber: "sms_phone_number",
+            totalSpent: 1.1,
+            updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+        });
     });
 
     test("get-store-customer", async () => {
@@ -1008,10 +1685,41 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.getStoreCustomer({
-            store_id: "store_id",
-            customer_id: "customer_id",
+            storeId: "store_id",
+            customerId: "customer_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            address: {
+                address1: "675 Ponce de Leon Ave NE",
+                address2: "Suite 5000",
+                city: "Atlanta",
+                country: "United States",
+                countryCode: "US",
+                postalCode: "30308",
+                province: "Georgia",
+                provinceCode: "GA",
+            },
+            company: "company",
+            createdAt: new Date("2015-07-15T19:28:00.000Z"),
+            emailAddress: "email_address",
+            firstName: "first_name",
+            id: "id",
+            lastName: "last_name",
+            optInStatus: true,
+            ordersCount: 4,
+            smsPhoneNumber: "sms_phone_number",
+            totalSpent: 1.1,
+            updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+        });
     });
 
     test("upsert-store-customer", async () => {
@@ -1053,10 +1761,41 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.upsertStoreCustomer({
-            store_id: "store_id",
-            customer_id: "customer_id",
+            storeId: "store_id",
+            customerId: "customer_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            address: {
+                address1: "675 Ponce de Leon Ave NE",
+                address2: "Suite 5000",
+                city: "Atlanta",
+                country: "United States",
+                countryCode: "US",
+                postalCode: "30308",
+                province: "Georgia",
+                provinceCode: "GA",
+            },
+            company: "company",
+            createdAt: new Date("2015-07-15T19:28:00.000Z"),
+            emailAddress: "email_address",
+            firstName: "first_name",
+            id: "id",
+            lastName: "last_name",
+            optInStatus: true,
+            ordersCount: 4,
+            smsPhoneNumber: "sms_phone_number",
+            totalSpent: 1.1,
+            updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+        });
     });
 
     test("delete-store-customer", async () => {
@@ -1071,8 +1810,8 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.deleteStoreCustomer({
-            store_id: "store_id",
-            customer_id: "customer_id",
+            storeId: "store_id",
+            customerId: "customer_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -1116,11 +1855,42 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.updateStoreCustomer({
-            store_id: "store_id",
-            customer_id: "customer_id",
+            storeId: "store_id",
+            customerId: "customer_id",
             body: {},
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            address: {
+                address1: "675 Ponce de Leon Ave NE",
+                address2: "Suite 5000",
+                city: "Atlanta",
+                country: "United States",
+                countryCode: "US",
+                postalCode: "30308",
+                province: "Georgia",
+                provinceCode: "GA",
+            },
+            company: "company",
+            createdAt: new Date("2015-07-15T19:28:00.000Z"),
+            emailAddress: "email_address",
+            firstName: "first_name",
+            id: "id",
+            lastName: "last_name",
+            optInStatus: true,
+            ordersCount: 4,
+            smsPhoneNumber: "sms_phone_number",
+            totalSpent: 1.1,
+            updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+        });
     });
 
     test("list-store-orders", async () => {
@@ -1217,9 +1987,97 @@ describe("EcommerceClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            storeId: "store_id",
+            orders: [
+                {
+                    links: [{}],
+                    billingAddress: {
+                        address1: "675 Ponce de Leon Ave NE",
+                        address2: "Suite 5000",
+                        city: "Atlanta",
+                        country: "United States",
+                        countryCode: "US",
+                        latitude: 45.427408,
+                        longitude: -75.68903,
+                        name: "Freddie Chimpenheimer",
+                        phone: "8675309",
+                        postalCode: "30308",
+                        province: "Georgia",
+                        provinceCode: "GA",
+                    },
+                    campaignId: "839488a60b",
+                    cartId: "cart-123",
+                    cancelledAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+                    currencyCode: "currency_code",
+                    customer: {
+                        address: {
+                            address1: "675 Ponce de Leon Ave NE",
+                            address2: "Suite 5000",
+                            city: "Atlanta",
+                            country: "United States",
+                            countryCode: "US",
+                            postalCode: "30308",
+                            province: "Georgia",
+                            provinceCode: "GA",
+                        },
+                        createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                        ordersCount: 4,
+                        updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+                    },
+                    discountTotal: 1.1,
+                    financialStatus: "financial_status",
+                    fulfillmentStatus: "fulfillment_status",
+                    id: "id",
+                    landingSite: "http://www.example.com?source=abc",
+                    lines: [{}],
+                    orderTotal: 1.1,
+                    orderUrl: "order_url",
+                    outreach: {
+                        id: "839488a60b",
+                        name: "Freddie's Jokes",
+                        publishedTime: new Date("2017-06-06T13:56:12.000Z"),
+                        type: "regular",
+                    },
+                    processedAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+                    promos: [{}],
+                    shippingAddress: {
+                        address1: "675 Ponce de Leon Ave NE",
+                        address2: "Suite 5000",
+                        city: "Atlanta",
+                        country: "United States",
+                        countryCode: "US",
+                        latitude: 45.427408,
+                        longitude: -75.68903,
+                        name: "Freddie Chimpenheimer",
+                        phone: "8675309",
+                        postalCode: "30308",
+                        province: "Georgia",
+                        provinceCode: "GA",
+                    },
+                    shippingTotal: 1.1,
+                    storeId: "store_id",
+                    taxTotal: 1.1,
+                    trackingCarrier: "tracking_carrier",
+                    trackingCode: "prec",
+                    trackingNumber: "tracking_number",
+                    trackingUrl: "tracking_url",
+                    updatedAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+                },
+            ],
+            totalItems: 1,
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+        };
         const page = await client.ecommerce.listStoreOrders({
-            store_id: "store_id",
+            storeId: "store_id",
         });
 
         expect(expected.orders).toEqual(page.data);
@@ -1355,8 +2213,8 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.createStoreOrder({
-            store_id: "store_id",
-            currency_code: "currency_code",
+            storeId: "store_id",
+            currencyCode: "currency_code",
             customer: {
                 id: "id",
             },
@@ -1365,14 +2223,125 @@ describe("EcommerceClient", () => {
                 {
                     id: "id",
                     price: 1.1,
-                    product_id: "product_id",
-                    product_variant_id: "product_variant_id",
+                    productId: "product_id",
+                    productVariantId: "product_variant_id",
                     quantity: 1,
                 },
             ],
-            order_total: 1.1,
+            orderTotal: 1.1,
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            billingAddress: {
+                address1: "675 Ponce de Leon Ave NE",
+                address2: "Suite 5000",
+                city: "Atlanta",
+                company: "company",
+                country: "United States",
+                countryCode: "US",
+                latitude: 45.427408,
+                longitude: -75.68903,
+                name: "Freddie Chimpenheimer",
+                phone: "8675309",
+                postalCode: "30308",
+                province: "Georgia",
+                provinceCode: "GA",
+            },
+            campaignId: "839488a60b",
+            cartId: "cart-123",
+            cancelledAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+            currencyCode: "currency_code",
+            customer: {
+                links: [{}],
+                address: {
+                    address1: "675 Ponce de Leon Ave NE",
+                    address2: "Suite 5000",
+                    city: "Atlanta",
+                    country: "United States",
+                    countryCode: "US",
+                    postalCode: "30308",
+                    province: "Georgia",
+                    provinceCode: "GA",
+                },
+                company: "company",
+                createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                emailAddress: "email_address",
+                firstName: "first_name",
+                id: "id",
+                lastName: "last_name",
+                optInStatus: true,
+                ordersCount: 4,
+                smsPhoneNumber: "sms_phone_number",
+                totalSpent: 1.1,
+                updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+            },
+            discountTotal: 1.1,
+            financialStatus: "financial_status",
+            fulfillmentStatus: "fulfillment_status",
+            id: "id",
+            landingSite: "http://www.example.com?source=abc",
+            lines: [
+                {
+                    links: [{}],
+                    discount: 1.1,
+                    id: "id",
+                    imageUrl: "image_url",
+                    price: 1.1,
+                    productId: "product_id",
+                    productTitle: "product_title",
+                    productVariantId: "product_variant_id",
+                    productVariantTitle: "product_variant_title",
+                    quantity: 1,
+                },
+            ],
+            orderTotal: 1.1,
+            orderUrl: "order_url",
+            outreach: {
+                id: "839488a60b",
+                name: "Freddie's Jokes",
+                publishedTime: new Date("2017-06-06T13:56:12.000Z"),
+                type: "regular",
+            },
+            processedAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+            promos: [
+                {
+                    amountDiscounted: 1.1,
+                    code: "code",
+                    type: "fixed",
+                },
+            ],
+            shippingAddress: {
+                address1: "675 Ponce de Leon Ave NE",
+                address2: "Suite 5000",
+                city: "Atlanta",
+                company: "company",
+                country: "United States",
+                countryCode: "US",
+                latitude: 45.427408,
+                longitude: -75.68903,
+                name: "Freddie Chimpenheimer",
+                phone: "8675309",
+                postalCode: "30308",
+                province: "Georgia",
+                provinceCode: "GA",
+            },
+            shippingTotal: 1.1,
+            storeId: "store_id",
+            taxTotal: 1.1,
+            trackingCarrier: "tracking_carrier",
+            trackingCode: "prec",
+            trackingNumber: "tracking_number",
+            trackingUrl: "tracking_url",
+            updatedAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+        });
     });
 
     test("get-store-order", async () => {
@@ -1487,10 +2456,121 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.getStoreOrder({
-            store_id: "store_id",
-            order_id: "order_id",
+            storeId: "store_id",
+            orderId: "order_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            billingAddress: {
+                address1: "675 Ponce de Leon Ave NE",
+                address2: "Suite 5000",
+                city: "Atlanta",
+                company: "company",
+                country: "United States",
+                countryCode: "US",
+                latitude: 45.427408,
+                longitude: -75.68903,
+                name: "Freddie Chimpenheimer",
+                phone: "8675309",
+                postalCode: "30308",
+                province: "Georgia",
+                provinceCode: "GA",
+            },
+            campaignId: "839488a60b",
+            cartId: "cart-123",
+            cancelledAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+            currencyCode: "currency_code",
+            customer: {
+                links: [{}],
+                address: {
+                    address1: "675 Ponce de Leon Ave NE",
+                    address2: "Suite 5000",
+                    city: "Atlanta",
+                    country: "United States",
+                    countryCode: "US",
+                    postalCode: "30308",
+                    province: "Georgia",
+                    provinceCode: "GA",
+                },
+                company: "company",
+                createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                emailAddress: "email_address",
+                firstName: "first_name",
+                id: "id",
+                lastName: "last_name",
+                optInStatus: true,
+                ordersCount: 4,
+                smsPhoneNumber: "sms_phone_number",
+                totalSpent: 1.1,
+                updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+            },
+            discountTotal: 1.1,
+            financialStatus: "financial_status",
+            fulfillmentStatus: "fulfillment_status",
+            id: "id",
+            landingSite: "http://www.example.com?source=abc",
+            lines: [
+                {
+                    links: [{}],
+                    discount: 1.1,
+                    id: "id",
+                    imageUrl: "image_url",
+                    price: 1.1,
+                    productId: "product_id",
+                    productTitle: "product_title",
+                    productVariantId: "product_variant_id",
+                    productVariantTitle: "product_variant_title",
+                    quantity: 1,
+                },
+            ],
+            orderTotal: 1.1,
+            orderUrl: "order_url",
+            outreach: {
+                id: "839488a60b",
+                name: "Freddie's Jokes",
+                publishedTime: new Date("2017-06-06T13:56:12.000Z"),
+                type: "regular",
+            },
+            processedAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+            promos: [
+                {
+                    amountDiscounted: 1.1,
+                    code: "code",
+                    type: "fixed",
+                },
+            ],
+            shippingAddress: {
+                address1: "675 Ponce de Leon Ave NE",
+                address2: "Suite 5000",
+                city: "Atlanta",
+                company: "company",
+                country: "United States",
+                countryCode: "US",
+                latitude: 45.427408,
+                longitude: -75.68903,
+                name: "Freddie Chimpenheimer",
+                phone: "8675309",
+                postalCode: "30308",
+                province: "Georgia",
+                provinceCode: "GA",
+            },
+            shippingTotal: 1.1,
+            storeId: "store_id",
+            taxTotal: 1.1,
+            trackingCarrier: "tracking_carrier",
+            trackingCode: "prec",
+            trackingNumber: "tracking_number",
+            trackingUrl: "tracking_url",
+            updatedAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+        });
     });
 
     test("delete-store-order", async () => {
@@ -1505,8 +2585,8 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.deleteStoreOrder({
-            store_id: "store_id",
-            order_id: "order_id",
+            storeId: "store_id",
+            orderId: "order_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -1624,10 +2704,121 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.updateStoreOrder({
-            store_id: "store_id",
-            order_id: "order_id",
+            storeId: "store_id",
+            orderId: "order_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            billingAddress: {
+                address1: "675 Ponce de Leon Ave NE",
+                address2: "Suite 5000",
+                city: "Atlanta",
+                company: "company",
+                country: "United States",
+                countryCode: "US",
+                latitude: 45.427408,
+                longitude: -75.68903,
+                name: "Freddie Chimpenheimer",
+                phone: "8675309",
+                postalCode: "30308",
+                province: "Georgia",
+                provinceCode: "GA",
+            },
+            campaignId: "839488a60b",
+            cartId: "cart-123",
+            cancelledAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+            currencyCode: "currency_code",
+            customer: {
+                links: [{}],
+                address: {
+                    address1: "675 Ponce de Leon Ave NE",
+                    address2: "Suite 5000",
+                    city: "Atlanta",
+                    country: "United States",
+                    countryCode: "US",
+                    postalCode: "30308",
+                    province: "Georgia",
+                    provinceCode: "GA",
+                },
+                company: "company",
+                createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                emailAddress: "email_address",
+                firstName: "first_name",
+                id: "id",
+                lastName: "last_name",
+                optInStatus: true,
+                ordersCount: 4,
+                smsPhoneNumber: "sms_phone_number",
+                totalSpent: 1.1,
+                updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+            },
+            discountTotal: 1.1,
+            financialStatus: "financial_status",
+            fulfillmentStatus: "fulfillment_status",
+            id: "id",
+            landingSite: "http://www.example.com?source=abc",
+            lines: [
+                {
+                    links: [{}],
+                    discount: 1.1,
+                    id: "id",
+                    imageUrl: "image_url",
+                    price: 1.1,
+                    productId: "product_id",
+                    productTitle: "product_title",
+                    productVariantId: "product_variant_id",
+                    productVariantTitle: "product_variant_title",
+                    quantity: 1,
+                },
+            ],
+            orderTotal: 1.1,
+            orderUrl: "order_url",
+            outreach: {
+                id: "839488a60b",
+                name: "Freddie's Jokes",
+                publishedTime: new Date("2017-06-06T13:56:12.000Z"),
+                type: "regular",
+            },
+            processedAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+            promos: [
+                {
+                    amountDiscounted: 1.1,
+                    code: "code",
+                    type: "fixed",
+                },
+            ],
+            shippingAddress: {
+                address1: "675 Ponce de Leon Ave NE",
+                address2: "Suite 5000",
+                city: "Atlanta",
+                company: "company",
+                country: "United States",
+                countryCode: "US",
+                latitude: 45.427408,
+                longitude: -75.68903,
+                name: "Freddie Chimpenheimer",
+                phone: "8675309",
+                postalCode: "30308",
+                province: "Georgia",
+                provinceCode: "GA",
+            },
+            shippingTotal: 1.1,
+            storeId: "store_id",
+            taxTotal: 1.1,
+            trackingCarrier: "tracking_carrier",
+            trackingCode: "prec",
+            trackingNumber: "tracking_number",
+            trackingUrl: "tracking_url",
+            updatedAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+        });
     });
 
     test("list-store-order-lines", async () => {
@@ -1663,10 +2854,37 @@ describe("EcommerceClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            lines: [
+                {
+                    links: [{}],
+                    discount: 1.1,
+                    id: "id",
+                    imageUrl: "image_url",
+                    price: 1.1,
+                    productId: "product_id",
+                    productTitle: "product_title",
+                    productVariantId: "product_variant_id",
+                    productVariantTitle: "product_variant_title",
+                    quantity: 1,
+                },
+            ],
+            orderId: "order_id",
+            storeId: "store_id",
+            totalItems: 1,
+        };
         const page = await client.ecommerce.listStoreOrderLines({
-            store_id: "store_id",
-            order_id: "order_id",
+            storeId: "store_id",
+            orderId: "order_id",
         });
 
         expect(expected.lines).toEqual(page.data);
@@ -1708,15 +2926,34 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.createStoreOrderLine({
-            store_id: "store_id",
-            order_id: "order_id",
+            storeId: "store_id",
+            orderId: "order_id",
             id: "id",
             price: 1.1,
-            product_id: "product_id",
-            product_variant_id: "product_variant_id",
+            productId: "product_id",
+            productVariantId: "product_variant_id",
             quantity: 1,
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            discount: 1.1,
+            id: "id",
+            imageUrl: "image_url",
+            price: 1.1,
+            productId: "product_id",
+            productTitle: "product_title",
+            productVariantId: "product_variant_id",
+            productVariantTitle: "product_variant_title",
+            quantity: 1,
+        });
     });
 
     test("get-store-order-line", async () => {
@@ -1745,11 +2982,30 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.getStoreOrderLine({
-            store_id: "store_id",
-            order_id: "order_id",
-            line_id: "line_id",
+            storeId: "store_id",
+            orderId: "order_id",
+            lineId: "line_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            discount: 1.1,
+            id: "id",
+            imageUrl: "image_url",
+            price: 1.1,
+            productId: "product_id",
+            productTitle: "product_title",
+            productVariantId: "product_variant_id",
+            productVariantTitle: "product_variant_title",
+            quantity: 1,
+        });
     });
 
     test("delete-store-order-line", async () => {
@@ -1764,9 +3020,9 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.deleteStoreOrderLine({
-            store_id: "store_id",
-            order_id: "order_id",
-            line_id: "line_id",
+            storeId: "store_id",
+            orderId: "order_id",
+            lineId: "line_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -1798,11 +3054,30 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.updateStoreOrderLine({
-            store_id: "store_id",
-            order_id: "order_id",
-            line_id: "line_id",
+            storeId: "store_id",
+            orderId: "order_id",
+            lineId: "line_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            discount: 1.1,
+            id: "id",
+            imageUrl: "image_url",
+            price: 1.1,
+            productId: "product_id",
+            productTitle: "product_title",
+            productVariantId: "product_variant_id",
+            productVariantTitle: "product_variant_title",
+            quantity: 1,
+        });
     });
 
     test("list-store-products", async () => {
@@ -1842,9 +3117,44 @@ describe("EcommerceClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            products: [
+                {
+                    links: [{}],
+                    currencyCode: "currency_code",
+                    description: "This is a cat hat.",
+                    handle: "cat-hat",
+                    id: "id",
+                    imageUrl: "image_url",
+                    images: [{}],
+                    publishedAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+                    title: "Cat Hat",
+                    type: "Accessories",
+                    url: "url",
+                    variants: [
+                        {
+                            createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                            title: "Cat Hat",
+                            updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+                        },
+                    ],
+                    vendor: "vendor",
+                },
+            ],
+            storeId: "store_id",
+            totalItems: 1,
+        };
         const page = await client.ecommerce.listStoreProducts({
-            store_id: "store_id",
+            storeId: "store_id",
         });
 
         expect(expected.products).toEqual(page.data);
@@ -1898,7 +3208,7 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.createStoreProduct({
-            store_id: "store_id",
+            storeId: "store_id",
             body: {
                 id: "id",
                 title: "Cat Hat",
@@ -1910,7 +3220,51 @@ describe("EcommerceClient", () => {
                 ],
             },
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            currencyCode: "currency_code",
+            description: "This is a cat hat.",
+            handle: "cat-hat",
+            id: "id",
+            imageUrl: "image_url",
+            images: [
+                {
+                    links: [{}],
+                    id: "id",
+                    url: "url",
+                    variantIds: ["variant_ids"],
+                },
+            ],
+            publishedAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+            title: "Cat Hat",
+            type: "Accessories",
+            url: "url",
+            variants: [
+                {
+                    links: [{}],
+                    backorders: "backorders",
+                    createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                    id: "id",
+                    imageUrl: "image_url",
+                    inventoryQuantity: 1,
+                    price: 1.1,
+                    sku: "sku",
+                    title: "Cat Hat",
+                    updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+                    url: "url",
+                    visibility: "visibility",
+                },
+            ],
+            vendor: "vendor",
+        });
     });
 
     test("get-store-product", async () => {
@@ -1957,10 +3311,54 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.getStoreProduct({
-            store_id: "store_id",
-            product_id: "product_id",
+            storeId: "store_id",
+            productId: "product_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            currencyCode: "currency_code",
+            description: "This is a cat hat.",
+            handle: "cat-hat",
+            id: "id",
+            imageUrl: "image_url",
+            images: [
+                {
+                    links: [{}],
+                    id: "id",
+                    url: "url",
+                    variantIds: ["variant_ids"],
+                },
+            ],
+            publishedAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+            title: "Cat Hat",
+            type: "Accessories",
+            url: "url",
+            variants: [
+                {
+                    links: [{}],
+                    backorders: "backorders",
+                    createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                    id: "id",
+                    imageUrl: "image_url",
+                    inventoryQuantity: 1,
+                    price: 1.1,
+                    sku: "sku",
+                    title: "Cat Hat",
+                    updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+                    url: "url",
+                    visibility: "visibility",
+                },
+            ],
+            vendor: "vendor",
+        });
     });
 
     test("upsert-store-product", async () => {
@@ -2008,11 +3406,55 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.upsertStoreProduct({
-            store_id: "store_id",
-            product_id: "product_id",
+            storeId: "store_id",
+            productId: "product_id",
             id: "id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            currencyCode: "currency_code",
+            description: "This is a cat hat.",
+            handle: "cat-hat",
+            id: "id",
+            imageUrl: "image_url",
+            images: [
+                {
+                    links: [{}],
+                    id: "id",
+                    url: "url",
+                    variantIds: ["variant_ids"],
+                },
+            ],
+            publishedAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+            title: "Cat Hat",
+            type: "Accessories",
+            url: "url",
+            variants: [
+                {
+                    links: [{}],
+                    backorders: "backorders",
+                    createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                    id: "id",
+                    imageUrl: "image_url",
+                    inventoryQuantity: 1,
+                    price: 1.1,
+                    sku: "sku",
+                    title: "Cat Hat",
+                    updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+                    url: "url",
+                    visibility: "visibility",
+                },
+            ],
+            vendor: "vendor",
+        });
     });
 
     test("delete-store-product", async () => {
@@ -2027,8 +3469,8 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.deleteStoreProduct({
-            store_id: "store_id",
-            product_id: "product_id",
+            storeId: "store_id",
+            productId: "product_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -2078,10 +3520,54 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.updateStoreProduct({
-            store_id: "store_id",
-            product_id: "product_id",
+            storeId: "store_id",
+            productId: "product_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            currencyCode: "currency_code",
+            description: "This is a cat hat.",
+            handle: "cat-hat",
+            id: "id",
+            imageUrl: "image_url",
+            images: [
+                {
+                    links: [{}],
+                    id: "id",
+                    url: "url",
+                    variantIds: ["variant_ids"],
+                },
+            ],
+            publishedAtForeign: new Date("2015-07-15T19:28:00.000Z"),
+            title: "Cat Hat",
+            type: "Accessories",
+            url: "url",
+            variants: [
+                {
+                    links: [{}],
+                    backorders: "backorders",
+                    createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                    id: "id",
+                    imageUrl: "image_url",
+                    inventoryQuantity: 1,
+                    price: 1.1,
+                    sku: "sku",
+                    title: "Cat Hat",
+                    updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+                    url: "url",
+                    visibility: "visibility",
+                },
+            ],
+            vendor: "vendor",
+        });
     });
 
     test("list-store-product-images", async () => {
@@ -2104,10 +3590,31 @@ describe("EcommerceClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            images: [
+                {
+                    links: [{}],
+                    id: "id",
+                    url: "url",
+                    variantIds: ["variant_ids"],
+                },
+            ],
+            productId: "product_id",
+            storeId: "store_id",
+            totalItems: 1,
+        };
         const page = await client.ecommerce.listStoreProductImages({
-            store_id: "store_id",
-            product_id: "product_id",
+            storeId: "store_id",
+            productId: "product_id",
         });
 
         expect(expected.images).toEqual(page.data);
@@ -2137,12 +3644,25 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.createStoreProductImage({
-            store_id: "store_id",
-            product_id: "product_id",
+            storeId: "store_id",
+            productId: "product_id",
             id: "id",
             url: "url",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            id: "id",
+            url: "url",
+            variantIds: ["variant_ids"],
+        });
     });
 
     test("get-store-product-image", async () => {
@@ -2165,11 +3685,24 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.getStoreProductImage({
-            store_id: "store_id",
-            product_id: "product_id",
-            image_id: "image_id",
+            storeId: "store_id",
+            productId: "product_id",
+            imageId: "image_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            id: "id",
+            url: "url",
+            variantIds: ["variant_ids"],
+        });
     });
 
     test("delete-store-product-image", async () => {
@@ -2184,9 +3717,9 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.deleteStoreProductImage({
-            store_id: "store_id",
-            product_id: "product_id",
-            image_id: "image_id",
+            storeId: "store_id",
+            productId: "product_id",
+            imageId: "image_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -2212,11 +3745,24 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.updateStoreProductImage({
-            store_id: "store_id",
-            product_id: "product_id",
-            image_id: "image_id",
+            storeId: "store_id",
+            productId: "product_id",
+            imageId: "image_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            id: "id",
+            url: "url",
+            variantIds: ["variant_ids"],
+        });
     });
 
     test("list-store-product-variants", async () => {
@@ -2254,10 +3800,39 @@ describe("EcommerceClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            productId: "product_id",
+            storeId: "store_id",
+            totalItems: 1,
+            variants: [
+                {
+                    links: [{}],
+                    backorders: "backorders",
+                    createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                    id: "id",
+                    imageUrl: "image_url",
+                    inventoryQuantity: 1,
+                    price: 1.1,
+                    sku: "sku",
+                    title: "Cat Hat",
+                    updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+                    url: "url",
+                    visibility: "visibility",
+                },
+            ],
+        };
         const page = await client.ecommerce.listStoreProductVariants({
-            store_id: "store_id",
-            product_id: "product_id",
+            storeId: "store_id",
+            productId: "product_id",
         });
 
         expect(expected.variants).toEqual(page.data);
@@ -2295,12 +3870,33 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.createStoreProductVariant({
-            store_id: "store_id",
-            product_id: "product_id",
+            storeId: "store_id",
+            productId: "product_id",
             id: "id",
             title: "Cat Hat",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            backorders: "backorders",
+            createdAt: new Date("2015-07-15T19:28:00.000Z"),
+            id: "id",
+            imageUrl: "image_url",
+            inventoryQuantity: 1,
+            price: 1.1,
+            sku: "sku",
+            title: "Cat Hat",
+            updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+            url: "url",
+            visibility: "visibility",
+        });
     });
 
     test("get-store-product-variant", async () => {
@@ -2331,11 +3927,32 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.getStoreProductVariant({
-            store_id: "store_id",
-            product_id: "product_id",
-            variant_id: "variant_id",
+            storeId: "store_id",
+            productId: "product_id",
+            variantId: "variant_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            backorders: "backorders",
+            createdAt: new Date("2015-07-15T19:28:00.000Z"),
+            id: "id",
+            imageUrl: "image_url",
+            inventoryQuantity: 1,
+            price: 1.1,
+            sku: "sku",
+            title: "Cat Hat",
+            updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+            url: "url",
+            visibility: "visibility",
+        });
     });
 
     test("upsert-store-product-variant", async () => {
@@ -2367,11 +3984,32 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.upsertStoreProductVariant({
-            store_id: "store_id",
-            product_id: "product_id",
-            variant_id: "variant_id",
+            storeId: "store_id",
+            productId: "product_id",
+            variantId: "variant_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            backorders: "backorders",
+            createdAt: new Date("2015-07-15T19:28:00.000Z"),
+            id: "id",
+            imageUrl: "image_url",
+            inventoryQuantity: 1,
+            price: 1.1,
+            sku: "sku",
+            title: "Cat Hat",
+            updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+            url: "url",
+            visibility: "visibility",
+        });
     });
 
     test("delete-store-product-variant", async () => {
@@ -2386,9 +4024,9 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.deleteStoreProductVariant({
-            store_id: "store_id",
-            product_id: "product_id",
-            variant_id: "variant_id",
+            storeId: "store_id",
+            productId: "product_id",
+            variantId: "variant_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -2422,11 +4060,32 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.updateStoreProductVariant({
-            store_id: "store_id",
-            product_id: "product_id",
-            variant_id: "variant_id",
+            storeId: "store_id",
+            productId: "product_id",
+            variantId: "variant_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            backorders: "backorders",
+            createdAt: new Date("2015-07-15T19:28:00.000Z"),
+            id: "id",
+            imageUrl: "image_url",
+            inventoryQuantity: 1,
+            price: 1.1,
+            sku: "sku",
+            title: "Cat Hat",
+            updatedAt: new Date("2015-07-15T19:28:00.000Z"),
+            url: "url",
+            visibility: "visibility",
+        });
     });
 
     test("list-store-promo-rules", async () => {
@@ -2463,15 +4122,43 @@ describe("EcommerceClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            promoRules: [
+                {
+                    links: [{}],
+                    amount: 0.5,
+                    createdAtForeign: new Date("2024-01-15T09:30:00.000Z"),
+                    description: "Save BIG during our summer sale!",
+                    enabled: true,
+                    endsAt: "ends_at",
+                    id: "id",
+                    startsAt: new Date("2024-01-15T09:30:00.000Z"),
+                    target: "per_item",
+                    title: "50% off Total Order",
+                    type: "fixed",
+                    updatedAtForeign: new Date("2024-01-15T09:30:00.000Z"),
+                },
+            ],
+            storeId: "store_id",
+            totalItems: 1,
+        };
         const page = await client.ecommerce.listStorePromoRules({
-            store_id: "store_id",
+            storeId: "store_id",
         });
 
-        expect(expected.promo_rules).toEqual(page.data);
+        expect(expected.promoRules).toEqual(page.data);
         expect(page.hasNextPage()).toBe(true);
         const nextPage = await page.getNextPage();
-        expect(expected.promo_rules).toEqual(nextPage.data);
+        expect(expected.promoRules).toEqual(nextPage.data);
     });
 
     test("create-store-promo-rule", async () => {
@@ -2509,14 +4196,35 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.createStorePromoRule({
-            store_id: "store_id",
+            storeId: "store_id",
             amount: 1.1,
             description: "Save BIG during our summer sale!",
             id: "id",
             target: "per_item",
             type: "fixed",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            amount: 0.5,
+            createdAtForeign: new Date("2024-01-15T09:30:00.000Z"),
+            description: "Save BIG during our summer sale!",
+            enabled: true,
+            endsAt: "ends_at",
+            id: "id",
+            startsAt: new Date("2024-01-15T09:30:00.000Z"),
+            target: "per_item",
+            title: "50% off Total Order",
+            type: "fixed",
+            updatedAtForeign: new Date("2024-01-15T09:30:00.000Z"),
+        });
     });
 
     test("get-store-promo-rule", async () => {
@@ -2547,10 +4255,31 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.getStorePromoRule({
-            store_id: "store_id",
-            promo_rule_id: "promo_rule_id",
+            storeId: "store_id",
+            promoRuleId: "promo_rule_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            amount: 0.5,
+            createdAtForeign: new Date("2024-01-15T09:30:00.000Z"),
+            description: "Save BIG during our summer sale!",
+            enabled: true,
+            endsAt: "ends_at",
+            id: "id",
+            startsAt: new Date("2024-01-15T09:30:00.000Z"),
+            target: "per_item",
+            title: "50% off Total Order",
+            type: "fixed",
+            updatedAtForeign: new Date("2024-01-15T09:30:00.000Z"),
+        });
     });
 
     test("delete-store-promo-rule", async () => {
@@ -2565,8 +4294,8 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.deleteStorePromoRule({
-            store_id: "store_id",
-            promo_rule_id: "promo_rule_id",
+            storeId: "store_id",
+            promoRuleId: "promo_rule_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -2600,10 +4329,31 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.updateStorePromoRule({
-            store_id: "store_id",
-            promo_rule_id: "promo_rule_id",
+            storeId: "store_id",
+            promoRuleId: "promo_rule_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            amount: 0.5,
+            createdAtForeign: new Date("2024-01-15T09:30:00.000Z"),
+            description: "Save BIG during our summer sale!",
+            enabled: true,
+            endsAt: "ends_at",
+            id: "id",
+            startsAt: new Date("2024-01-15T09:30:00.000Z"),
+            target: "per_item",
+            title: "50% off Total Order",
+            type: "fixed",
+            updatedAtForeign: new Date("2024-01-15T09:30:00.000Z"),
+        });
     });
 
     test("list-store-promo-rule-promo-codes", async () => {
@@ -2637,16 +4387,41 @@ describe("EcommerceClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            promoCodes: [
+                {
+                    links: [{}],
+                    code: "summersale",
+                    createdAtForeign: new Date("2024-01-15T09:30:00.000Z"),
+                    enabled: true,
+                    id: "id",
+                    redemptionUrl:
+                        "A url that applies promo code directly at checkout or a url that points to sale page or store url",
+                    updatedAtForeign: new Date("2024-01-15T09:30:00.000Z"),
+                    usageCount: 1,
+                },
+            ],
+            storeId: "store_id",
+            totalItems: 1,
+        };
         const page = await client.ecommerce.listStorePromoRulePromoCodes({
-            store_id: "store_id",
-            promo_rule_id: "promo_rule_id",
+            storeId: "store_id",
+            promoRuleId: "promo_rule_id",
         });
 
-        expect(expected.promo_codes).toEqual(page.data);
+        expect(expected.promoCodes).toEqual(page.data);
         expect(page.hasNextPage()).toBe(true);
         const nextPage = await page.getNextPage();
-        expect(expected.promo_codes).toEqual(nextPage.data);
+        expect(expected.promoCodes).toEqual(nextPage.data);
     });
 
     test("create-store-promo-rule-promo-code", async () => {
@@ -2680,14 +4455,32 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.createStorePromoRulePromoCode({
-            store_id: "store_id",
-            promo_rule_id: "promo_rule_id",
+            storeId: "store_id",
+            promoRuleId: "promo_rule_id",
             code: "summersale",
             id: "id",
-            redemption_url:
+            redemptionUrl:
                 "A url that applies promo code directly at checkout or a url that points to sale page or store url",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            code: "summersale",
+            createdAtForeign: new Date("2024-01-15T09:30:00.000Z"),
+            enabled: true,
+            id: "id",
+            redemptionUrl:
+                "A url that applies promo code directly at checkout or a url that points to sale page or store url",
+            updatedAtForeign: new Date("2024-01-15T09:30:00.000Z"),
+            usageCount: 1,
+        });
     });
 
     test("get-store-promo-rule-promo-code", async () => {
@@ -2715,11 +4508,29 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.getStorePromoRulePromoCode({
-            store_id: "store_id",
-            promo_rule_id: "promo_rule_id",
-            promo_code_id: "promo_code_id",
+            storeId: "store_id",
+            promoRuleId: "promo_rule_id",
+            promoCodeId: "promo_code_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            code: "summersale",
+            createdAtForeign: new Date("2024-01-15T09:30:00.000Z"),
+            enabled: true,
+            id: "id",
+            redemptionUrl:
+                "A url that applies promo code directly at checkout or a url that points to sale page or store url",
+            updatedAtForeign: new Date("2024-01-15T09:30:00.000Z"),
+            usageCount: 1,
+        });
     });
 
     test("delete-store-promo-rule-promo-code", async () => {
@@ -2734,9 +4545,9 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.deleteStorePromoRulePromoCode({
-            store_id: "store_id",
-            promo_rule_id: "promo_rule_id",
-            promo_code_id: "promo_code_id",
+            storeId: "store_id",
+            promoRuleId: "promo_rule_id",
+            promoCodeId: "promo_code_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -2767,10 +4578,28 @@ describe("EcommerceClient", () => {
             .build();
 
         const response = await client.ecommerce.updateStorePromoRulePromoCode({
-            store_id: "store_id",
-            promo_rule_id: "promo_rule_id",
-            promo_code_id: "promo_code_id",
+            storeId: "store_id",
+            promoRuleId: "promo_rule_id",
+            promoCodeId: "promo_code_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            code: "summersale",
+            createdAtForeign: new Date("2024-01-15T09:30:00.000Z"),
+            enabled: true,
+            id: "id",
+            redemptionUrl:
+                "A url that applies promo code directly at checkout or a url that points to sale page or store url",
+            updatedAtForeign: new Date("2024-01-15T09:30:00.000Z"),
+            usageCount: 1,
+        });
     });
 });

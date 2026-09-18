@@ -3,14 +3,14 @@
 /**
  * @example
  *     {
- *         batch_webhook_id: "batch_webhook_id"
+ *         batchWebhookId: "batch_webhook_id"
  *     }
  */
 export interface GetBatchWebhooksRequest {
     /** The unique id for the batch webhook. */
-    batch_webhook_id: string;
+    batchWebhookId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

@@ -8,6 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace VerifiedDomainsClient {
@@ -67,7 +68,13 @@ export class VerifiedDomainsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListVerifiedDomainsResponse,
+                data: serializers.ListVerifiedDomainsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -94,7 +101,7 @@ export class VerifiedDomainsClient {
      *
      * @example
      *     await client.verifiedDomains.create({
-     *         verification_email: "verification_email"
+     *         verificationEmail: "verification_email"
      *     })
      */
     public create(
@@ -126,7 +133,13 @@ export class VerifiedDomainsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateVerifiedDomainsRequest.jsonOrThrow(request, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -135,7 +148,13 @@ export class VerifiedDomainsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.CreateVerifiedDomainsResponse,
+                data: serializers.CreateVerifiedDomainsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -162,7 +181,7 @@ export class VerifiedDomainsClient {
      *
      * @example
      *     await client.verifiedDomains.get({
-     *         domain_name: "domain_name"
+     *         domainName: "domain_name"
      *     })
      */
     public get(
@@ -176,7 +195,7 @@ export class VerifiedDomainsClient {
         request: Mailchimp.GetVerifiedDomainsRequest,
         requestOptions?: VerifiedDomainsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.GetVerifiedDomainsResponse>> {
-        const { domain_name: domainName } = request;
+        const { domainName } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -200,7 +219,16 @@ export class VerifiedDomainsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.GetVerifiedDomainsResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.GetVerifiedDomainsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -230,7 +258,7 @@ export class VerifiedDomainsClient {
      *
      * @example
      *     await client.verifiedDomains.delete({
-     *         domain_name: "domain_name"
+     *         domainName: "domain_name"
      *     })
      */
     public delete(
@@ -244,7 +272,7 @@ export class VerifiedDomainsClient {
         request: Mailchimp.DeleteVerifiedDomainsRequest,
         requestOptions?: VerifiedDomainsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { domain_name: domainName } = request;
+        const { domainName } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -298,7 +326,7 @@ export class VerifiedDomainsClient {
      *
      * @example
      *     await client.verifiedDomains.createActionVerify({
-     *         domain_name: "domain_name",
+     *         domainName: "domain_name",
      *         code: "code"
      *     })
      */
@@ -313,7 +341,7 @@ export class VerifiedDomainsClient {
         request: Mailchimp.CreateActionVerifyVerifiedDomainsRequest,
         requestOptions?: VerifiedDomainsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.CreateActionVerifyVerifiedDomainsResponse>> {
-        const { domain_name: domainName, ..._body } = request;
+        const { domainName, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -332,7 +360,13 @@ export class VerifiedDomainsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateActionVerifyVerifiedDomainsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -341,7 +375,13 @@ export class VerifiedDomainsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.CreateActionVerifyVerifiedDomainsResponse,
+                data: serializers.CreateActionVerifyVerifiedDomainsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }

@@ -3,17 +3,17 @@
 /**
  * @example
  *     {
- *         survey_id: "survey_id",
- *         question_id: "question_id"
+ *         surveyId: "survey_id",
+ *         questionId: "question_id"
  *     }
  */
 export interface GetSurveyQuestionReportingRequest {
     /** The ID of the survey. */
-    survey_id: string;
+    surveyId: string;
     /** The ID of the survey question. */
-    question_id: string;
+    questionId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

@@ -22,7 +22,27 @@ describe("AuthorizedAppsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            apps: [
+                {
+                    links: [{}],
+                    description: "description",
+                    id: 1,
+                    name: "name",
+                    users: ["users"],
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.authorizedApps.list();
 
         expect(expected.apps).toEqual(page.data);
@@ -52,8 +72,22 @@ describe("AuthorizedAppsClient", () => {
             .build();
 
         const response = await client.authorizedApps.get({
-            app_id: "app_id",
+            appId: "app_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            description: "description",
+            id: 1,
+            name: "name",
+            users: ["users"],
+        });
     });
 });

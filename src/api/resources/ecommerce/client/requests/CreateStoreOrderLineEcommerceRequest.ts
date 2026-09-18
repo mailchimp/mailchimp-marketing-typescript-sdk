@@ -5,34 +5,29 @@ import type * as Mailchimp from "../../../../index.js";
 /**
  * @example
  *     {
- *         store_id: "store_id",
- *         order_id: "order_id",
+ *         storeId: "store_id",
+ *         orderId: "order_id",
  *         id: "id",
  *         price: 1.1,
- *         product_id: "product_id",
- *         product_variant_id: "product_variant_id",
+ *         productId: "product_id",
+ *         productVariantId: "product_variant_id",
  *         quantity: 1
  *     }
  */
 export interface CreateStoreOrderLineEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     /** The id for the order in a store. */
-    order_id: string;
-    discount?: CreateStoreOrderLineEcommerceRequest.Discount;
+    orderId: string;
+    discount?: Mailchimp.CreateStoreOrderLineEcommerceRequestDiscount;
     /** A unique identifier for the order line item. */
     id: string;
-    price: CreateStoreOrderLineEcommerceRequest.Price;
+    price: Mailchimp.CreateStoreOrderLineEcommerceRequestPrice;
     product?: Mailchimp.EcommerceStoresOrdersPost;
     /** A unique identifier for the product associated with the order line item. */
-    product_id: string;
+    productId: string;
     /** A unique identifier for the product variant associated with the order line item. */
-    product_variant_id: string;
+    productVariantId: string;
     /** The quantity of an order line item. */
     quantity: number;
-}
-
-export namespace CreateStoreOrderLineEcommerceRequest {
-    export type Discount = number | string;
-    export type Price = number | string;
 }

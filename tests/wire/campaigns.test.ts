@@ -45,7 +45,47 @@ describe("CampaignsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaigns: [
+                {
+                    links: [{}],
+                    archiveUrl: "archive_url",
+                    contentType: "template",
+                    createTime: new Date("2024-01-15T09:30:00.000Z"),
+                    emailsSent: 1,
+                    id: "id",
+                    longArchiveUrl: "long_archive_url",
+                    needsBlockRefresh: true,
+                    parentCampaignId: "parent_campaign_id",
+                    recipients: {
+                        segmentOpts: {
+                            conditions: [
+                                {
+                                    conditionType: "Aim",
+                                    value: "any",
+                                },
+                            ],
+                            prebuiltSegmentId: "subscribers-female",
+                        },
+                    },
+                    resendable: true,
+                    sendTime: new Date("2024-01-15T09:30:00.000Z"),
+                    status: "save",
+                    type: "regular",
+                    webId: 1,
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.campaigns.list();
 
         expect(expected.campaigns).toEqual(page.data);
@@ -182,7 +222,147 @@ describe("CampaignsClient", () => {
         const response = await client.campaigns.create({
             type: "regular",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            abSplitOpts: {
+                fromNameA: "from_name_a",
+                fromNameB: "from_name_b",
+                pickWinner: "opens",
+                replyEmailA: "reply_email_a",
+                replyEmailB: "reply_email_b",
+                sendTimeA: new Date("2024-01-15T09:30:00.000Z"),
+                sendTimeB: new Date("2024-01-15T09:30:00.000Z"),
+                sendTimeWinner: "send_time_winner",
+                splitSize: 1,
+                splitTest: "subject",
+                subjectA: "subject_a",
+                subjectB: "subject_b",
+                waitTime: 1,
+                waitUnits: "hours",
+            },
+            archiveUrl: "archive_url",
+            contentType: "content_type",
+            createTime: new Date("2024-01-15T09:30:00.000Z"),
+            deliveryStatus: {
+                canCancel: true,
+                emailsCanceled: 1,
+                emailsSent: 1,
+                enabled: true,
+                status: "delivering",
+            },
+            emailsSent: 1,
+            id: "id",
+            longArchiveUrl: "long_archive_url",
+            needsBlockRefresh: true,
+            parentCampaignId: "parent_campaign_id",
+            recipients: {
+                listId: "list_id",
+                listName: "list_name",
+                recipientCount: 1,
+                segmentOpts: {
+                    conditions: [
+                        {
+                            conditionType: "Aim",
+                            value: "any",
+                        },
+                    ],
+                    match: "any",
+                    prebuiltSegmentId: "subscribers-female",
+                    savedSegmentId: 1,
+                },
+                segmentText: "segment_text",
+            },
+            reportSummary: {
+                clickRate: 1.1,
+                clicks: 1,
+                ecommerce: {
+                    totalOrders: 1,
+                    totalRevenue: 1.1,
+                    totalSpent: 1.1,
+                },
+                openRate: 1.1,
+                opens: 1,
+                subscriberClicks: 1,
+                uniqueOpens: 1,
+            },
+            resendable: true,
+            rssOpts: {
+                constrainRssImg: true,
+                feedUrl: "feed_url",
+                frequency: "daily",
+                lastSent: new Date("2024-01-15T09:30:00.000Z"),
+                schedule: {
+                    hour: 1,
+                    monthlySendDate: 1.1,
+                    weeklySendDay: "sunday",
+                },
+            },
+            sendTime: new Date("2024-01-15T09:30:00.000Z"),
+            settings: {
+                authenticate: true,
+                autoFbPost: ["auto_fb_post"],
+                autoFooter: true,
+                autoTweet: true,
+                dragAndDrop: true,
+                fbComments: true,
+                folderId: "folder_id",
+                fromName: "from_name",
+                inlineCss: true,
+                previewText: "preview_text",
+                replyTo: "reply_to",
+                subjectLine: "subject_line",
+                templateId: 1,
+                timewarp: true,
+                title: "title",
+                toName: "to_name",
+                useConversation: true,
+            },
+            socialCard: {
+                description: "description",
+                imageUrl: "image_url",
+                title: "title",
+            },
+            status: "save",
+            tracking: {
+                capsule: {
+                    notes: true,
+                },
+                clicktale: "clicktale",
+                ecomm360: true,
+                goalTracking: true,
+                googleAnalytics: "google_analytics",
+                htmlClicks: true,
+                opens: true,
+                salesforce: {
+                    campaign: true,
+                    notes: true,
+                },
+                textClicks: true,
+            },
+            type: "regular",
+            variateSettings: {
+                combinations: [{}],
+                contents: ["contents"],
+                fromNames: ["from_names"],
+                replyToAddresses: ["reply_to_addresses"],
+                sendTimes: [new Date("2024-01-15T09:30:00.000Z")],
+                subjectLines: ["subject_lines"],
+                testSize: 1,
+                waitTime: 1,
+                winnerCriteria: "opens",
+                winningCampaignId: "winning_campaign_id",
+                winningCombinationId: "winning_combination_id",
+            },
+            webId: 1,
+        });
     });
 
     test("get", async () => {
@@ -310,9 +490,149 @@ describe("CampaignsClient", () => {
             .build();
 
         const response = await client.campaigns.get({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            abSplitOpts: {
+                fromNameA: "from_name_a",
+                fromNameB: "from_name_b",
+                pickWinner: "opens",
+                replyEmailA: "reply_email_a",
+                replyEmailB: "reply_email_b",
+                sendTimeA: new Date("2024-01-15T09:30:00.000Z"),
+                sendTimeB: new Date("2024-01-15T09:30:00.000Z"),
+                sendTimeWinner: "send_time_winner",
+                splitSize: 1,
+                splitTest: "subject",
+                subjectA: "subject_a",
+                subjectB: "subject_b",
+                waitTime: 1,
+                waitUnits: "hours",
+            },
+            archiveUrl: "archive_url",
+            contentType: "content_type",
+            createTime: new Date("2024-01-15T09:30:00.000Z"),
+            deliveryStatus: {
+                canCancel: true,
+                emailsCanceled: 1,
+                emailsSent: 1,
+                enabled: true,
+                status: "delivering",
+            },
+            emailsSent: 1,
+            id: "id",
+            longArchiveUrl: "long_archive_url",
+            needsBlockRefresh: true,
+            parentCampaignId: "parent_campaign_id",
+            recipients: {
+                listId: "list_id",
+                listName: "list_name",
+                recipientCount: 1,
+                segmentOpts: {
+                    conditions: [
+                        {
+                            conditionType: "Aim",
+                            value: "any",
+                        },
+                    ],
+                    match: "any",
+                    prebuiltSegmentId: "subscribers-female",
+                    savedSegmentId: 1,
+                },
+                segmentText: "segment_text",
+            },
+            reportSummary: {
+                clickRate: 1.1,
+                clicks: 1,
+                ecommerce: {
+                    totalOrders: 1,
+                    totalRevenue: 1.1,
+                    totalSpent: 1.1,
+                },
+                openRate: 1.1,
+                opens: 1,
+                subscriberClicks: 1,
+                uniqueOpens: 1,
+            },
+            resendable: true,
+            rssOpts: {
+                constrainRssImg: true,
+                feedUrl: "feed_url",
+                frequency: "daily",
+                lastSent: new Date("2024-01-15T09:30:00.000Z"),
+                schedule: {
+                    hour: 1,
+                    monthlySendDate: 1.1,
+                    weeklySendDay: "sunday",
+                },
+            },
+            sendTime: new Date("2024-01-15T09:30:00.000Z"),
+            settings: {
+                authenticate: true,
+                autoFbPost: ["auto_fb_post"],
+                autoFooter: true,
+                autoTweet: true,
+                dragAndDrop: true,
+                fbComments: true,
+                folderId: "folder_id",
+                fromName: "from_name",
+                inlineCss: true,
+                previewText: "preview_text",
+                replyTo: "reply_to",
+                subjectLine: "subject_line",
+                templateId: 1,
+                timewarp: true,
+                title: "title",
+                toName: "to_name",
+                useConversation: true,
+            },
+            socialCard: {
+                description: "description",
+                imageUrl: "image_url",
+                title: "title",
+            },
+            status: "save",
+            tracking: {
+                capsule: {
+                    notes: true,
+                },
+                clicktale: "clicktale",
+                ecomm360: true,
+                goalTracking: true,
+                googleAnalytics: "google_analytics",
+                htmlClicks: true,
+                opens: true,
+                salesforce: {
+                    campaign: true,
+                    notes: true,
+                },
+                textClicks: true,
+            },
+            type: "regular",
+            variateSettings: {
+                combinations: [{}],
+                contents: ["contents"],
+                fromNames: ["from_names"],
+                replyToAddresses: ["reply_to_addresses"],
+                sendTimes: [new Date("2024-01-15T09:30:00.000Z")],
+                subjectLines: ["subject_lines"],
+                testSize: 1,
+                waitTime: 1,
+                winnerCriteria: "opens",
+                winningCampaignId: "winning_campaign_id",
+                winningCombinationId: "winning_combination_id",
+            },
+            webId: 1,
+        });
     });
 
     test("delete", async () => {
@@ -322,7 +642,7 @@ describe("CampaignsClient", () => {
         server.mockEndpoint().delete("/3.0/campaigns/campaign_id").respondWith().statusCode(200).build();
 
         const response = await client.campaigns.delete({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -453,9 +773,149 @@ describe("CampaignsClient", () => {
             .build();
 
         const response = await client.campaigns.update({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            abSplitOpts: {
+                fromNameA: "from_name_a",
+                fromNameB: "from_name_b",
+                pickWinner: "opens",
+                replyEmailA: "reply_email_a",
+                replyEmailB: "reply_email_b",
+                sendTimeA: new Date("2024-01-15T09:30:00.000Z"),
+                sendTimeB: new Date("2024-01-15T09:30:00.000Z"),
+                sendTimeWinner: "send_time_winner",
+                splitSize: 1,
+                splitTest: "subject",
+                subjectA: "subject_a",
+                subjectB: "subject_b",
+                waitTime: 1,
+                waitUnits: "hours",
+            },
+            archiveUrl: "archive_url",
+            contentType: "content_type",
+            createTime: new Date("2024-01-15T09:30:00.000Z"),
+            deliveryStatus: {
+                canCancel: true,
+                emailsCanceled: 1,
+                emailsSent: 1,
+                enabled: true,
+                status: "delivering",
+            },
+            emailsSent: 1,
+            id: "id",
+            longArchiveUrl: "long_archive_url",
+            needsBlockRefresh: true,
+            parentCampaignId: "parent_campaign_id",
+            recipients: {
+                listId: "list_id",
+                listName: "list_name",
+                recipientCount: 1,
+                segmentOpts: {
+                    conditions: [
+                        {
+                            conditionType: "Aim",
+                            value: "any",
+                        },
+                    ],
+                    match: "any",
+                    prebuiltSegmentId: "subscribers-female",
+                    savedSegmentId: 1,
+                },
+                segmentText: "segment_text",
+            },
+            reportSummary: {
+                clickRate: 1.1,
+                clicks: 1,
+                ecommerce: {
+                    totalOrders: 1,
+                    totalRevenue: 1.1,
+                    totalSpent: 1.1,
+                },
+                openRate: 1.1,
+                opens: 1,
+                subscriberClicks: 1,
+                uniqueOpens: 1,
+            },
+            resendable: true,
+            rssOpts: {
+                constrainRssImg: true,
+                feedUrl: "feed_url",
+                frequency: "daily",
+                lastSent: new Date("2024-01-15T09:30:00.000Z"),
+                schedule: {
+                    hour: 1,
+                    monthlySendDate: 1.1,
+                    weeklySendDay: "sunday",
+                },
+            },
+            sendTime: new Date("2024-01-15T09:30:00.000Z"),
+            settings: {
+                authenticate: true,
+                autoFbPost: ["auto_fb_post"],
+                autoFooter: true,
+                autoTweet: true,
+                dragAndDrop: true,
+                fbComments: true,
+                folderId: "folder_id",
+                fromName: "from_name",
+                inlineCss: true,
+                previewText: "preview_text",
+                replyTo: "reply_to",
+                subjectLine: "subject_line",
+                templateId: 1,
+                timewarp: true,
+                title: "title",
+                toName: "to_name",
+                useConversation: true,
+            },
+            socialCard: {
+                description: "description",
+                imageUrl: "image_url",
+                title: "title",
+            },
+            status: "save",
+            tracking: {
+                capsule: {
+                    notes: true,
+                },
+                clicktale: "clicktale",
+                ecomm360: true,
+                goalTracking: true,
+                googleAnalytics: "google_analytics",
+                htmlClicks: true,
+                opens: true,
+                salesforce: {
+                    campaign: true,
+                    notes: true,
+                },
+                textClicks: true,
+            },
+            type: "regular",
+            variateSettings: {
+                combinations: [{}],
+                contents: ["contents"],
+                fromNames: ["from_names"],
+                replyToAddresses: ["reply_to_addresses"],
+                sendTimes: [new Date("2024-01-15T09:30:00.000Z")],
+                subjectLines: ["subject_lines"],
+                testSize: 1,
+                waitTime: 1,
+                winnerCriteria: "opens",
+                winningCampaignId: "winning_campaign_id",
+                winningCombinationId: "winning_combination_id",
+            },
+            webId: 1,
+        });
     });
 
     test("create-action-cancel-send", async () => {
@@ -470,7 +930,7 @@ describe("CampaignsClient", () => {
             .build();
 
         const response = await client.campaigns.createActionCancelSend({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -601,9 +1061,149 @@ describe("CampaignsClient", () => {
             .build();
 
         const response = await client.campaigns.createActionCreateResend({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            abSplitOpts: {
+                fromNameA: "from_name_a",
+                fromNameB: "from_name_b",
+                pickWinner: "opens",
+                replyEmailA: "reply_email_a",
+                replyEmailB: "reply_email_b",
+                sendTimeA: new Date("2024-01-15T09:30:00.000Z"),
+                sendTimeB: new Date("2024-01-15T09:30:00.000Z"),
+                sendTimeWinner: "send_time_winner",
+                splitSize: 1,
+                splitTest: "subject",
+                subjectA: "subject_a",
+                subjectB: "subject_b",
+                waitTime: 1,
+                waitUnits: "hours",
+            },
+            archiveUrl: "archive_url",
+            contentType: "content_type",
+            createTime: new Date("2024-01-15T09:30:00.000Z"),
+            deliveryStatus: {
+                canCancel: true,
+                emailsCanceled: 1,
+                emailsSent: 1,
+                enabled: true,
+                status: "delivering",
+            },
+            emailsSent: 1,
+            id: "id",
+            longArchiveUrl: "long_archive_url",
+            needsBlockRefresh: true,
+            parentCampaignId: "parent_campaign_id",
+            recipients: {
+                listId: "list_id",
+                listName: "list_name",
+                recipientCount: 1,
+                segmentOpts: {
+                    conditions: [
+                        {
+                            conditionType: "Aim",
+                            value: "any",
+                        },
+                    ],
+                    match: "any",
+                    prebuiltSegmentId: "subscribers-female",
+                    savedSegmentId: 1,
+                },
+                segmentText: "segment_text",
+            },
+            reportSummary: {
+                clickRate: 1.1,
+                clicks: 1,
+                ecommerce: {
+                    totalOrders: 1,
+                    totalRevenue: 1.1,
+                    totalSpent: 1.1,
+                },
+                openRate: 1.1,
+                opens: 1,
+                subscriberClicks: 1,
+                uniqueOpens: 1,
+            },
+            resendable: true,
+            rssOpts: {
+                constrainRssImg: true,
+                feedUrl: "feed_url",
+                frequency: "daily",
+                lastSent: new Date("2024-01-15T09:30:00.000Z"),
+                schedule: {
+                    hour: 1,
+                    monthlySendDate: 1.1,
+                    weeklySendDay: "sunday",
+                },
+            },
+            sendTime: new Date("2024-01-15T09:30:00.000Z"),
+            settings: {
+                authenticate: true,
+                autoFbPost: ["auto_fb_post"],
+                autoFooter: true,
+                autoTweet: true,
+                dragAndDrop: true,
+                fbComments: true,
+                folderId: "folder_id",
+                fromName: "from_name",
+                inlineCss: true,
+                previewText: "preview_text",
+                replyTo: "reply_to",
+                subjectLine: "subject_line",
+                templateId: 1,
+                timewarp: true,
+                title: "title",
+                toName: "to_name",
+                useConversation: true,
+            },
+            socialCard: {
+                description: "description",
+                imageUrl: "image_url",
+                title: "title",
+            },
+            status: "save",
+            tracking: {
+                capsule: {
+                    notes: true,
+                },
+                clicktale: "clicktale",
+                ecomm360: true,
+                goalTracking: true,
+                googleAnalytics: "google_analytics",
+                htmlClicks: true,
+                opens: true,
+                salesforce: {
+                    campaign: true,
+                    notes: true,
+                },
+                textClicks: true,
+            },
+            type: "regular",
+            variateSettings: {
+                combinations: [{}],
+                contents: ["contents"],
+                fromNames: ["from_names"],
+                replyToAddresses: ["reply_to_addresses"],
+                sendTimes: [new Date("2024-01-15T09:30:00.000Z")],
+                subjectLines: ["subject_lines"],
+                testSize: 1,
+                waitTime: 1,
+                winnerCriteria: "opens",
+                winningCampaignId: "winning_campaign_id",
+                winningCombinationId: "winning_combination_id",
+            },
+            webId: 1,
+        });
     });
 
     test("create-action-pause", async () => {
@@ -613,7 +1213,7 @@ describe("CampaignsClient", () => {
         server.mockEndpoint().post("/3.0/campaigns/campaign_id/actions/pause").respondWith().statusCode(200).build();
 
         const response = await client.campaigns.createActionPause({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -743,9 +1343,149 @@ describe("CampaignsClient", () => {
             .build();
 
         const response = await client.campaigns.createActionReplicate({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            abSplitOpts: {
+                fromNameA: "from_name_a",
+                fromNameB: "from_name_b",
+                pickWinner: "opens",
+                replyEmailA: "reply_email_a",
+                replyEmailB: "reply_email_b",
+                sendTimeA: new Date("2024-01-15T09:30:00.000Z"),
+                sendTimeB: new Date("2024-01-15T09:30:00.000Z"),
+                sendTimeWinner: "send_time_winner",
+                splitSize: 1,
+                splitTest: "subject",
+                subjectA: "subject_a",
+                subjectB: "subject_b",
+                waitTime: 1,
+                waitUnits: "hours",
+            },
+            archiveUrl: "archive_url",
+            contentType: "content_type",
+            createTime: new Date("2024-01-15T09:30:00.000Z"),
+            deliveryStatus: {
+                canCancel: true,
+                emailsCanceled: 1,
+                emailsSent: 1,
+                enabled: true,
+                status: "delivering",
+            },
+            emailsSent: 1,
+            id: "id",
+            longArchiveUrl: "long_archive_url",
+            needsBlockRefresh: true,
+            parentCampaignId: "parent_campaign_id",
+            recipients: {
+                listId: "list_id",
+                listName: "list_name",
+                recipientCount: 1,
+                segmentOpts: {
+                    conditions: [
+                        {
+                            conditionType: "Aim",
+                            value: "any",
+                        },
+                    ],
+                    match: "any",
+                    prebuiltSegmentId: "subscribers-female",
+                    savedSegmentId: 1,
+                },
+                segmentText: "segment_text",
+            },
+            reportSummary: {
+                clickRate: 1.1,
+                clicks: 1,
+                ecommerce: {
+                    totalOrders: 1,
+                    totalRevenue: 1.1,
+                    totalSpent: 1.1,
+                },
+                openRate: 1.1,
+                opens: 1,
+                subscriberClicks: 1,
+                uniqueOpens: 1,
+            },
+            resendable: true,
+            rssOpts: {
+                constrainRssImg: true,
+                feedUrl: "feed_url",
+                frequency: "daily",
+                lastSent: new Date("2024-01-15T09:30:00.000Z"),
+                schedule: {
+                    hour: 1,
+                    monthlySendDate: 1.1,
+                    weeklySendDay: "sunday",
+                },
+            },
+            sendTime: new Date("2024-01-15T09:30:00.000Z"),
+            settings: {
+                authenticate: true,
+                autoFbPost: ["auto_fb_post"],
+                autoFooter: true,
+                autoTweet: true,
+                dragAndDrop: true,
+                fbComments: true,
+                folderId: "folder_id",
+                fromName: "from_name",
+                inlineCss: true,
+                previewText: "preview_text",
+                replyTo: "reply_to",
+                subjectLine: "subject_line",
+                templateId: 1,
+                timewarp: true,
+                title: "title",
+                toName: "to_name",
+                useConversation: true,
+            },
+            socialCard: {
+                description: "description",
+                imageUrl: "image_url",
+                title: "title",
+            },
+            status: "save",
+            tracking: {
+                capsule: {
+                    notes: true,
+                },
+                clicktale: "clicktale",
+                ecomm360: true,
+                goalTracking: true,
+                googleAnalytics: "google_analytics",
+                htmlClicks: true,
+                opens: true,
+                salesforce: {
+                    campaign: true,
+                    notes: true,
+                },
+                textClicks: true,
+            },
+            type: "regular",
+            variateSettings: {
+                combinations: [{}],
+                contents: ["contents"],
+                fromNames: ["from_names"],
+                replyToAddresses: ["reply_to_addresses"],
+                sendTimes: [new Date("2024-01-15T09:30:00.000Z")],
+                subjectLines: ["subject_lines"],
+                testSize: 1,
+                waitTime: 1,
+                winnerCriteria: "opens",
+                winningCampaignId: "winning_campaign_id",
+                winningCombinationId: "winning_combination_id",
+            },
+            webId: 1,
+        });
     });
 
     test("create-action-resume", async () => {
@@ -755,7 +1495,7 @@ describe("CampaignsClient", () => {
         server.mockEndpoint().post("/3.0/campaigns/campaign_id/actions/resume").respondWith().statusCode(200).build();
 
         const response = await client.campaigns.createActionResume({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -774,8 +1514,8 @@ describe("CampaignsClient", () => {
             .build();
 
         const response = await client.campaigns.createActionSchedule({
-            campaign_id: "campaign_id",
-            schedule_time: "2024-01-15T09:30:00Z",
+            campaignId: "campaign_id",
+            scheduleTime: new Date("2024-01-15T09:30:00.000Z"),
         });
         expect(response).toEqual(undefined);
     });
@@ -787,7 +1527,7 @@ describe("CampaignsClient", () => {
         server.mockEndpoint().post("/3.0/campaigns/campaign_id/actions/send").respondWith().statusCode(200).build();
 
         const response = await client.campaigns.createActionSend({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -806,9 +1546,9 @@ describe("CampaignsClient", () => {
             .build();
 
         const response = await client.campaigns.createActionTest({
-            campaign_id: "campaign_id",
-            send_type: "html",
-            test_emails: ["test_emails"],
+            campaignId: "campaign_id",
+            sendType: "html",
+            testEmails: ["test_emails"],
         });
         expect(response).toEqual(undefined);
     });
@@ -825,7 +1565,7 @@ describe("CampaignsClient", () => {
             .build();
 
         const response = await client.campaigns.createActionUnschedule({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -858,9 +1598,30 @@ describe("CampaignsClient", () => {
             .build();
 
         const response = await client.campaigns.getContent({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            archiveHtml:
+                '<!DOCTYPE html><html xmlns=http://www.w3.org/1999/xhtml><head><meta http-equiv=Content-Type content="text/html; charset=UTF-8"><title>My Subject</title><style type=text/css>body{background-color:#d0e4fe}</style><body leftmargin=0 marginwidth=0 topmargin=0 marginheight=0 offset=0>',
+            html: "html",
+            plainText: "plain_text",
+            variateContents: [
+                {
+                    contentLabel: "Green header",
+                    html: '<!DOCTYPE html><html xmlns=http://www.w3.org/1999/xhtml><head><meta http-equiv=Content-Type content="text/html; charset=UTF-8"><title>*|MC:SUBJECT|*</title><style type=text/css>body{background-color:#d0e4fe}</style><body leftmargin=0 marginwidth=0 topmargin=0 marginheight=0 offset=0>',
+                    plainText: "plain_text",
+                },
+            ],
+        });
     });
 
     test("upsert-content", async () => {
@@ -892,10 +1653,31 @@ describe("CampaignsClient", () => {
             .build();
 
         const response = await client.campaigns.upsertContent({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
             body: {},
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            archiveHtml:
+                '<!DOCTYPE html><html xmlns=http://www.w3.org/1999/xhtml><head><meta http-equiv=Content-Type content="text/html; charset=UTF-8"><title>My Subject</title><style type=text/css>body{background-color:#d0e4fe}</style><body leftmargin=0 marginwidth=0 topmargin=0 marginheight=0 offset=0>',
+            html: "html",
+            plainText: "plain_text",
+            variateContents: [
+                {
+                    contentLabel: "Green header",
+                    html: '<!DOCTYPE html><html xmlns=http://www.w3.org/1999/xhtml><head><meta http-equiv=Content-Type content="text/html; charset=UTF-8"><title>*|MC:SUBJECT|*</title><style type=text/css>body{background-color:#d0e4fe}</style><body leftmargin=0 marginwidth=0 topmargin=0 marginheight=0 offset=0>',
+                    plainText: "plain_text",
+                },
+            ],
+        });
     });
 
     test("list-feedback", async () => {
@@ -932,9 +1714,36 @@ describe("CampaignsClient", () => {
             .build();
 
         const response = await client.campaigns.listFeedback({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "campaign_id",
+            feedback: [
+                {
+                    links: [{}],
+                    blockId: 1,
+                    campaignId: "campaign_id",
+                    createdAt: new Date("2024-01-15T09:30:00.000Z"),
+                    createdBy: "created_by",
+                    feedbackId: 1,
+                    isComplete: true,
+                    message: "message",
+                    parentId: 1,
+                    source: "api",
+                    updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+                },
+            ],
+            totalItems: 1,
+        });
     });
 
     test("create-feedback", async () => {
@@ -953,10 +1762,14 @@ describe("CampaignsClient", () => {
             .build();
 
         const response = await client.campaigns.createFeedback({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
             message: "message",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            blockId: 1,
+            isComplete: true,
+            message: "message",
+        });
     });
 
     test("get-feedback", async () => {
@@ -986,10 +1799,30 @@ describe("CampaignsClient", () => {
             .build();
 
         const response = await client.campaigns.getFeedback({
-            campaign_id: "campaign_id",
-            feedback_id: "feedback_id",
+            campaignId: "campaign_id",
+            feedbackId: "feedback_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            blockId: 1,
+            campaignId: "campaign_id",
+            createdAt: new Date("2024-01-15T09:30:00.000Z"),
+            createdBy: "created_by",
+            feedbackId: 1,
+            isComplete: true,
+            message: "message",
+            parentId: 1,
+            source: "api",
+            updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+        });
     });
 
     test("delete-feedback", async () => {
@@ -1004,8 +1837,8 @@ describe("CampaignsClient", () => {
             .build();
 
         const response = await client.campaigns.deleteFeedback({
-            campaign_id: "campaign_id",
-            feedback_id: "feedback_id",
+            campaignId: "campaign_id",
+            feedbackId: "feedback_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -1038,10 +1871,30 @@ describe("CampaignsClient", () => {
             .build();
 
         const response = await client.campaigns.updateFeedback({
-            campaign_id: "campaign_id",
-            feedback_id: "feedback_id",
+            campaignId: "campaign_id",
+            feedbackId: "feedback_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            blockId: 1,
+            campaignId: "campaign_id",
+            createdAt: new Date("2024-01-15T09:30:00.000Z"),
+            createdBy: "created_by",
+            feedbackId: 1,
+            isComplete: true,
+            message: "message",
+            parentId: 1,
+            source: "api",
+            updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+        });
     });
 
     test("list-send-checklist", async () => {
@@ -1063,8 +1916,27 @@ describe("CampaignsClient", () => {
             .build();
 
         const response = await client.campaigns.listSendChecklist({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            isReady: true,
+            items: [
+                {
+                    details: "details",
+                    heading: "heading",
+                    id: 1,
+                    type: "success",
+                },
+            ],
+        });
     });
 });

@@ -1,0 +1,33 @@
+//  This file was auto-generated from our API Definition.
+
+import type * as Mailchimp from "../../api/index.js";
+import * as core from "../../core/index.js";
+import type * as serializers from "../index.js";
+import { ECommercePromoCodeLinksItem } from "./ECommercePromoCodeLinksItem.js";
+
+export const ECommercePromoCode: core.serialization.ObjectSchema<
+    serializers.ECommercePromoCode.Raw,
+    Mailchimp.ECommercePromoCode
+> = core.serialization.object({
+    links: core.serialization.property("_links", core.serialization.list(ECommercePromoCodeLinksItem).optional()),
+    code: core.serialization.string().optional(),
+    createdAtForeign: core.serialization.property("created_at_foreign", core.serialization.date().optional()),
+    enabled: core.serialization.boolean().optional(),
+    id: core.serialization.string().optional(),
+    redemptionUrl: core.serialization.property("redemption_url", core.serialization.string().optional()),
+    updatedAtForeign: core.serialization.property("updated_at_foreign", core.serialization.date().optional()),
+    usageCount: core.serialization.property("usage_count", core.serialization.number().optional()),
+});
+
+export declare namespace ECommercePromoCode {
+    export interface Raw {
+        _links?: ECommercePromoCodeLinksItem.Raw[] | null;
+        code?: string | null;
+        created_at_foreign?: string | null;
+        enabled?: boolean | null;
+        id?: string | null;
+        redemption_url?: string | null;
+        updated_at_foreign?: string | null;
+        usage_count?: number | null;
+    }
+}

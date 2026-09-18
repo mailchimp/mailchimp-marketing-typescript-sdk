@@ -3,14 +3,14 @@
 /**
  * @example
  *     {
- *         batch_id: "batch_id"
+ *         batchId: "batch_id"
  *     }
  */
 export interface GetBatchesRequest {
     /** The unique id for the batch operation. */
-    batch_id: string;
+    batchId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

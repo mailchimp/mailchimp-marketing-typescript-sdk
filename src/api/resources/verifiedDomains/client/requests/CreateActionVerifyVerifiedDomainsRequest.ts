@@ -3,13 +3,13 @@
 /**
  * @example
  *     {
- *         domain_name: "domain_name",
+ *         domainName: "domain_name",
  *         code: "code"
  *     }
  */
 export interface CreateActionVerifyVerifiedDomainsRequest {
     /** The domain name. */
-    domain_name: string;
+    domainName: string;
     /** The code that was sent to the email address provided when adding a new domain to verify. */
     code: string;
 }

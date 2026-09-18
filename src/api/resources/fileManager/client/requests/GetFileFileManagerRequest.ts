@@ -3,14 +3,14 @@
 /**
  * @example
  *     {
- *         file_id: "file_id"
+ *         fileId: "file_id"
  *     }
  */
 export interface GetFileFileManagerRequest {
     /** The unique id for the File Manager file. */
-    file_id: string;
+    fileId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

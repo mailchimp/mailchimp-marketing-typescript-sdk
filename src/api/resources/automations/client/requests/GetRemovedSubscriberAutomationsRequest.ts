@@ -3,13 +3,13 @@
 /**
  * @example
  *     {
- *         workflow_id: "workflow_id",
- *         subscriber_hash: "subscriber_hash"
+ *         workflowId: "workflow_id",
+ *         subscriberHash: "subscriber_hash"
  *     }
  */
 export interface GetRemovedSubscriberAutomationsRequest {
     /** The unique id for the Automation workflow. */
-    workflow_id: string;
+    workflowId: string;
     /** The MD5 hash of the lowercase version of the list member's email address. */
-    subscriber_hash: string;
+    subscriberHash: string;
 }

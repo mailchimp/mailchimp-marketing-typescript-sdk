@@ -7,6 +7,7 @@ import * as core from "../../../../core/index.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace RootClient {
@@ -15,6 +16,9 @@ export declare namespace RootClient {
     export interface RequestOptions extends BaseRequestOptions {}
 }
 
+/**
+ * Account-level metadata and the resources available to it.
+ */
 export class RootClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<RootClient.Options>;
 
@@ -45,7 +49,7 @@ export class RootClient {
         request: Mailchimp.ListRootRequest = {},
         requestOptions?: RootClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListRootResponse>> {
-        const { fields, exclude_fields: excludeFields } = request;
+        const { fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -79,7 +83,16 @@ export class RootClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListRootResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ListRootResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {

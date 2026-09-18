@@ -3,10 +3,10 @@
 /**
  * @example
  *     {
- *         folder_id: "folder_id"
+ *         folderId: "folder_id"
  *     }
  */
 export interface DeleteFolderFileManagerRequest {
     /** The unique id for the File Manager folder. */
-    folder_id: string;
+    folderId: string;
 }

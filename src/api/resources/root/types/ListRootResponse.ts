@@ -1,128 +1,49 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../../../index.js";
+
 /**
  * The API root resource links to all other resources available in the API.
  */
 export interface ListRootResponse {
     /** A list of link types and descriptions for the API schema documents. */
-    _links?: ListRootResponse.Links.Item[] | undefined;
+    links?: Mailchimp.ListRootResponseLinksItem[];
     /** The Mailchimp account ID. */
-    account_id?: string | undefined;
+    accountId?: string;
     /** The user-specified industry associated with the account. */
-    account_industry?: string | undefined;
+    accountIndustry?: string;
     /** The name of the account. */
-    account_name?: string | undefined;
+    accountName?: string;
     /** The timezone currently set for the account. */
-    account_timezone?: string | undefined;
+    accountTimezone?: string;
     /** URL of the avatar for the user. */
-    avatar_url?: string | undefined;
+    avatarUrl?: string;
     /** Information about the account contact. */
-    contact?: ListRootResponse.Contact | undefined;
+    contact?: Mailchimp.ListRootResponseContact;
     /** The account email address. */
-    email?: string | undefined;
+    email?: string;
     /** The first name tied to the account. */
-    first_name?: string | undefined;
+    firstName?: string;
     /** Date of first payment for monthly plans. */
-    first_payment?: ListRootResponse.FirstPayment | undefined;
+    firstPayment?: Mailchimp.ListRootResponseFirstPayment;
     /** The [average campaign statistics](https://mailchimp.com/resources/research/email-marketing-benchmarks/?utm_source=mc-api&utm_medium=docs&utm_campaign=apidocs) for all campaigns in the account's specified industry. */
-    industry_stats?: ListRootResponse.IndustryStats | undefined;
+    industryStats?: Mailchimp.ListRootResponseIndustryStats;
     /** The date and time of the last login for this account in ISO 8601 format. */
-    last_login?: string | undefined;
+    lastLogin?: Date;
     /** The last name tied to the account. */
-    last_name?: string | undefined;
+    lastName?: string;
     /** The ID associated with the user who owns this API key. If you can login to multiple accounts, this ID will be the same for each account. */
-    login_id?: string | undefined;
+    loginId?: string;
     /** The date and time that the account was created in ISO 8601 format. */
-    member_since?: string | undefined;
+    memberSince?: Date;
     /** The type of pricing plan the account is on. */
-    pricing_plan_type?: ListRootResponse.PricingPlanType | undefined;
+    pricingPlanType?: Mailchimp.ListRootResponsePricingPlanType;
     /** Legacy - whether the account includes [Mailchimp Pro](https://mailchimp.com/help/about-legacy-pricing-plan/). */
-    pro_enabled?: boolean | undefined;
+    proEnabled?: boolean;
     /** The [user role](https://mailchimp.com/help/manage-user-levels-in-your-account/) for the account. */
-    role?: string | undefined;
+    role?: string;
     /** The total number of subscribers across all lists in the account. */
-    total_subscribers?: number | undefined;
+    totalSubscribers?: number;
     /** The username tied to the account. */
-    username?: string | undefined;
-}
-
-export namespace ListRootResponse {
-    export type Links = Links.Item[];
-
-    export namespace Links {
-        /**
-         * This object represents a link from the resource where it is found to another resource or action that may be performed.
-         */
-        export interface Item {
-            /** This property contains a fully-qualified URL that can be called to retrieve the linked resource or perform the linked action. */
-            href?: string | undefined;
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            method?: Item.Method | undefined;
-            /** As with an HTML 'rel' attribute, this describes the type of link. */
-            rel?: string | undefined;
-            /** For HTTP methods that can receive bodies (POST and PUT), this is a URL representing the schema that the body should conform to. */
-            schema?: string | undefined;
-            /** For GETs, this is a URL representing the schema that the response should conform to. */
-            targetSchema?: string | undefined;
-        }
-
-        export namespace Item {
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            export const Method = {
-                Get: "GET",
-                Post: "POST",
-                Put: "PUT",
-                Patch: "PATCH",
-                Delete: "DELETE",
-                Options: "OPTIONS",
-                Head: "HEAD",
-            } as const;
-            export type Method = (typeof Method)[keyof typeof Method];
-        }
-    }
-
-    /**
-     * Information about the account contact.
-     */
-    export interface Contact {
-        /** The street address for the account contact. */
-        addr1?: string | undefined;
-        /** The street address for the account contact. */
-        addr2?: string | undefined;
-        /** The city for the account contact. */
-        city?: string | undefined;
-        /** The company name for the account. */
-        company?: string | undefined;
-        /** The country for the account contact. */
-        country?: string | undefined;
-        /** The state for the account contact. */
-        state?: string | undefined;
-        /** The zip code for the account contact. */
-        zip?: string | undefined;
-    }
-
-    /**
-     * Date of first payment for monthly plans.
-     */
-    export type FirstPayment = string | "";
-
-    /**
-     * The [average campaign statistics](https://mailchimp.com/resources/research/email-marketing-benchmarks/?utm_source=mc-api&utm_medium=docs&utm_campaign=apidocs) for all campaigns in the account's specified industry.
-     */
-    export interface IndustryStats {
-        /** The average bounce rate for all campaigns in the account's specified industry. */
-        bounce_rate?: number | undefined;
-        /** The average unique click rate for all campaigns in the account's specified industry. */
-        click_rate?: number | undefined;
-        /** The average unique open rate for all campaigns in the account's specified industry. */
-        open_rate?: number | undefined;
-    }
-
-    /** The type of pricing plan the account is on. */
-    export const PricingPlanType = {
-        Monthly: "monthly",
-        PayAsYouGo: "pay_as_you_go",
-        ForeverFree: "forever_free",
-    } as const;
-    export type PricingPlanType = (typeof PricingPlanType)[keyof typeof PricingPlanType];
+    username?: string;
 }

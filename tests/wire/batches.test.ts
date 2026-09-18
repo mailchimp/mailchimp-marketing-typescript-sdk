@@ -34,7 +34,31 @@ describe("BatchesClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            batches: [
+                {
+                    links: [{}],
+                    completedAt: "",
+                    erroredOperations: 1,
+                    finishedOperations: 1,
+                    id: "id",
+                    responseBodyUrl: "response_body_url",
+                    status: "pending",
+                    submittedAt: new Date("2024-01-15T09:30:00.000Z"),
+                    totalOperations: 1,
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.batches.list();
 
         expect(expected.batches).toEqual(page.data);
@@ -76,7 +100,25 @@ describe("BatchesClient", () => {
                 },
             ],
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            completedAt: "",
+            erroredOperations: 1,
+            finishedOperations: 1,
+            id: "id",
+            responseBodyUrl: "response_body_url",
+            status: "pending",
+            submittedAt: new Date("2024-01-15T09:30:00.000Z"),
+            totalOperations: 1,
+        });
     });
 
     test("get", async () => {
@@ -104,9 +146,27 @@ describe("BatchesClient", () => {
             .build();
 
         const response = await client.batches.get({
-            batch_id: "batch_id",
+            batchId: "batch_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            completedAt: "",
+            erroredOperations: 1,
+            finishedOperations: 1,
+            id: "id",
+            responseBodyUrl: "response_body_url",
+            status: "pending",
+            submittedAt: new Date("2024-01-15T09:30:00.000Z"),
+            totalOperations: 1,
+        });
     });
 
     test("delete", async () => {
@@ -116,7 +176,7 @@ describe("BatchesClient", () => {
         server.mockEndpoint().delete("/3.0/batches/batch_id").respondWith().statusCode(200).build();
 
         const response = await client.batches.delete({
-            batch_id: "batch_id",
+            batchId: "batch_id",
         });
         expect(response).toEqual(undefined);
     });

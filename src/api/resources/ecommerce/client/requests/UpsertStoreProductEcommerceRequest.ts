@@ -1,30 +1,32 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../../../../index.js";
+
 /**
  * @example
  *     {
- *         store_id: "store_id",
- *         product_id: "product_id",
+ *         storeId: "store_id",
+ *         productId: "product_id",
  *         id: "id"
  *     }
  */
 export interface UpsertStoreProductEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     /** The id for the product of a store. */
-    product_id: string;
+    productId: string;
     /** The description of a product. */
     description?: string;
     /** The handle of a product. */
     handle?: string;
     /** A unique identifier for the product. */
-    id: UpsertStoreProductEcommerceRequest.Id;
+    id: Mailchimp.UpsertStoreProductEcommerceRequestId;
     /** The image URL for a product. */
-    image_url?: string;
+    imageUrl?: string;
     /** An array of the product's images. */
-    images?: UpsertStoreProductEcommerceRequest.Images.Item[];
+    images?: Mailchimp.UpsertStoreProductEcommerceRequestImagesItem[];
     /** The date and time the product was published. */
-    published_at_foreign?: string;
+    publishedAtForeign?: string;
     /** The title of a product. */
     title?: string;
     /** The type of product. */
@@ -32,72 +34,7 @@ export interface UpsertStoreProductEcommerceRequest {
     /** The URL for a product. */
     url?: string;
     /** An array of the product's variants. At least one variant is required for each product. A variant can use the same `id` and `title` as the parent product. */
-    variants?: UpsertStoreProductEcommerceRequest.Variants.Item[];
+    variants?: Mailchimp.UpsertStoreProductEcommerceRequestVariantsItem[];
     /** The vendor for a product. */
     vendor?: string;
-}
-
-export namespace UpsertStoreProductEcommerceRequest {
-    /**
-     * A unique identifier for the product.
-     */
-    export type Id = string | number;
-    export type Images = Images.Item[];
-
-    export namespace Images {
-        /**
-         * Information about a specific product image.
-         */
-        export interface Item {
-            /** A unique identifier for the product image. */
-            id: string;
-            /** The URL for a product image. */
-            url: string;
-            /** The list of product variants using the image. */
-            variant_ids?: Item.VariantIds.Item[] | undefined;
-        }
-
-        export namespace Item {
-            export type VariantIds = VariantIds.Item[];
-
-            export namespace VariantIds {
-                export type Item = string | number;
-            }
-        }
-    }
-
-    export type Variants = Variants.Item[];
-
-    export namespace Variants {
-        /**
-         * Information about a specific product variant.
-         */
-        export interface Item {
-            /** The backorders of a product variant. */
-            backorders?: string | undefined;
-            /** A unique identifier for the product variant. */
-            id: Item.Id;
-            /** The image URL for a product variant. */
-            image_url?: string | undefined;
-            /** The inventory quantity of a product variant. */
-            inventory_quantity?: number | undefined;
-            price?: Item.Price | undefined;
-            /** The stock keeping unit (SKU) of a product variant. */
-            sku?: string | undefined;
-            /** The title of a product variant. */
-            title: string;
-            /** The URL for a product variant. */
-            url?: string | undefined;
-            /** The visibility of a product variant. */
-            visibility?: string | undefined;
-        }
-
-        export namespace Item {
-            /**
-             * A unique identifier for the product variant.
-             */
-            export type Id = string | number;
-            export type Price = number | string;
-        }
-    }
 }

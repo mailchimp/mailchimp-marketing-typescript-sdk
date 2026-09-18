@@ -3,10 +3,10 @@
 /**
  * @example
  *     {
- *         template_id: "template_id"
+ *         templateId: "template_id"
  *     }
  */
 export interface DeleteTemplatesRequest {
     /** The unique id for the template. */
-    template_id: string;
+    templateId: string;
 }

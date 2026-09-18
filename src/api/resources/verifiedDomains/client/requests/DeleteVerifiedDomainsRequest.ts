@@ -3,10 +3,10 @@
 /**
  * @example
  *     {
- *         domain_name: "domain_name"
+ *         domainName: "domain_name"
  *     }
  */
 export interface DeleteVerifiedDomainsRequest {
     /** The domain name. */
-    domain_name: string;
+    domainName: string;
 }

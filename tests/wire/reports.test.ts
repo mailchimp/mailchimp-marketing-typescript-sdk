@@ -42,7 +42,41 @@ describe("ReportsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            reports: [
+                {
+                    links: [{}],
+                    abuseReports: 1,
+                    campaignTitle: "campaign_title",
+                    ecommerce: {
+                        currencyCode: "USD",
+                    },
+                    emailsSent: 1,
+                    id: "id",
+                    listId: "list_id",
+                    listIsActive: true,
+                    listName: "list_name",
+                    previewText: "preview_text",
+                    rssLastSend: new Date("2024-01-15T09:30:00.000Z"),
+                    sendTime: new Date("2024-01-15T09:30:00.000Z"),
+                    subjectLine: "subject_line",
+                    timeseries: [{}],
+                    timewarp: [{}],
+                    type: "type",
+                    unsubscribed: 1,
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.reports.list();
 
         expect(expected.reports).toEqual(page.data);
@@ -170,9 +204,140 @@ describe("ReportsClient", () => {
             .build();
 
         const response = await client.reports.get({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            abSplit: {
+                a: {
+                    abuseReports: 1,
+                    bounces: 1,
+                    forwards: 1,
+                    forwardsOpens: 1,
+                    lastOpen: "last_open",
+                    opens: 1,
+                    recipientClicks: 1,
+                    uniqueOpens: 1,
+                    unsubs: 1,
+                },
+                b: {
+                    abuseReports: 1,
+                    bounces: 1,
+                    forwards: 1,
+                    forwardsOpens: 1,
+                    lastOpen: "last_open",
+                    opens: 1,
+                    recipientClicks: 1,
+                    uniqueOpens: 1,
+                    unsubs: 1,
+                },
+            },
+            abuseReports: 1,
+            bounces: {
+                hardBounces: 1,
+                softBounces: 1,
+                syntaxErrors: 1,
+            },
+            campaignTitle: "campaign_title",
+            clicks: {
+                clickRate: 1.1,
+                clicksTotal: 1,
+                lastClick: new Date("2024-01-15T09:30:00.000Z"),
+                uniqueClicks: 1,
+                uniqueSubscriberClicks: 1,
+            },
+            deliveryStatus: {
+                canCancel: true,
+                emailsCanceled: 1,
+                emailsSent: 1,
+                enabled: true,
+                status: "delivering",
+            },
+            ecommerce: {
+                currencyCode: "USD",
+                totalOrders: 1,
+                totalRevenue: 1.1,
+                totalSpent: 1.1,
+            },
+            emailsSent: 1,
+            facebookLikes: {
+                facebookLikes: 1,
+                recipientLikes: 1,
+                uniqueLikes: 1,
+            },
+            forwards: {
+                forwardsCount: 1,
+                forwardsOpens: 1,
+            },
+            id: "id",
+            industryStats: {
+                abuseRate: 1.1,
+                bounceRate: 1.1,
+                clickRate: 1.1,
+                openRate: 1.1,
+                type: "type",
+                unopenRate: 1.1,
+                unsubRate: 1.1,
+            },
+            listId: "list_id",
+            listIsActive: true,
+            listName: "list_name",
+            listStats: {
+                clickRate: 1.1,
+                openRate: 1.1,
+                proxyExcludedOpenRate: 1.1,
+                subRate: 1.1,
+                unsubRate: 1.1,
+            },
+            opens: {
+                lastOpen: new Date("2024-01-15T09:30:00.000Z"),
+                openRate: 1.1,
+                opensTotal: 1,
+                proxyExcludedOpenRate: 1.1,
+                proxyExcludedOpens: 1,
+                proxyExcludedUniqueOpens: 1,
+                uniqueOpens: 1,
+            },
+            previewText: "preview_text",
+            rssLastSend: new Date("2024-01-15T09:30:00.000Z"),
+            sendTime: new Date("2024-01-15T09:30:00.000Z"),
+            shareReport: {
+                sharePassword: "share_password",
+                shareUrl: "share_url",
+            },
+            subjectLine: "subject_line",
+            timeseries: [
+                {
+                    emailsSent: 1,
+                    proxyExcludedUniqueOpens: 1,
+                    recipientsClicks: 1,
+                    timestamp: new Date("2024-01-15T09:30:00.000Z"),
+                    uniqueOpens: 1,
+                },
+            ],
+            timewarp: [
+                {
+                    bounces: 1,
+                    clicks: 1,
+                    gmtOffset: 1,
+                    lastClick: new Date("2024-01-15T09:30:00.000Z"),
+                    lastOpen: new Date("2024-01-15T09:30:00.000Z"),
+                    opens: 1,
+                    uniqueClicks: 1,
+                    uniqueOpens: 1,
+                },
+            ],
+            type: "type",
+            unsubscribed: 1,
+        });
     });
 
     test("list-abuse-reports", async () => {
@@ -208,9 +373,42 @@ describe("ReportsClient", () => {
             .build();
 
         const response = await client.reports.listAbuseReports({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            abuseReports: [
+                {
+                    links: [{}],
+                    campaignId: "campaign_id",
+                    date: new Date("2024-01-15T09:30:00.000Z"),
+                    emailAddress: "email_address",
+                    emailId: "email_id",
+                    id: 1,
+                    listId: "list_id",
+                    listIsActive: true,
+                    mergeFields: {
+                        key: {
+                            addr1: "addr1",
+                            city: "city",
+                            state: "state",
+                            zip: "zip",
+                        },
+                    },
+                    vip: true,
+                },
+            ],
+            campaignId: "campaign_id",
+            totalItems: 1,
+        });
     });
 
     test("get-abuse-report", async () => {
@@ -241,10 +439,38 @@ describe("ReportsClient", () => {
             .build();
 
         const response = await client.reports.getAbuseReport({
-            campaign_id: "campaign_id",
-            report_id: "report_id",
+            campaignId: "campaign_id",
+            reportId: "report_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "campaign_id",
+            date: new Date("2024-01-15T09:30:00.000Z"),
+            emailAddress: "email_address",
+            emailId: "email_id",
+            id: 1,
+            listId: "list_id",
+            listIsActive: true,
+            mergeFields: {
+                key: {
+                    addr1: "addr1",
+                    addr2: "addr2",
+                    city: "city",
+                    state: "state",
+                    zip: "zip",
+                    country: "country",
+                },
+            },
+            vip: true,
+        });
     });
 
     test("list-advice", async () => {
@@ -267,9 +493,28 @@ describe("ReportsClient", () => {
             .build();
 
         const response = await client.reports.listAdvice({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            advice: [
+                {
+                    links: [{}],
+                    message: "message",
+                    type: "negative",
+                },
+            ],
+            campaignId: "campaign_id",
+            totalItems: 1,
+        });
     });
 
     test("list-click-details", async () => {
@@ -303,15 +548,40 @@ describe("ReportsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "campaign_id",
+            totalItems: 1,
+            urlsClicked: [
+                {
+                    links: [{}],
+                    campaignId: "campaign_id",
+                    clickPercentage: 1.1,
+                    id: "id",
+                    lastClick: new Date("2024-01-15T09:30:00.000Z"),
+                    totalClicks: 1,
+                    uniqueClickPercentage: 1.1,
+                    uniqueClicks: 1,
+                    url: "url",
+                },
+            ],
+        };
         const page = await client.reports.listClickDetails({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
 
-        expect(expected.urls_clicked).toEqual(page.data);
+        expect(expected.urlsClicked).toEqual(page.data);
         expect(page.hasNextPage()).toBe(true);
         const nextPage = await page.getNextPage();
-        expect(expected.urls_clicked).toEqual(nextPage.data);
+        expect(expected.urlsClicked).toEqual(nextPage.data);
     });
 
     test("get-click-detail", async () => {
@@ -343,10 +613,42 @@ describe("ReportsClient", () => {
             .build();
 
         const response = await client.reports.getClickDetail({
-            campaign_id: "campaign_id",
-            link_id: "link_id",
+            campaignId: "campaign_id",
+            linkId: "link_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            abSplit: {
+                a: {
+                    clickPercentageA: 1.1,
+                    totalClicksA: 1,
+                    uniqueClickPercentageA: 1.1,
+                    uniqueClicksA: 1,
+                },
+                b: {
+                    clickPercentageB: 1.1,
+                    totalClicksB: 1,
+                    uniqueClickPercentageB: 1.1,
+                    uniqueClicksB: 1,
+                },
+            },
+            campaignId: "campaign_id",
+            clickPercentage: 1.1,
+            id: "id",
+            lastClick: new Date("2024-01-15T09:30:00.000Z"),
+            totalClicks: 1,
+            uniqueClickPercentage: 1.1,
+            uniqueClicks: 1,
+            url: "url",
+        });
     });
 
     test("list-click-detail-members", async () => {
@@ -382,10 +684,44 @@ describe("ReportsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "campaign_id",
+            members: [
+                {
+                    links: [{}],
+                    campaignId: "campaign_id",
+                    clicks: 1,
+                    contactStatus: "contact_status",
+                    emailAddress: "email_address",
+                    emailId: "email_id",
+                    listId: "list_id",
+                    listIsActive: true,
+                    mergeFields: {
+                        key: {
+                            addr1: "addr1",
+                            city: "city",
+                            state: "state",
+                            zip: "zip",
+                        },
+                    },
+                    urlId: "url_id",
+                    vip: true,
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.reports.listClickDetailMembers({
-            campaign_id: "campaign_id",
-            link_id: "link_id",
+            campaignId: "campaign_id",
+            linkId: "link_id",
         });
 
         expect(expected.members).toEqual(page.data);
@@ -423,11 +759,40 @@ describe("ReportsClient", () => {
             .build();
 
         const response = await client.reports.getClickDetailMember({
-            campaign_id: "campaign_id",
-            link_id: "link_id",
-            subscriber_hash: "subscriber_hash",
+            campaignId: "campaign_id",
+            linkId: "link_id",
+            subscriberHash: "subscriber_hash",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "campaign_id",
+            clicks: 1,
+            contactStatus: "contact_status",
+            emailAddress: "email_address",
+            emailId: "email_id",
+            listId: "list_id",
+            listIsActive: true,
+            mergeFields: {
+                key: {
+                    addr1: "addr1",
+                    addr2: "addr2",
+                    city: "city",
+                    state: "state",
+                    zip: "zip",
+                    country: "country",
+                },
+            },
+            urlId: "url_id",
+            vip: true,
+        });
     });
 
     test("list-domain-performance", async () => {
@@ -466,9 +831,38 @@ describe("ReportsClient", () => {
             .build();
 
         const response = await client.reports.listDomainPerformance({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "campaign_id",
+            domains: [
+                {
+                    bounces: 1,
+                    bouncesPct: 1.1,
+                    clicks: 1,
+                    clicksPct: 1.1,
+                    delivered: 1,
+                    domain: "domain",
+                    emailsPct: 1.1,
+                    emailsSent: 1,
+                    opens: 1,
+                    opensPct: 1.1,
+                    unsubs: 1,
+                    unsubsPct: 1.1,
+                },
+            ],
+            totalItems: 1,
+            totalSent: 1,
+        });
     });
 
     test("list-ecommerce-product-activity", async () => {
@@ -500,9 +894,32 @@ describe("ReportsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            products: [
+                {
+                    currencyCode: "currency_code",
+                    imageUrl: "image_url",
+                    recommendationPurchased: 1,
+                    recommendationTotal: 1,
+                    sku: "sku",
+                    title: "title",
+                    totalPurchased: 1.1,
+                    totalRevenue: 1.1,
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.reports.listEcommerceProductActivity({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
 
         expect(expected.products).toEqual(page.data);
@@ -546,9 +963,47 @@ describe("ReportsClient", () => {
             .build();
 
         const response = await client.reports.listEepurl({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "campaign_id",
+            clicks: {
+                clicks: 1,
+                firstClick: new Date("2024-01-15T09:30:00.000Z"),
+                lastClick: new Date("2024-01-15T09:30:00.000Z"),
+                locations: [
+                    {
+                        region: "NY",
+                    },
+                ],
+            },
+            eepurl: "eepurl",
+            referrers: [
+                {
+                    clicks: 1,
+                    firstClick: new Date("2024-01-15T09:30:00.000Z"),
+                    lastClick: new Date("2024-01-15T09:30:00.000Z"),
+                    referrer: "referrer",
+                },
+            ],
+            totalItems: 1,
+            twitter: {
+                firstTweet: "first_tweet",
+                lastTweet: "last_tweet",
+                retweets: 1,
+                statuses: [{}],
+                tweets: 1,
+            },
+        });
     });
 
     test("list-email-activity", async () => {
@@ -580,9 +1035,32 @@ describe("ReportsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "campaign_id",
+            emails: [
+                {
+                    links: [{}],
+                    activity: [{}],
+                    campaignId: "campaign_id",
+                    emailAddress: "email_address",
+                    emailId: "email_id",
+                    listId: "list_id",
+                    listIsActive: true,
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.reports.listEmailActivity({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
 
         expect(expected.emails).toEqual(page.data);
@@ -614,10 +1092,34 @@ describe("ReportsClient", () => {
             .build();
 
         const response = await client.reports.getEmailActivity({
-            campaign_id: "campaign_id",
-            subscriber_hash: "subscriber_hash",
+            campaignId: "campaign_id",
+            subscriberHash: "subscriber_hash",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            activity: [
+                {
+                    action: "action",
+                    ip: "ip",
+                    timestamp: new Date("2024-01-15T09:30:00.000Z"),
+                    type: "type",
+                    url: "url",
+                },
+            ],
+            campaignId: "campaign_id",
+            emailAddress: "email_address",
+            emailId: "email_id",
+            listId: "list_id",
+            listIsActive: true,
+        });
     });
 
     test("list-locations", async () => {
@@ -647,9 +1149,30 @@ describe("ReportsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "campaign_id",
+            locations: [
+                {
+                    countryCode: "country_code",
+                    opens: 1,
+                    proxyExcludedOpens: 1,
+                    region: "region",
+                    regionName: "region_name",
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.reports.listLocations({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
 
         expect(expected.locations).toEqual(page.data);
@@ -694,9 +1217,46 @@ describe("ReportsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "campaign_id",
+            members: [
+                {
+                    links: [{}],
+                    campaignId: "campaign_id",
+                    contactStatus: "contact_status",
+                    emailAddress: "email_address",
+                    emailId: "email_id",
+                    listId: "list_id",
+                    listIsActive: true,
+                    mergeFields: {
+                        key: {
+                            addr1: "addr1",
+                            city: "city",
+                            state: "state",
+                            zip: "zip",
+                        },
+                    },
+                    opens: [{}],
+                    opensCount: 1,
+                    proxyExcludedOpensCount: 1,
+                    vip: true,
+                },
+            ],
+            totalItems: 1,
+            totalOpens: 1,
+            totalProxyExcludedOpens: 1,
+        };
         const page = await client.reports.listOpenDetails({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
             since: "2016-04-12 12:00:00",
         });
 
@@ -736,10 +1296,45 @@ describe("ReportsClient", () => {
             .build();
 
         const response = await client.reports.getOpenDetail({
-            campaign_id: "campaign_id",
-            subscriber_hash: "subscriber_hash",
+            campaignId: "campaign_id",
+            subscriberHash: "subscriber_hash",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "campaign_id",
+            contactStatus: "contact_status",
+            emailAddress: "email_address",
+            emailId: "email_id",
+            listId: "list_id",
+            listIsActive: true,
+            mergeFields: {
+                key: {
+                    addr1: "addr1",
+                    addr2: "addr2",
+                    city: "city",
+                    state: "state",
+                    zip: "zip",
+                    country: "country",
+                },
+            },
+            opens: [
+                {
+                    isProxyOpen: true,
+                    timestamp: new Date("2024-01-15T09:30:00.000Z"),
+                },
+            ],
+            opensCount: 1,
+            proxyExcludedOpensCount: 1,
+            vip: true,
+        });
     });
 
     test("list-sent-to", async () => {
@@ -777,15 +1372,51 @@ describe("ReportsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "campaign_id",
+            sentTo: [
+                {
+                    links: [{}],
+                    absplitGroup: "a",
+                    campaignId: "campaign_id",
+                    emailAddress: "email_address",
+                    emailId: "email_id",
+                    gmtOffset: 1,
+                    lastOpen: new Date("2024-01-15T09:30:00.000Z"),
+                    listId: "list_id",
+                    listIsActive: true,
+                    mergeFields: {
+                        key: {
+                            addr1: "addr1",
+                            city: "city",
+                            state: "state",
+                            zip: "zip",
+                        },
+                    },
+                    openCount: 1,
+                    status: "sent",
+                    vip: true,
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.reports.listSentTo({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
 
-        expect(expected.sent_to).toEqual(page.data);
+        expect(expected.sentTo).toEqual(page.data);
         expect(page.hasNextPage()).toBe(true);
         const nextPage = await page.getNextPage();
-        expect(expected.sent_to).toEqual(nextPage.data);
+        expect(expected.sentTo).toEqual(nextPage.data);
     });
 
     test("get-sent-to", async () => {
@@ -819,10 +1450,41 @@ describe("ReportsClient", () => {
             .build();
 
         const response = await client.reports.getSentTo({
-            campaign_id: "campaign_id",
-            subscriber_hash: "subscriber_hash",
+            campaignId: "campaign_id",
+            subscriberHash: "subscriber_hash",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            absplitGroup: "a",
+            campaignId: "campaign_id",
+            emailAddress: "email_address",
+            emailId: "email_id",
+            gmtOffset: 1,
+            lastOpen: new Date("2024-01-15T09:30:00.000Z"),
+            listId: "list_id",
+            listIsActive: true,
+            mergeFields: {
+                key: {
+                    addr1: "addr1",
+                    addr2: "addr2",
+                    city: "city",
+                    state: "state",
+                    zip: "zip",
+                    country: "country",
+                },
+            },
+            openCount: 1,
+            status: "sent",
+            vip: true,
+        });
     });
 
     test("list-sub-reports", async () => {
@@ -865,9 +1527,44 @@ describe("ReportsClient", () => {
             .build();
 
         const response = await client.reports.listSubReports({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "campaign_id",
+            reports: [
+                {
+                    links: [{}],
+                    abuseReports: 1,
+                    campaignTitle: "campaign_title",
+                    ecommerce: {
+                        currencyCode: "USD",
+                    },
+                    emailsSent: 1,
+                    id: "id",
+                    listId: "list_id",
+                    listIsActive: true,
+                    listName: "list_name",
+                    previewText: "preview_text",
+                    rssLastSend: new Date("2024-01-15T09:30:00.000Z"),
+                    sendTime: new Date("2024-01-15T09:30:00.000Z"),
+                    subjectLine: "subject_line",
+                    timeseries: [{}],
+                    timewarp: [{}],
+                    type: "type",
+                    unsubscribed: 1,
+                },
+            ],
+            totalItems: 1,
+        });
     });
 
     test("list-unsubscribed", async () => {
@@ -902,9 +1599,42 @@ describe("ReportsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "campaign_id",
+            totalItems: 1,
+            unsubscribes: [
+                {
+                    links: [{}],
+                    campaignId: "campaign_id",
+                    emailAddress: "email_address",
+                    emailId: "email_id",
+                    listId: "list_id",
+                    listIsActive: true,
+                    mergeFields: {
+                        key: {
+                            addr1: "addr1",
+                            city: "city",
+                            state: "state",
+                            zip: "zip",
+                        },
+                    },
+                    reason: "reason",
+                    timestamp: new Date("2024-01-15T09:30:00.000Z"),
+                    vip: true,
+                },
+            ],
+        };
         const page = await client.reports.listUnsubscribed({
-            campaign_id: "campaign_id",
+            campaignId: "campaign_id",
         });
 
         expect(expected.unsubscribes).toEqual(page.data);
@@ -941,9 +1671,37 @@ describe("ReportsClient", () => {
             .build();
 
         const response = await client.reports.getUnsubscribed({
-            campaign_id: "campaign_id",
-            subscriber_hash: "subscriber_hash",
+            campaignId: "campaign_id",
+            subscriberHash: "subscriber_hash",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "campaign_id",
+            emailAddress: "email_address",
+            emailId: "email_id",
+            listId: "list_id",
+            listIsActive: true,
+            mergeFields: {
+                key: {
+                    addr1: "addr1",
+                    addr2: "addr2",
+                    city: "city",
+                    state: "state",
+                    zip: "zip",
+                    country: "country",
+                },
+            },
+            reason: "reason",
+            timestamp: new Date("2024-01-15T09:30:00.000Z"),
+            vip: true,
+        });
     });
 });

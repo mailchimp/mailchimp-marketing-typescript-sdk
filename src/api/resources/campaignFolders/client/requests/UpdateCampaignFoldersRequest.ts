@@ -3,13 +3,13 @@
 /**
  * @example
  *     {
- *         folder_id: "folder_id",
+ *         folderId: "folder_id",
  *         name: "name"
  *     }
  */
 export interface UpdateCampaignFoldersRequest {
     /** The unique id for the campaign folder. */
-    folder_id: string;
+    folderId: string;
     /** Name to associate with the folder. */
     name: string;
 }

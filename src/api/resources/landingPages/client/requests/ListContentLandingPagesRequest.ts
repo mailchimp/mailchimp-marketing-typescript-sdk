@@ -3,14 +3,14 @@
 /**
  * @example
  *     {
- *         page_id: "page_id"
+ *         pageId: "page_id"
  *     }
  */
 export interface ListContentLandingPagesRequest {
     /** The unique id for the page. */
-    page_id: string;
+    pageId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

@@ -64,7 +64,7 @@ await client.root.list();
 </details>
 
 ## AccountExports
-<details><summary><code>client.accountExports.<a href="/src/api/resources/accountExports/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;Mailchimp.ListAccountExportsResponse.Exports.Item, Mailchimp.ListAccountExportsResponse&gt;</code></summary>
+<details><summary><code>client.accountExports.<a href="/src/api/resources/accountExports/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;Mailchimp.ListAccountExportsResponseExportsItem, Mailchimp.ListAccountExportsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -99,7 +99,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.accountExports.list();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -167,7 +167,7 @@ Create a new account export in your Mailchimp account.
 
 ```typescript
 await client.accountExports.create({
-    include_stages: ["audiences", "gallery_files"]
+    includeStages: ["audiences", "gallery_files"]
 });
 
 ```
@@ -232,7 +232,7 @@ Get information about a specific account export.
 
 ```typescript
 await client.accountExports.get({
-    export_id: "export_id"
+    exportId: "export_id"
 });
 
 ```
@@ -325,7 +325,7 @@ await client.activityFeed.list();
 </dl>
 </details>
 
-<details><summary><code>client.activityFeed.<a href="/src/api/resources/activityFeed/client/Client.ts">listChimpChatter</a>({ ...params }) -> core.Page&lt;Mailchimp.ListChimpChatterActivityFeedResponse.ChimpChatter.Item, Mailchimp.ListChimpChatterActivityFeedResponse&gt;</code></summary>
+<details><summary><code>client.activityFeed.<a href="/src/api/resources/activityFeed/client/Client.ts">listChimpChatter</a>({ ...params }) -> core.Page&lt;Mailchimp.ListChimpChatterActivityFeedResponseChimpChatterItem, Mailchimp.ListChimpChatterActivityFeedResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -360,7 +360,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.activityFeed.listChimpChatter();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -400,8 +400,403 @@ const response = page.response;
 </dl>
 </details>
 
+## Audiences
+<details><summary><code>client.audiences.<a href="/src/api/resources/audiences/client/Client.ts">getAudienceContactList</a>({ ...params }) -> Mailchimp.GetAudienceContactListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get a list of omni-channel contacts for a given audience.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.audiences.getAudienceContactList({
+    audienceId: "audience_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Mailchimp.GetAudienceContactListRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `AudiencesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.audiences.<a href="/src/api/resources/audiences/client/Client.ts">createAudienceContact</a>({ ...params }) -> Mailchimp.AudiencesContact</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new omni-channel contact for an audience.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.audiences.createAudienceContact({
+    audienceId: "audience_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Mailchimp.CreateAudienceContactRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `AudiencesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.audiences.<a href="/src/api/resources/audiences/client/Client.ts">getAudienceContact</a>({ ...params }) -> Mailchimp.AudiencesContact</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a specific omni-channel contact in an audience.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.audiences.getAudienceContact({
+    audienceId: "audience_id",
+    contactId: "contact_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Mailchimp.GetAudienceContactRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `AudiencesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.audiences.<a href="/src/api/resources/audiences/client/Client.ts">patchAudienceContact</a>({ ...params }) -> Mailchimp.AudiencesContact</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update an existing omni-channel contact.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.audiences.patchAudienceContact({
+    audienceId: "audience_id",
+    contactId: "contact_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Mailchimp.PatchAudienceContactRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `AudiencesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.audiences.<a href="/src/api/resources/audiences/client/Client.ts">postAudiencesContactsActionsArchive</a>({ ...params }) -> void</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Archives a Contact.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.audiences.postAudiencesContactsActionsArchive({
+    audienceId: "audience_id",
+    contactId: "contact_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Mailchimp.PostAudiencesContactsActionsArchiveRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `AudiencesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.audiences.<a href="/src/api/resources/audiences/client/Client.ts">postAudiencesContactsActionsForget</a>({ ...params }) -> void</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Forgets a Contact.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.audiences.postAudiencesContactsActionsForget({
+    audienceId: "audience_id",
+    contactId: "contact_id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Mailchimp.PostAudiencesContactsActionsForgetRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `AudiencesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## AuthorizedApps
-<details><summary><code>client.authorizedApps.<a href="/src/api/resources/authorizedApps/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;Mailchimp.ListAuthorizedAppsResponse.Apps.Item, Mailchimp.ListAuthorizedAppsResponse&gt;</code></summary>
+<details><summary><code>client.authorizedApps.<a href="/src/api/resources/authorizedApps/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;Mailchimp.ListAuthorizedAppsResponseAppsItem, Mailchimp.ListAuthorizedAppsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -436,7 +831,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.authorizedApps.list();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -504,7 +899,7 @@ Get information about a specific authorized application.
 
 ```typescript
 await client.authorizedApps.get({
-    app_id: "app_id"
+    appId: "app_id"
 });
 
 ```
@@ -577,7 +972,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.automations.list();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -646,8 +1041,8 @@ Create a new classic automation in your Mailchimp account.
 ```typescript
 await client.automations.create({
     recipients: {},
-    trigger_settings: {
-        workflow_type: "abandonedBrowse"
+    triggerSettings: {
+        workflowType: "abandonedBrowse"
     }
 });
 
@@ -713,7 +1108,7 @@ Get a summary of an individual classic automation workflow's settings and conten
 
 ```typescript
 await client.automations.get({
-    workflow_id: "workflow_id"
+    workflowId: "workflow_id"
 });
 
 ```
@@ -778,7 +1173,7 @@ Archiving will permanently end your automation and keep the report data. You’l
 
 ```typescript
 await client.automations.createActionArchive({
-    workflow_id: "workflow_id"
+    workflowId: "workflow_id"
 });
 
 ```
@@ -843,7 +1238,7 @@ Pause all emails in a specific classic automation workflow.
 
 ```typescript
 await client.automations.createActionPauseAllEmail({
-    workflow_id: "workflow_id"
+    workflowId: "workflow_id"
 });
 
 ```
@@ -908,7 +1303,7 @@ Start all emails in a classic automation workflow.
 
 ```typescript
 await client.automations.createActionStartAllEmail({
-    workflow_id: "workflow_id"
+    workflowId: "workflow_id"
 });
 
 ```
@@ -973,7 +1368,7 @@ Get a summary of the emails in a classic automation workflow.
 
 ```typescript
 await client.automations.listEmails({
-    workflow_id: "workflow_id"
+    workflowId: "workflow_id"
 });
 
 ```
@@ -1038,8 +1433,8 @@ Get information about an individual classic automation workflow email.
 
 ```typescript
 await client.automations.getEmail({
-    workflow_id: "workflow_id",
-    workflow_email_id: "workflow_email_id"
+    workflowId: "workflow_id",
+    workflowEmailId: "workflow_email_id"
 });
 
 ```
@@ -1104,8 +1499,8 @@ Removes an individual classic automation workflow email. Emails from certain wor
 
 ```typescript
 await client.automations.deleteEmail({
-    workflow_id: "workflow_id",
-    workflow_email_id: "workflow_email_id"
+    workflowId: "workflow_id",
+    workflowEmailId: "workflow_email_id"
 });
 
 ```
@@ -1170,8 +1565,8 @@ Update settings for a classic automation workflow email.  Only works with workfl
 
 ```typescript
 await client.automations.updateEmail({
-    workflow_id: "workflow_id",
-    workflow_email_id: "workflow_email_id"
+    workflowId: "workflow_id",
+    workflowEmailId: "workflow_email_id"
 });
 
 ```
@@ -1236,8 +1631,8 @@ Pause an automated email.
 
 ```typescript
 await client.automations.createEmailActionPause({
-    workflow_id: "workflow_id",
-    workflow_email_id: "workflow_email_id"
+    workflowId: "workflow_id",
+    workflowEmailId: "workflow_email_id"
 });
 
 ```
@@ -1302,8 +1697,8 @@ Start an automated email.
 
 ```typescript
 await client.automations.createEmailActionStart({
-    workflow_id: "workflow_id",
-    workflow_email_id: "workflow_email_id"
+    workflowId: "workflow_id",
+    workflowEmailId: "workflow_email_id"
 });
 
 ```
@@ -1368,8 +1763,8 @@ Get information about a classic automation email queue.
 
 ```typescript
 await client.automations.listEmailQueue({
-    workflow_id: "workflow_id",
-    workflow_email_id: "workflow_email_id"
+    workflowId: "workflow_id",
+    workflowEmailId: "workflow_email_id"
 });
 
 ```
@@ -1434,9 +1829,9 @@ Manually add a subscriber to a workflow, bypassing the default trigger settings.
 
 ```typescript
 await client.automations.createEmailQueue({
-    workflow_id: "workflow_id",
-    workflow_email_id: "workflow_email_id",
-    email_address: "email_address"
+    workflowId: "workflow_id",
+    workflowEmailId: "workflow_email_id",
+    emailAddress: "email_address"
 });
 
 ```
@@ -1501,9 +1896,9 @@ Get information about a specific subscriber in a classic automation email queue.
 
 ```typescript
 await client.automations.getEmailQueue({
-    workflow_id: "workflow_id",
-    workflow_email_id: "workflow_email_id",
-    subscriber_hash: "subscriber_hash"
+    workflowId: "workflow_id",
+    workflowEmailId: "workflow_email_id",
+    subscriberHash: "subscriber_hash"
 });
 
 ```
@@ -1568,7 +1963,7 @@ Get information about subscribers who were removed from a classic automation wor
 
 ```typescript
 await client.automations.listRemovedSubscribers({
-    workflow_id: "workflow_id"
+    workflowId: "workflow_id"
 });
 
 ```
@@ -1633,8 +2028,8 @@ Remove a subscriber from a specific classic automation workflow. You can remove 
 
 ```typescript
 await client.automations.createRemovedSubscriber({
-    workflow_id: "workflow_id",
-    email_address: "email_address"
+    workflowId: "workflow_id",
+    emailAddress: "email_address"
 });
 
 ```
@@ -1699,8 +2094,8 @@ Get information about a specific subscriber who was removed from a classic autom
 
 ```typescript
 await client.automations.getRemovedSubscriber({
-    workflow_id: "workflow_id",
-    subscriber_hash: "subscriber_hash"
+    workflowId: "workflow_id",
+    subscriberHash: "subscriber_hash"
 });
 
 ```
@@ -1773,7 +2168,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.batchWebhooks.list();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -1813,7 +2208,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.batchWebhooks.<a href="/src/api/resources/batchWebhooks/client/Client.ts">create</a>({ ...params }) -> Mailchimp.BatchWebhook</code></summary>
+<details><summary><code>client.batchWebhooks.<a href="/src/api/resources/batchWebhooks/client/Client.ts">create</a>({ ...params }) -> Mailchimp.CreateBatchWebhooksResponse</code></summary>
 <dl>
 <dd>
 
@@ -1906,7 +2301,7 @@ Get information about a specific batch webhook.
 
 ```typescript
 await client.batchWebhooks.get({
-    batch_webhook_id: "batch_webhook_id"
+    batchWebhookId: "batch_webhook_id"
 });
 
 ```
@@ -1971,7 +2366,7 @@ Remove a batch webhook. Webhooks will no longer be sent to the given URL.
 
 ```typescript
 await client.batchWebhooks.delete({
-    batch_webhook_id: "batch_webhook_id"
+    batchWebhookId: "batch_webhook_id"
 });
 
 ```
@@ -2036,7 +2431,7 @@ Update a webhook that will fire whenever any batch request completes processing.
 
 ```typescript
 await client.batchWebhooks.update({
-    batch_webhook_id: "batch_webhook_id"
+    batchWebhookId: "batch_webhook_id"
 });
 
 ```
@@ -2109,7 +2504,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.batches.list();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -2245,7 +2640,7 @@ Get the status of a batch request.
 
 ```typescript
 await client.batches.get({
-    batch_id: "batch_id"
+    batchId: "batch_id"
 });
 
 ```
@@ -2310,7 +2705,7 @@ Stops a batch request from running. Since only one batch request is run at a tim
 
 ```typescript
 await client.batches.delete({
-    batch_id: "batch_id"
+    batchId: "batch_id"
 });
 
 ```
@@ -2348,7 +2743,7 @@ await client.batches.delete({
 </details>
 
 ## CampaignFolders
-<details><summary><code>client.campaignFolders.<a href="/src/api/resources/campaignFolders/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;Mailchimp.CampaignFolders.Folders.Item, Mailchimp.CampaignFolders&gt;</code></summary>
+<details><summary><code>client.campaignFolders.<a href="/src/api/resources/campaignFolders/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;Mailchimp.CampaignFoldersFoldersItem, Mailchimp.CampaignFolders&gt;</code></summary>
 <dl>
 <dd>
 
@@ -2383,7 +2778,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.campaignFolders.list();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -2516,7 +2911,7 @@ Get information about a specific folder used to organize campaigns.
 
 ```typescript
 await client.campaignFolders.get({
-    folder_id: "folder_id"
+    folderId: "folder_id"
 });
 
 ```
@@ -2581,7 +2976,7 @@ Delete a specific campaign folder, and mark all the campaigns in the folder as '
 
 ```typescript
 await client.campaignFolders.delete({
-    folder_id: "folder_id"
+    folderId: "folder_id"
 });
 
 ```
@@ -2646,7 +3041,7 @@ Update a specific folder used to organize campaigns.
 
 ```typescript
 await client.campaignFolders.update({
-    folder_id: "folder_id",
+    folderId: "folder_id",
     name: "name"
 });
 
@@ -2720,7 +3115,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.campaigns.list();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -2853,7 +3248,7 @@ Get information about a specific campaign.
 
 ```typescript
 await client.campaigns.get({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -2918,7 +3313,7 @@ Remove a campaign from your Mailchimp account.
 
 ```typescript
 await client.campaigns.delete({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -2983,7 +3378,7 @@ Update some or all of the settings for a specific campaign.
 
 ```typescript
 await client.campaigns.update({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -3048,7 +3443,7 @@ Cancel a Regular or Plain-Text Campaign after you send, before all of your recip
 
 ```typescript
 await client.campaigns.createActionCancelSend({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -3113,7 +3508,7 @@ Remove the guesswork for resending a campaign to certain segments. You can use t
 
 ```typescript
 await client.campaigns.createActionCreateResend({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -3178,7 +3573,7 @@ Pause an RSS-Driven campaign.
 
 ```typescript
 await client.campaigns.createActionPause({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -3243,7 +3638,7 @@ Replicate a campaign in saved or send status.
 
 ```typescript
 await client.campaigns.createActionReplicate({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -3308,7 +3703,7 @@ Resume an RSS-Driven campaign.
 
 ```typescript
 await client.campaigns.createActionResume({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -3373,8 +3768,8 @@ Schedule a campaign for delivery. If you're using Multivariate Campaigns to test
 
 ```typescript
 await client.campaigns.createActionSchedule({
-    campaign_id: "campaign_id",
-    schedule_time: "2024-01-15T09:30:00Z"
+    campaignId: "campaign_id",
+    scheduleTime: new Date("2024-01-15T09:30:00.000Z")
 });
 
 ```
@@ -3439,7 +3834,7 @@ Send a Mailchimp campaign. For RSS Campaigns, the campaign will send according t
 
 ```typescript
 await client.campaigns.createActionSend({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -3504,9 +3899,9 @@ Send a test email.
 
 ```typescript
 await client.campaigns.createActionTest({
-    campaign_id: "campaign_id",
-    send_type: "html",
-    test_emails: ["test_emails"]
+    campaignId: "campaign_id",
+    sendType: "html",
+    testEmails: ["test_emails"]
 });
 
 ```
@@ -3571,7 +3966,7 @@ Unschedule a scheduled campaign that hasn't started sending.
 
 ```typescript
 await client.campaigns.createActionUnschedule({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -3636,7 +4031,7 @@ Get the the HTML and plain-text content for a campaign.
 
 ```typescript
 await client.campaigns.getContent({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -3701,7 +4096,7 @@ Set the content for a campaign.
 
 ```typescript
 await client.campaigns.upsertContent({
-    campaign_id: "campaign_id",
+    campaignId: "campaign_id",
     body: {}
 });
 
@@ -3767,7 +4162,7 @@ Get team feedback while you're working together on a Mailchimp campaign.
 
 ```typescript
 await client.campaigns.listFeedback({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -3832,7 +4227,7 @@ Add feedback on a specific campaign.
 
 ```typescript
 await client.campaigns.createFeedback({
-    campaign_id: "campaign_id",
+    campaignId: "campaign_id",
     message: "message"
 });
 
@@ -3898,8 +4293,8 @@ Get a specific feedback message from a campaign.
 
 ```typescript
 await client.campaigns.getFeedback({
-    campaign_id: "campaign_id",
-    feedback_id: "feedback_id"
+    campaignId: "campaign_id",
+    feedbackId: "feedback_id"
 });
 
 ```
@@ -3964,8 +4359,8 @@ Remove a specific feedback message for a campaign.
 
 ```typescript
 await client.campaigns.deleteFeedback({
-    campaign_id: "campaign_id",
-    feedback_id: "feedback_id"
+    campaignId: "campaign_id",
+    feedbackId: "feedback_id"
 });
 
 ```
@@ -4030,8 +4425,8 @@ Update a specific feedback message for a campaign.
 
 ```typescript
 await client.campaigns.updateFeedback({
-    campaign_id: "campaign_id",
-    feedback_id: "feedback_id"
+    campaignId: "campaign_id",
+    feedbackId: "feedback_id"
 });
 
 ```
@@ -4096,7 +4491,7 @@ Review the send checklist for a campaign, and resolve any issues before sending.
 
 ```typescript
 await client.campaigns.listSendChecklist({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -4169,7 +4564,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.connectedSites.list();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -4238,7 +4633,7 @@ Create a new Mailchimp connected site.
 ```typescript
 await client.connectedSites.create({
     domain: "example.com",
-    foreign_id: "MC001"
+    foreignId: "MC001"
 });
 
 ```
@@ -4303,7 +4698,7 @@ Get information about a specific connected site.
 
 ```typescript
 await client.connectedSites.get({
-    connected_site_id: "connected_site_id"
+    connectedSiteId: "connected_site_id"
 });
 
 ```
@@ -4368,7 +4763,7 @@ Remove a connected site from your Mailchimp account.
 
 ```typescript
 await client.connectedSites.delete({
-    connected_site_id: "connected_site_id"
+    connectedSiteId: "connected_site_id"
 });
 
 ```
@@ -4433,7 +4828,7 @@ Verify that the connected sites script has been installed, either via the script
 
 ```typescript
 await client.connectedSites.createActionVerifyScriptInstallation({
-    connected_site_id: "connected_site_id"
+    connectedSiteId: "connected_site_id"
 });
 
 ```
@@ -4506,7 +4901,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.conversations.list();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -4574,7 +4969,7 @@ Get details about an individual conversation. Conversations has been deprecated 
 
 ```typescript
 await client.conversations.get({
-    conversation_id: "conversation_id"
+    conversationId: "conversation_id"
 });
 
 ```
@@ -4639,7 +5034,7 @@ Get messages from a specific conversation. Conversations has been deprecated in 
 
 ```typescript
 await client.conversations.listMessages({
-    conversation_id: "conversation_id"
+    conversationId: "conversation_id"
 });
 
 ```
@@ -4704,8 +5099,8 @@ Get an individual message in a conversation. Conversations has been deprecated i
 
 ```typescript
 await client.conversations.getMessage({
-    conversation_id: "conversation_id",
-    message_id: "message_id"
+    conversationId: "conversation_id",
+    messageId: "message_id"
 });
 
 ```
@@ -4771,9 +5166,9 @@ A step trigger in an Automation flow. To use it, create a starting point or step
 
 ```typescript
 await client.customerJourneys.createJourneyStepActionTrigger({
-    journey_id: 1,
-    step_id: 1,
-    email_address: "email_address"
+    journeyId: 1,
+    stepId: 1,
+    emailAddress: "email_address"
 });
 
 ```
@@ -4901,7 +5296,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.ecommerce.listOrders();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -4976,7 +5371,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.ecommerce.listStores();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -5044,9 +5439,9 @@ Add a new store to your Mailchimp account.
 
 ```typescript
 await client.ecommerce.createStore({
-    currency_code: "USD",
+    currencyCode: "USD",
     id: "example_store",
-    list_id: "1a2df69511",
+    listId: "1a2df69511",
     name: "Freddie's Cat Hat Emporium"
 });
 
@@ -5112,7 +5507,7 @@ Get information about a specific store.
 
 ```typescript
 await client.ecommerce.getStore({
-    store_id: "store_id"
+    storeId: "store_id"
 });
 
 ```
@@ -5177,7 +5572,7 @@ Delete a store. Deleting a store will also delete any associated subresources, i
 
 ```typescript
 await client.ecommerce.deleteStore({
-    store_id: "store_id"
+    storeId: "store_id"
 });
 
 ```
@@ -5242,7 +5637,7 @@ Update a store.
 
 ```typescript
 await client.ecommerce.updateStore({
-    store_id: "store_id"
+    storeId: "store_id"
 });
 
 ```
@@ -5307,7 +5702,7 @@ Get information about a store's carts.
 
 ```typescript
 const pageableResponse = await client.ecommerce.listStoreCarts({
-    store_id: "store_id"
+    storeId: "store_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -5315,10 +5710,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.ecommerce.listStoreCarts({
-    store_id: "store_id"
+    storeId: "store_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -5386,8 +5781,8 @@ Add a new cart to a store.
 
 ```typescript
 await client.ecommerce.createStoreCart({
-    store_id: "store_id",
-    currency_code: "currency_code",
+    storeId: "store_id",
+    currencyCode: "currency_code",
     customer: {
         id: "id"
     },
@@ -5395,11 +5790,11 @@ await client.ecommerce.createStoreCart({
     lines: [{
             id: "id",
             price: 1.1,
-            product_id: "product_id",
-            product_variant_id: "product_variant_id",
+            productId: "product_id",
+            productVariantId: "product_variant_id",
             quantity: 1
         }],
-    order_total: 1.1
+    orderTotal: 1.1
 });
 
 ```
@@ -5464,8 +5859,8 @@ Get information about a specific cart.
 
 ```typescript
 await client.ecommerce.getStoreCart({
-    store_id: "store_id",
-    cart_id: "cart_id"
+    storeId: "store_id",
+    cartId: "cart_id"
 });
 
 ```
@@ -5530,8 +5925,8 @@ Delete a cart.
 
 ```typescript
 await client.ecommerce.deleteStoreCart({
-    store_id: "store_id",
-    cart_id: "cart_id"
+    storeId: "store_id",
+    cartId: "cart_id"
 });
 
 ```
@@ -5596,8 +5991,8 @@ Update a specific cart.
 
 ```typescript
 await client.ecommerce.updateStoreCart({
-    store_id: "store_id",
-    cart_id: "cart_id"
+    storeId: "store_id",
+    cartId: "cart_id"
 });
 
 ```
@@ -5662,8 +6057,8 @@ Get information about a cart's line items.
 
 ```typescript
 const pageableResponse = await client.ecommerce.listStoreCartLines({
-    store_id: "store_id",
-    cart_id: "cart_id"
+    storeId: "store_id",
+    cartId: "cart_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -5671,11 +6066,11 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.ecommerce.listStoreCartLines({
-    store_id: "store_id",
-    cart_id: "cart_id"
+    storeId: "store_id",
+    cartId: "cart_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -5743,12 +6138,12 @@ Add a new line item to an existing cart.
 
 ```typescript
 await client.ecommerce.createStoreCartLine({
-    store_id: "store_id",
-    cart_id: "cart_id",
+    storeId: "store_id",
+    cartId: "cart_id",
     id: "id",
     price: 1.1,
-    product_id: "product_id",
-    product_variant_id: "product_variant_id",
+    productId: "product_id",
+    productVariantId: "product_variant_id",
     quantity: 1
 });
 
@@ -5814,9 +6209,9 @@ Get information about a specific cart line item.
 
 ```typescript
 await client.ecommerce.getStoreCartLine({
-    store_id: "store_id",
-    cart_id: "cart_id",
-    line_id: "line_id"
+    storeId: "store_id",
+    cartId: "cart_id",
+    lineId: "line_id"
 });
 
 ```
@@ -5881,9 +6276,9 @@ Delete a specific cart line item.
 
 ```typescript
 await client.ecommerce.deleteStoreCartLine({
-    store_id: "store_id",
-    cart_id: "cart_id",
-    line_id: "line_id"
+    storeId: "store_id",
+    cartId: "cart_id",
+    lineId: "line_id"
 });
 
 ```
@@ -5948,9 +6343,9 @@ Update a specific cart line item.
 
 ```typescript
 await client.ecommerce.updateStoreCartLine({
-    store_id: "store_id",
-    cart_id: "cart_id",
-    line_id: "line_id"
+    storeId: "store_id",
+    cartId: "cart_id",
+    lineId: "line_id"
 });
 
 ```
@@ -6015,7 +6410,7 @@ Get information about a store's customers.
 
 ```typescript
 const pageableResponse = await client.ecommerce.listStoreCustomers({
-    store_id: "store_id"
+    storeId: "store_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -6023,10 +6418,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.ecommerce.listStoreCustomers({
-    store_id: "store_id"
+    storeId: "store_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -6094,9 +6489,9 @@ Add a new customer to a store.
 
 ```typescript
 await client.ecommerce.createStoreCustomer({
-    store_id: "store_id",
+    storeId: "store_id",
     id: "id",
-    opt_in_status: true
+    optInStatus: true
 });
 
 ```
@@ -6161,8 +6556,8 @@ Get information about a specific customer.
 
 ```typescript
 await client.ecommerce.getStoreCustomer({
-    store_id: "store_id",
-    customer_id: "customer_id"
+    storeId: "store_id",
+    customerId: "customer_id"
 });
 
 ```
@@ -6227,8 +6622,8 @@ Add or update a customer.
 
 ```typescript
 await client.ecommerce.upsertStoreCustomer({
-    store_id: "store_id",
-    customer_id: "customer_id"
+    storeId: "store_id",
+    customerId: "customer_id"
 });
 
 ```
@@ -6293,8 +6688,8 @@ Delete a customer from a store.
 
 ```typescript
 await client.ecommerce.deleteStoreCustomer({
-    store_id: "store_id",
-    customer_id: "customer_id"
+    storeId: "store_id",
+    customerId: "customer_id"
 });
 
 ```
@@ -6359,8 +6754,8 @@ Update a customer.
 
 ```typescript
 await client.ecommerce.updateStoreCustomer({
-    store_id: "store_id",
-    customer_id: "customer_id",
+    storeId: "store_id",
+    customerId: "customer_id",
     body: {}
 });
 
@@ -6426,7 +6821,7 @@ Get information about a store's orders.
 
 ```typescript
 const pageableResponse = await client.ecommerce.listStoreOrders({
-    store_id: "store_id"
+    storeId: "store_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -6434,10 +6829,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.ecommerce.listStoreOrders({
-    store_id: "store_id"
+    storeId: "store_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -6505,8 +6900,8 @@ Add a new order to a store.
 
 ```typescript
 await client.ecommerce.createStoreOrder({
-    store_id: "store_id",
-    currency_code: "currency_code",
+    storeId: "store_id",
+    currencyCode: "currency_code",
     customer: {
         id: "id"
     },
@@ -6514,11 +6909,11 @@ await client.ecommerce.createStoreOrder({
     lines: [{
             id: "id",
             price: 1.1,
-            product_id: "product_id",
-            product_variant_id: "product_variant_id",
+            productId: "product_id",
+            productVariantId: "product_variant_id",
             quantity: 1
         }],
-    order_total: 1.1
+    orderTotal: 1.1
 });
 
 ```
@@ -6583,8 +6978,8 @@ Get information about a specific order.
 
 ```typescript
 await client.ecommerce.getStoreOrder({
-    store_id: "store_id",
-    order_id: "order_id"
+    storeId: "store_id",
+    orderId: "order_id"
 });
 
 ```
@@ -6649,8 +7044,8 @@ Delete an order.
 
 ```typescript
 await client.ecommerce.deleteStoreOrder({
-    store_id: "store_id",
-    order_id: "order_id"
+    storeId: "store_id",
+    orderId: "order_id"
 });
 
 ```
@@ -6715,8 +7110,8 @@ Update a specific order.
 
 ```typescript
 await client.ecommerce.updateStoreOrder({
-    store_id: "store_id",
-    order_id: "order_id"
+    storeId: "store_id",
+    orderId: "order_id"
 });
 
 ```
@@ -6781,8 +7176,8 @@ Get information about an order's line items.
 
 ```typescript
 const pageableResponse = await client.ecommerce.listStoreOrderLines({
-    store_id: "store_id",
-    order_id: "order_id"
+    storeId: "store_id",
+    orderId: "order_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -6790,11 +7185,11 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.ecommerce.listStoreOrderLines({
-    store_id: "store_id",
-    order_id: "order_id"
+    storeId: "store_id",
+    orderId: "order_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -6862,12 +7257,12 @@ Add a new line item to an existing order.
 
 ```typescript
 await client.ecommerce.createStoreOrderLine({
-    store_id: "store_id",
-    order_id: "order_id",
+    storeId: "store_id",
+    orderId: "order_id",
     id: "id",
     price: 1.1,
-    product_id: "product_id",
-    product_variant_id: "product_variant_id",
+    productId: "product_id",
+    productVariantId: "product_variant_id",
     quantity: 1
 });
 
@@ -6933,9 +7328,9 @@ Get information about a specific order line item.
 
 ```typescript
 await client.ecommerce.getStoreOrderLine({
-    store_id: "store_id",
-    order_id: "order_id",
-    line_id: "line_id"
+    storeId: "store_id",
+    orderId: "order_id",
+    lineId: "line_id"
 });
 
 ```
@@ -7000,9 +7395,9 @@ Delete a specific order line item.
 
 ```typescript
 await client.ecommerce.deleteStoreOrderLine({
-    store_id: "store_id",
-    order_id: "order_id",
-    line_id: "line_id"
+    storeId: "store_id",
+    orderId: "order_id",
+    lineId: "line_id"
 });
 
 ```
@@ -7067,9 +7462,9 @@ Update a specific order line item.
 
 ```typescript
 await client.ecommerce.updateStoreOrderLine({
-    store_id: "store_id",
-    order_id: "order_id",
-    line_id: "line_id"
+    storeId: "store_id",
+    orderId: "order_id",
+    lineId: "line_id"
 });
 
 ```
@@ -7134,7 +7529,7 @@ Get information about a store's products.
 
 ```typescript
 const pageableResponse = await client.ecommerce.listStoreProducts({
-    store_id: "store_id"
+    storeId: "store_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -7142,10 +7537,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.ecommerce.listStoreProducts({
-    store_id: "store_id"
+    storeId: "store_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -7213,7 +7608,7 @@ Add a new product to a store.
 
 ```typescript
 await client.ecommerce.createStoreProduct({
-    store_id: "store_id",
+    storeId: "store_id",
     body: {
         id: "id",
         title: "Cat Hat",
@@ -7286,8 +7681,8 @@ Get information about a specific product.
 
 ```typescript
 await client.ecommerce.getStoreProduct({
-    store_id: "store_id",
-    product_id: "product_id"
+    storeId: "store_id",
+    productId: "product_id"
 });
 
 ```
@@ -7352,8 +7747,8 @@ Update a specific product.
 
 ```typescript
 await client.ecommerce.upsertStoreProduct({
-    store_id: "store_id",
-    product_id: "product_id",
+    storeId: "store_id",
+    productId: "product_id",
     id: "id"
 });
 
@@ -7419,8 +7814,8 @@ Delete a product.
 
 ```typescript
 await client.ecommerce.deleteStoreProduct({
-    store_id: "store_id",
-    product_id: "product_id"
+    storeId: "store_id",
+    productId: "product_id"
 });
 
 ```
@@ -7485,8 +7880,8 @@ Update a specific product.
 
 ```typescript
 await client.ecommerce.updateStoreProduct({
-    store_id: "store_id",
-    product_id: "product_id"
+    storeId: "store_id",
+    productId: "product_id"
 });
 
 ```
@@ -7523,7 +7918,7 @@ await client.ecommerce.updateStoreProduct({
 </dl>
 </details>
 
-<details><summary><code>client.ecommerce.<a href="/src/api/resources/ecommerce/client/Client.ts">listStoreProductImages</a>({ ...params }) -> core.Page&lt;Mailchimp.ListStoreProductImagesEcommerceResponse.Images.Item, Mailchimp.ListStoreProductImagesEcommerceResponse&gt;</code></summary>
+<details><summary><code>client.ecommerce.<a href="/src/api/resources/ecommerce/client/Client.ts">listStoreProductImages</a>({ ...params }) -> core.Page&lt;Mailchimp.ListStoreProductImagesEcommerceResponseImagesItem, Mailchimp.ListStoreProductImagesEcommerceResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -7551,8 +7946,8 @@ Get information about a product's images.
 
 ```typescript
 const pageableResponse = await client.ecommerce.listStoreProductImages({
-    store_id: "store_id",
-    product_id: "product_id"
+    storeId: "store_id",
+    productId: "product_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -7560,11 +7955,11 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.ecommerce.listStoreProductImages({
-    store_id: "store_id",
-    product_id: "product_id"
+    storeId: "store_id",
+    productId: "product_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -7632,8 +8027,8 @@ Add a new image to the product.
 
 ```typescript
 await client.ecommerce.createStoreProductImage({
-    store_id: "store_id",
-    product_id: "product_id",
+    storeId: "store_id",
+    productId: "product_id",
     id: "id",
     url: "url"
 });
@@ -7700,9 +8095,9 @@ Get information about a specific product image.
 
 ```typescript
 await client.ecommerce.getStoreProductImage({
-    store_id: "store_id",
-    product_id: "product_id",
-    image_id: "image_id"
+    storeId: "store_id",
+    productId: "product_id",
+    imageId: "image_id"
 });
 
 ```
@@ -7767,9 +8162,9 @@ Delete a product image.
 
 ```typescript
 await client.ecommerce.deleteStoreProductImage({
-    store_id: "store_id",
-    product_id: "product_id",
-    image_id: "image_id"
+    storeId: "store_id",
+    productId: "product_id",
+    imageId: "image_id"
 });
 
 ```
@@ -7834,9 +8229,9 @@ Update a product image.
 
 ```typescript
 await client.ecommerce.updateStoreProductImage({
-    store_id: "store_id",
-    product_id: "product_id",
-    image_id: "image_id"
+    storeId: "store_id",
+    productId: "product_id",
+    imageId: "image_id"
 });
 
 ```
@@ -7901,8 +8296,8 @@ Get information about a product's variants.
 
 ```typescript
 const pageableResponse = await client.ecommerce.listStoreProductVariants({
-    store_id: "store_id",
-    product_id: "product_id"
+    storeId: "store_id",
+    productId: "product_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -7910,11 +8305,11 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.ecommerce.listStoreProductVariants({
-    store_id: "store_id",
-    product_id: "product_id"
+    storeId: "store_id",
+    productId: "product_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -7982,8 +8377,8 @@ Add a new variant to the product.
 
 ```typescript
 await client.ecommerce.createStoreProductVariant({
-    store_id: "store_id",
-    product_id: "product_id",
+    storeId: "store_id",
+    productId: "product_id",
     id: "id",
     title: "Cat Hat"
 });
@@ -8050,9 +8445,9 @@ Get information about a specific product variant.
 
 ```typescript
 await client.ecommerce.getStoreProductVariant({
-    store_id: "store_id",
-    product_id: "product_id",
-    variant_id: "variant_id"
+    storeId: "store_id",
+    productId: "product_id",
+    variantId: "variant_id"
 });
 
 ```
@@ -8117,9 +8512,9 @@ Add or update a product variant.
 
 ```typescript
 await client.ecommerce.upsertStoreProductVariant({
-    store_id: "store_id",
-    product_id: "product_id",
-    variant_id: "variant_id"
+    storeId: "store_id",
+    productId: "product_id",
+    variantId: "variant_id"
 });
 
 ```
@@ -8184,9 +8579,9 @@ Delete a product variant.
 
 ```typescript
 await client.ecommerce.deleteStoreProductVariant({
-    store_id: "store_id",
-    product_id: "product_id",
-    variant_id: "variant_id"
+    storeId: "store_id",
+    productId: "product_id",
+    variantId: "variant_id"
 });
 
 ```
@@ -8251,9 +8646,9 @@ Update a product variant.
 
 ```typescript
 await client.ecommerce.updateStoreProductVariant({
-    store_id: "store_id",
-    product_id: "product_id",
-    variant_id: "variant_id"
+    storeId: "store_id",
+    productId: "product_id",
+    variantId: "variant_id"
 });
 
 ```
@@ -8318,7 +8713,7 @@ Get information about a store's promo rules.
 
 ```typescript
 const pageableResponse = await client.ecommerce.listStorePromoRules({
-    store_id: "store_id"
+    storeId: "store_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -8326,10 +8721,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.ecommerce.listStorePromoRules({
-    store_id: "store_id"
+    storeId: "store_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -8397,7 +8792,7 @@ Add a new promo rule to a store.
 
 ```typescript
 await client.ecommerce.createStorePromoRule({
-    store_id: "store_id",
+    storeId: "store_id",
     amount: 1.1,
     description: "Save BIG during our summer sale!",
     id: "id",
@@ -8467,8 +8862,8 @@ Get information about a specific promo rule.
 
 ```typescript
 await client.ecommerce.getStorePromoRule({
-    store_id: "store_id",
-    promo_rule_id: "promo_rule_id"
+    storeId: "store_id",
+    promoRuleId: "promo_rule_id"
 });
 
 ```
@@ -8533,8 +8928,8 @@ Delete a promo rule from a store.
 
 ```typescript
 await client.ecommerce.deleteStorePromoRule({
-    store_id: "store_id",
-    promo_rule_id: "promo_rule_id"
+    storeId: "store_id",
+    promoRuleId: "promo_rule_id"
 });
 
 ```
@@ -8599,8 +8994,8 @@ Update a promo rule.
 
 ```typescript
 await client.ecommerce.updateStorePromoRule({
-    store_id: "store_id",
-    promo_rule_id: "promo_rule_id"
+    storeId: "store_id",
+    promoRuleId: "promo_rule_id"
 });
 
 ```
@@ -8665,8 +9060,8 @@ Get information about a store's promo codes.
 
 ```typescript
 const pageableResponse = await client.ecommerce.listStorePromoRulePromoCodes({
-    store_id: "store_id",
-    promo_rule_id: "promo_rule_id"
+    storeId: "store_id",
+    promoRuleId: "promo_rule_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -8674,11 +9069,11 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.ecommerce.listStorePromoRulePromoCodes({
-    store_id: "store_id",
-    promo_rule_id: "promo_rule_id"
+    storeId: "store_id",
+    promoRuleId: "promo_rule_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -8746,11 +9141,11 @@ Add a new promo code to a store.
 
 ```typescript
 await client.ecommerce.createStorePromoRulePromoCode({
-    store_id: "store_id",
-    promo_rule_id: "promo_rule_id",
+    storeId: "store_id",
+    promoRuleId: "promo_rule_id",
     code: "summersale",
     id: "id",
-    redemption_url: "A url that applies promo code directly at checkout or a url that points to sale page or store url"
+    redemptionUrl: "A url that applies promo code directly at checkout or a url that points to sale page or store url"
 });
 
 ```
@@ -8815,9 +9210,9 @@ Get information about a specific promo code.
 
 ```typescript
 await client.ecommerce.getStorePromoRulePromoCode({
-    store_id: "store_id",
-    promo_rule_id: "promo_rule_id",
-    promo_code_id: "promo_code_id"
+    storeId: "store_id",
+    promoRuleId: "promo_rule_id",
+    promoCodeId: "promo_code_id"
 });
 
 ```
@@ -8882,9 +9277,9 @@ Delete a promo code from a store.
 
 ```typescript
 await client.ecommerce.deleteStorePromoRulePromoCode({
-    store_id: "store_id",
-    promo_rule_id: "promo_rule_id",
-    promo_code_id: "promo_code_id"
+    storeId: "store_id",
+    promoRuleId: "promo_rule_id",
+    promoCodeId: "promo_code_id"
 });
 
 ```
@@ -8949,9 +9344,9 @@ Update a promo code.
 
 ```typescript
 await client.ecommerce.updateStorePromoRulePromoCode({
-    store_id: "store_id",
-    promo_rule_id: "promo_rule_id",
-    promo_code_id: "promo_code_id"
+    storeId: "store_id",
+    promoRuleId: "promo_rule_id",
+    promoCodeId: "promo_code_id"
 });
 
 ```
@@ -9024,7 +9419,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.facebookAds.list();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -9092,7 +9487,7 @@ Get details of a Facebook ad.
 
 ```typescript
 await client.facebookAds.get({
-    outreach_id: "outreach_id"
+    outreachId: "outreach_id"
 });
 
 ```
@@ -9220,7 +9615,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.fileManager.listFiles();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -9288,7 +9683,7 @@ Upload a new image or file to the File Manager.
 
 ```typescript
 await client.fileManager.createFile({
-    file_data: "file_data",
+    fileData: "file_data",
     name: "name"
 });
 
@@ -9354,7 +9749,7 @@ Get information about a specific file in the File Manager.
 
 ```typescript
 await client.fileManager.getFile({
-    file_id: "file_id"
+    fileId: "file_id"
 });
 
 ```
@@ -9419,7 +9814,7 @@ Remove a specific file from the File Manager.
 
 ```typescript
 await client.fileManager.deleteFile({
-    file_id: "file_id"
+    fileId: "file_id"
 });
 
 ```
@@ -9484,7 +9879,7 @@ Update a file in the File Manager.
 
 ```typescript
 await client.fileManager.updateFile({
-    file_id: "file_id"
+    fileId: "file_id"
 });
 
 ```
@@ -9521,7 +9916,7 @@ await client.fileManager.updateFile({
 </dl>
 </details>
 
-<details><summary><code>client.fileManager.<a href="/src/api/resources/fileManager/client/Client.ts">listFolders</a>({ ...params }) -> core.Page&lt;Mailchimp.ListFoldersFileManagerResponse.Folders.Item, Mailchimp.ListFoldersFileManagerResponse&gt;</code></summary>
+<details><summary><code>client.fileManager.<a href="/src/api/resources/fileManager/client/Client.ts">listFolders</a>({ ...params }) -> core.Page&lt;Mailchimp.ListFoldersFileManagerResponseFoldersItem, Mailchimp.ListFoldersFileManagerResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -9556,7 +9951,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.fileManager.listFolders();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -9689,7 +10084,7 @@ Get information about a specific folder in the File Manager.
 
 ```typescript
 await client.fileManager.getFolder({
-    folder_id: "folder_id"
+    folderId: "folder_id"
 });
 
 ```
@@ -9754,7 +10149,7 @@ Delete a specific folder in the File Manager.
 
 ```typescript
 await client.fileManager.deleteFolder({
-    folder_id: "folder_id"
+    folderId: "folder_id"
 });
 
 ```
@@ -9819,7 +10214,7 @@ Update a specific File Manager folder.
 
 ```typescript
 await client.fileManager.updateFolder({
-    folder_id: "folder_id",
+    folderId: "folder_id",
     name: "name"
 });
 
@@ -9885,7 +10280,7 @@ Get a list of available images and files stored in this folder.
 
 ```typescript
 const pageableResponse = await client.fileManager.listFolderFiles({
-    folder_id: "folder_id"
+    folderId: "folder_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -9893,10 +10288,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.fileManager.listFolderFiles({
-    folder_id: "folder_id"
+    folderId: "folder_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -10091,7 +10486,7 @@ Get information about a specific page.
 
 ```typescript
 await client.landingPages.get({
-    page_id: "page_id"
+    pageId: "page_id"
 });
 
 ```
@@ -10156,7 +10551,7 @@ Delete a landing page.
 
 ```typescript
 await client.landingPages.delete({
-    page_id: "page_id"
+    pageId: "page_id"
 });
 
 ```
@@ -10221,7 +10616,7 @@ Update a landing page.
 
 ```typescript
 await client.landingPages.update({
-    page_id: "page_id"
+    pageId: "page_id"
 });
 
 ```
@@ -10286,7 +10681,7 @@ Publish a landing page that is in draft, unpublished, or has been previously pub
 
 ```typescript
 await client.landingPages.createActionPublish({
-    page_id: "page_id"
+    pageId: "page_id"
 });
 
 ```
@@ -10351,7 +10746,7 @@ Unpublish a landing page that is in draft or has been published.
 
 ```typescript
 await client.landingPages.createActionUnpublish({
-    page_id: "page_id"
+    pageId: "page_id"
 });
 
 ```
@@ -10416,7 +10811,7 @@ Get the the HTML for your landing page.
 
 ```typescript
 await client.landingPages.listContent({
-    page_id: "page_id"
+    pageId: "page_id"
 });
 
 ```
@@ -10489,7 +10884,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.lists.list();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -10557,9 +10952,9 @@ Create a new list in your Mailchimp account.
 
 ```typescript
 await client.lists.create({
-    campaign_defaults: {
-        from_email: "from_email",
-        from_name: "from_name",
+    campaignDefaults: {
+        fromEmail: "from_email",
+        fromName: "from_name",
         language: "language",
         subject: "subject"
     },
@@ -10569,9 +10964,9 @@ await client.lists.create({
         company: "company",
         country: "country"
     },
-    email_type_option: true,
+    emailTypeOption: true,
     name: "name",
-    permission_reminder: "permission_reminder"
+    permissionReminder: "permission_reminder"
 });
 
 ```
@@ -10636,7 +11031,7 @@ Get information about a specific list in your Mailchimp account. Results include
 
 ```typescript
 await client.lists.get({
-    list_id: "list_id"
+    listId: "list_id"
 });
 
 ```
@@ -10701,7 +11096,7 @@ Batch subscribe or unsubscribe list members.
 
 ```typescript
 await client.lists.batchSubscribeOrUnsubscribe({
-    list_id: "list_id",
+    listId: "list_id",
     members: []
 });
 
@@ -10767,7 +11162,7 @@ Delete a list from your Mailchimp account. If you delete a list, you'll lose the
 
 ```typescript
 await client.lists.delete({
-    list_id: "list_id"
+    listId: "list_id"
 });
 
 ```
@@ -10832,7 +11227,7 @@ Update the settings for a specific list.
 
 ```typescript
 await client.lists.update({
-    list_id: "list_id"
+    listId: "list_id"
 });
 
 ```
@@ -10897,7 +11292,7 @@ Get all abuse reports for a specific list.
 
 ```typescript
 const pageableResponse = await client.lists.listAbuseReports({
-    list_id: "list_id"
+    listId: "list_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -10905,10 +11300,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.lists.listAbuseReports({
-    list_id: "list_id"
+    listId: "list_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -10976,8 +11371,8 @@ Get details about a specific abuse report.
 
 ```typescript
 await client.lists.getAbuseReport({
-    list_id: "list_id",
-    report_id: "report_id"
+    listId: "list_id",
+    reportId: "report_id"
 });
 
 ```
@@ -11014,7 +11409,7 @@ await client.lists.getAbuseReport({
 </dl>
 </details>
 
-<details><summary><code>client.lists.<a href="/src/api/resources/lists/client/Client.ts">listActivity</a>({ ...params }) -> core.Page&lt;Mailchimp.ListActivityListsResponse.Activity.Item, Mailchimp.ListActivityListsResponse&gt;</code></summary>
+<details><summary><code>client.lists.<a href="/src/api/resources/lists/client/Client.ts">listActivity</a>({ ...params }) -> core.Page&lt;Mailchimp.ListActivityListsResponseActivityItem, Mailchimp.ListActivityListsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -11042,7 +11437,7 @@ Get up to the previous 180 days of daily detailed aggregated activity stats for 
 
 ```typescript
 const pageableResponse = await client.lists.listActivity({
-    list_id: "list_id"
+    listId: "list_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -11050,10 +11445,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.lists.listActivity({
-    list_id: "list_id"
+    listId: "list_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -11121,7 +11516,7 @@ Get a list of the top email clients based on user-agent strings.
 
 ```typescript
 await client.lists.listClients({
-    list_id: "list_id"
+    listId: "list_id"
 });
 
 ```
@@ -11186,7 +11581,7 @@ Get a month-by-month summary of a specific list's growth activity.
 
 ```typescript
 const pageableResponse = await client.lists.listGrowthHistory({
-    list_id: "list_id"
+    listId: "list_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -11194,10 +11589,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.lists.listGrowthHistory({
-    list_id: "list_id"
+    listId: "list_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -11265,7 +11660,7 @@ Get a summary of a specific list's growth activity for a specific month and year
 
 ```typescript
 await client.lists.getGrowthHistory({
-    list_id: "list_id",
+    listId: "list_id",
     month: "month"
 });
 
@@ -11331,7 +11726,7 @@ Get information about a list's interest categories.
 
 ```typescript
 const pageableResponse = await client.lists.listInterestCategories({
-    list_id: "list_id"
+    listId: "list_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -11339,10 +11734,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.lists.listInterestCategories({
-    list_id: "list_id"
+    listId: "list_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -11410,7 +11805,7 @@ Create a new interest category.
 
 ```typescript
 await client.lists.createInterestCategory({
-    list_id: "list_id",
+    listId: "list_id",
     title: "title",
     type: "checkboxes"
 });
@@ -11477,8 +11872,8 @@ Get information about a specific interest category.
 
 ```typescript
 await client.lists.getInterestCategory({
-    list_id: "list_id",
-    interest_category_id: "interest_category_id"
+    listId: "list_id",
+    interestCategoryId: "interest_category_id"
 });
 
 ```
@@ -11543,8 +11938,8 @@ Delete a specific interest category.
 
 ```typescript
 await client.lists.deleteInterestCategory({
-    list_id: "list_id",
-    interest_category_id: "interest_category_id"
+    listId: "list_id",
+    interestCategoryId: "interest_category_id"
 });
 
 ```
@@ -11609,8 +12004,8 @@ Update a specific interest category.
 
 ```typescript
 await client.lists.updateInterestCategory({
-    list_id: "list_id",
-    interest_category_id: "interest_category_id"
+    listId: "list_id",
+    interestCategoryId: "interest_category_id"
 });
 
 ```
@@ -11675,8 +12070,8 @@ Get a list of this category's interests.
 
 ```typescript
 const pageableResponse = await client.lists.listInterestCategoryInterests({
-    list_id: "list_id",
-    interest_category_id: "interest_category_id"
+    listId: "list_id",
+    interestCategoryId: "interest_category_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -11684,11 +12079,11 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.lists.listInterestCategoryInterests({
-    list_id: "list_id",
-    interest_category_id: "interest_category_id"
+    listId: "list_id",
+    interestCategoryId: "interest_category_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -11756,8 +12151,8 @@ Create a new interest or 'group name' for a specific category.
 
 ```typescript
 await client.lists.createInterestCategoryInterest({
-    list_id: "list_id",
-    interest_category_id: "interest_category_id",
+    listId: "list_id",
+    interestCategoryId: "interest_category_id",
     name: "name"
 });
 
@@ -11823,9 +12218,9 @@ Get interests or 'group names' for a specific category.
 
 ```typescript
 await client.lists.getInterestCategoryInterest({
-    list_id: "list_id",
-    interest_category_id: "interest_category_id",
-    interest_id: "interest_id"
+    listId: "list_id",
+    interestCategoryId: "interest_category_id",
+    interestId: "interest_id"
 });
 
 ```
@@ -11890,9 +12285,9 @@ Delete interests or group names in a specific category.
 
 ```typescript
 await client.lists.deleteInterestCategoryInterest({
-    list_id: "list_id",
-    interest_category_id: "interest_category_id",
-    interest_id: "interest_id"
+    listId: "list_id",
+    interestCategoryId: "interest_category_id",
+    interestId: "interest_id"
 });
 
 ```
@@ -11957,9 +12352,9 @@ Update interests or 'group names' for a specific category.
 
 ```typescript
 await client.lists.updateInterestCategoryInterest({
-    list_id: "list_id",
-    interest_category_id: "interest_category_id",
-    interest_id: "interest_id"
+    listId: "list_id",
+    interestCategoryId: "interest_category_id",
+    interestId: "interest_id"
 });
 
 ```
@@ -12024,7 +12419,7 @@ Get the locations (countries) that the list's subscribers have been tagged to ba
 
 ```typescript
 await client.lists.listLocations({
-    list_id: "list_id"
+    listId: "list_id"
 });
 
 ```
@@ -12089,7 +12484,7 @@ Get information about members in a specific Mailchimp list.
 
 ```typescript
 const pageableResponse = await client.lists.listMembers({
-    list_id: "list_id"
+    listId: "list_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -12097,10 +12492,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.lists.listMembers({
-    list_id: "list_id"
+    listId: "list_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -12168,8 +12563,8 @@ Add a new member to the list.
 
 ```typescript
 await client.lists.createMember({
-    list_id: "list_id",
-    email_address: "email_address",
+    listId: "list_id",
+    emailAddress: "email_address",
     status: "subscribed"
 });
 
@@ -12235,8 +12630,8 @@ Get information about a specific list member, including a currently subscribed, 
 
 ```typescript
 await client.lists.getMember({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash"
 });
 
 ```
@@ -12301,9 +12696,9 @@ Add or update a list member.
 
 ```typescript
 await client.lists.upsertMember({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash",
-    email_address: "email_address"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash",
+    emailAddress: "email_address"
 });
 
 ```
@@ -12368,8 +12763,8 @@ Archive a list member. To permanently delete, use the delete-permanent action.
 
 ```typescript
 await client.lists.deleteMember({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash"
 });
 
 ```
@@ -12434,8 +12829,8 @@ Update information for a specific list member.
 
 ```typescript
 await client.lists.updateMember({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash"
 });
 
 ```
@@ -12500,8 +12895,8 @@ Delete all personally identifiable information related to a list member, and rem
 
 ```typescript
 await client.lists.createMemberActionDeletePermanent({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash"
 });
 
 ```
@@ -12566,8 +12961,8 @@ Get the last 50 events of a member's activity on a specific list, including open
 
 ```typescript
 await client.lists.listMemberActivity({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash"
 });
 
 ```
@@ -12632,8 +13027,8 @@ Get a member's activity on a specific list, including opens, clicks, and unsubsc
 
 ```typescript
 const pageableResponse = await client.lists.listMemberActivityFeed({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -12641,11 +13036,11 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.lists.listMemberActivityFeed({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -12685,7 +13080,7 @@ const response = page.response;
 </dl>
 </details>
 
-<details><summary><code>client.lists.<a href="/src/api/resources/lists/client/Client.ts">listMemberEvents</a>({ ...params }) -> core.Page&lt;Mailchimp.ListMemberEventsListsResponse.Events.Item, Mailchimp.ListMemberEventsListsResponse&gt;</code></summary>
+<details><summary><code>client.lists.<a href="/src/api/resources/lists/client/Client.ts">listMemberEvents</a>({ ...params }) -> core.Page&lt;Mailchimp.ListMemberEventsListsResponseEventsItem, Mailchimp.ListMemberEventsListsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -12713,8 +13108,8 @@ Get events for a contact.
 
 ```typescript
 const pageableResponse = await client.lists.listMemberEvents({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -12722,11 +13117,11 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.lists.listMemberEvents({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -12794,8 +13189,8 @@ Add an event for a list member.
 
 ```typescript
 await client.lists.createMemberEvent({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash",
+    listId: "list_id",
+    subscriberHash: "subscriber_hash",
     name: "name"
 });
 
@@ -12861,8 +13256,8 @@ Get the last 50 Goal events for a member on a specific list.
 
 ```typescript
 await client.lists.listMemberGoals({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash"
 });
 
 ```
@@ -12927,8 +13322,8 @@ Get recent notes for a specific list member.
 
 ```typescript
 const pageableResponse = await client.lists.listMemberNotes({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -12936,11 +13331,11 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.lists.listMemberNotes({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -13008,8 +13403,8 @@ Add a new note for a specific subscriber.
 
 ```typescript
 await client.lists.createMemberNote({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash"
 });
 
 ```
@@ -13074,9 +13469,9 @@ Get a specific note for a specific list member.
 
 ```typescript
 await client.lists.getMemberNote({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash",
-    note_id: "note_id"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash",
+    noteId: "note_id"
 });
 
 ```
@@ -13141,9 +13536,9 @@ Delete a specific note for a specific list member.
 
 ```typescript
 await client.lists.deleteMemberNote({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash",
-    note_id: "note_id"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash",
+    noteId: "note_id"
 });
 
 ```
@@ -13208,9 +13603,9 @@ Update a specific note for a specific list member.
 
 ```typescript
 await client.lists.updateMemberNote({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash",
-    note_id: "note_id"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash",
+    noteId: "note_id"
 });
 
 ```
@@ -13247,7 +13642,7 @@ await client.lists.updateMemberNote({
 </dl>
 </details>
 
-<details><summary><code>client.lists.<a href="/src/api/resources/lists/client/Client.ts">listMemberTags</a>({ ...params }) -> core.Page&lt;Mailchimp.ListMemberTagsListsResponse.Tags.Item, Mailchimp.ListMemberTagsListsResponse&gt;</code></summary>
+<details><summary><code>client.lists.<a href="/src/api/resources/lists/client/Client.ts">listMemberTags</a>({ ...params }) -> core.Page&lt;Mailchimp.ListMemberTagsListsResponseTagsItem, Mailchimp.ListMemberTagsListsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -13275,8 +13670,8 @@ Get the tags on a list member.
 
 ```typescript
 const pageableResponse = await client.lists.listMemberTags({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -13284,11 +13679,11 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.lists.listMemberTags({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash"
+    listId: "list_id",
+    subscriberHash: "subscriber_hash"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -13356,8 +13751,8 @@ Add or remove tags from a list member. If a tag that does not exist is passed in
 
 ```typescript
 await client.lists.createMemberTag({
-    list_id: "list_id",
-    subscriber_hash: "subscriber_hash",
+    listId: "list_id",
+    subscriberHash: "subscriber_hash",
     tags: [{
             name: "name",
             status: "inactive"
@@ -13426,7 +13821,7 @@ Get a list of all merge fields for an audience.
 
 ```typescript
 const pageableResponse = await client.lists.listMergeFields({
-    list_id: "list_id"
+    listId: "list_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -13434,10 +13829,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.lists.listMergeFields({
-    list_id: "list_id"
+    listId: "list_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -13505,7 +13900,7 @@ Add a new merge field for a specific audience.
 
 ```typescript
 await client.lists.createMergeField({
-    list_id: "list_id",
+    listId: "list_id",
     name: "name",
     type: "text"
 });
@@ -13572,8 +13967,8 @@ Get information about a specific merge field.
 
 ```typescript
 await client.lists.getMergeField({
-    list_id: "list_id",
-    merge_id: "merge_id"
+    listId: "list_id",
+    mergeId: "merge_id"
 });
 
 ```
@@ -13638,8 +14033,8 @@ Delete a specific merge field.
 
 ```typescript
 await client.lists.deleteMergeField({
-    list_id: "list_id",
-    merge_id: "merge_id"
+    listId: "list_id",
+    mergeId: "merge_id"
 });
 
 ```
@@ -13704,8 +14099,8 @@ Update a specific merge field.
 
 ```typescript
 await client.lists.updateMergeField({
-    list_id: "list_id",
-    merge_id: "merge_id"
+    listId: "list_id",
+    mergeId: "merge_id"
 });
 
 ```
@@ -13770,7 +14165,7 @@ Get information about all available segments for a specific list.
 
 ```typescript
 const pageableResponse = await client.lists.listSegments({
-    list_id: "list_id"
+    listId: "list_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -13778,10 +14173,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.lists.listSegments({
-    list_id: "list_id"
+    listId: "list_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -13849,7 +14244,7 @@ Create a new segment in a specific list.
 
 ```typescript
 await client.lists.createSegment({
-    list_id: "list_id",
+    listId: "list_id",
     name: "name"
 });
 
@@ -13915,8 +14310,8 @@ Get information about a specific segment.
 
 ```typescript
 await client.lists.getSegment({
-    list_id: "list_id",
-    segment_id: "segment_id"
+    listId: "list_id",
+    segmentId: "segment_id"
 });
 
 ```
@@ -13981,8 +14376,8 @@ Batch add/remove list members to static segment
 
 ```typescript
 await client.lists.batchAddOrRemoveMembers({
-    list_id: "list_id",
-    segment_id: "segment_id"
+    listId: "list_id",
+    segmentId: "segment_id"
 });
 
 ```
@@ -14047,8 +14442,8 @@ Delete a specific segment in a list.
 
 ```typescript
 await client.lists.deleteSegment({
-    list_id: "list_id",
-    segment_id: "segment_id"
+    listId: "list_id",
+    segmentId: "segment_id"
 });
 
 ```
@@ -14113,8 +14508,8 @@ Update a specific segment in a list.
 
 ```typescript
 await client.lists.updateSegment({
-    list_id: "list_id",
-    segment_id: "segment_id"
+    listId: "list_id",
+    segmentId: "segment_id"
 });
 
 ```
@@ -14179,8 +14574,8 @@ Get information about members in a saved segment.
 
 ```typescript
 const pageableResponse = await client.lists.listSegmentMembers({
-    list_id: "list_id",
-    segment_id: "segment_id"
+    listId: "list_id",
+    segmentId: "segment_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -14188,11 +14583,11 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.lists.listSegmentMembers({
-    list_id: "list_id",
-    segment_id: "segment_id"
+    listId: "list_id",
+    segmentId: "segment_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -14260,9 +14655,9 @@ Add a member to a static segment.
 
 ```typescript
 await client.lists.createSegmentMember({
-    list_id: "list_id",
-    segment_id: "segment_id",
-    email_address: "email_address"
+    listId: "list_id",
+    segmentId: "segment_id",
+    emailAddress: "email_address"
 });
 
 ```
@@ -14327,9 +14722,9 @@ Remove a member from the specified static segment.
 
 ```typescript
 await client.lists.deleteSegmentMember({
-    list_id: "list_id",
-    segment_id: "segment_id",
-    subscriber_hash: "subscriber_hash"
+    listId: "list_id",
+    segmentId: "segment_id",
+    subscriberHash: "subscriber_hash"
 });
 
 ```
@@ -14394,7 +14789,7 @@ Get signup forms for a specific list.
 
 ```typescript
 await client.lists.listSignupForms({
-    list_id: "list_id"
+    listId: "list_id"
 });
 
 ```
@@ -14459,7 +14854,7 @@ Customize a list's default signup form.
 
 ```typescript
 await client.lists.createSignupForm({
-    list_id: "list_id"
+    listId: "list_id"
 });
 
 ```
@@ -14524,7 +14919,7 @@ Get information about all available surveys for a specific list.
 
 ```typescript
 await client.lists.listSurveys({
-    list_id: "list_id"
+    listId: "list_id"
 });
 
 ```
@@ -14589,7 +14984,7 @@ Create a draft survey for an audience.
 
 ```typescript
 await client.lists.createSurvey({
-    list_id: "list_id"
+    listId: "list_id"
 });
 
 ```
@@ -14654,8 +15049,8 @@ Get details about a specific survey.
 
 ```typescript
 await client.lists.getSurvey({
-    list_id: "list_id",
-    survey_id: "survey_id"
+    listId: "list_id",
+    surveyId: "survey_id"
 });
 
 ```
@@ -14720,8 +15115,8 @@ Delete a survey.
 
 ```typescript
 await client.lists.deleteSurvey({
-    list_id: "list_id",
-    survey_id: "survey_id"
+    listId: "list_id",
+    surveyId: "survey_id"
 });
 
 ```
@@ -14786,8 +15181,8 @@ Update a survey. When sections is provided, send the complete section list in di
 
 ```typescript
 await client.lists.updateSurvey({
-    list_id: "list_id",
-    survey_id: "survey_id"
+    listId: "list_id",
+    surveyId: "survey_id"
 });
 
 ```
@@ -14852,8 +15247,8 @@ Replicate a survey.
 
 ```typescript
 await client.lists.createListSurveyActionReplicate({
-    list_idPathParam: "list_id",
-    survey_id: "survey_id"
+    listIdPathParam: "list_id",
+    surveyId: "survey_id"
 });
 
 ```
@@ -14918,7 +15313,7 @@ Search for tags on a list by name. If no name is provided, will return all tags 
 
 ```typescript
 await client.lists.listTagSearch({
-    list_id: "list_id"
+    listId: "list_id"
 });
 
 ```
@@ -14983,7 +15378,7 @@ Get information about all webhooks for a specific list.
 
 ```typescript
 await client.lists.listWebhooks({
-    list_id: "list_id"
+    listId: "list_id"
 });
 
 ```
@@ -15020,7 +15415,7 @@ await client.lists.listWebhooks({
 </dl>
 </details>
 
-<details><summary><code>client.lists.<a href="/src/api/resources/lists/client/Client.ts">createWebhook</a>({ ...params }) -> Mailchimp.ListWebhooks</code></summary>
+<details><summary><code>client.lists.<a href="/src/api/resources/lists/client/Client.ts">createWebhook</a>({ ...params }) -> Mailchimp.CreateWebhookListsResponse</code></summary>
 <dl>
 <dd>
 
@@ -15048,7 +15443,7 @@ Create a new webhook for a specific list.
 
 ```typescript
 await client.lists.createWebhook({
-    list_id: "list_id",
+    listId: "list_id",
     body: {}
 });
 
@@ -15114,8 +15509,8 @@ Get information about a specific webhook.
 
 ```typescript
 await client.lists.getWebhook({
-    list_id: "list_id",
-    webhook_id: "webhook_id"
+    listId: "list_id",
+    webhookId: "webhook_id"
 });
 
 ```
@@ -15180,8 +15575,8 @@ Delete a specific webhook in a list.
 
 ```typescript
 await client.lists.deleteWebhook({
-    list_id: "list_id",
-    webhook_id: "webhook_id"
+    listId: "list_id",
+    webhookId: "webhook_id"
 });
 
 ```
@@ -15246,8 +15641,8 @@ Update the settings for an existing webhook.
 
 ```typescript
 await client.lists.updateWebhook({
-    list_id: "list_id",
-    webhook_id: "webhook_id",
+    listId: "list_id",
+    webhookId: "webhook_id",
     body: {}
 });
 
@@ -15314,8 +15709,8 @@ Utilize the List ID and Survey ID to generate a Campaign that links to your surv
 
 ```typescript
 await client.surveys.createListSurveyActionCreateEmail({
-    list_id: "list_id",
-    survey_id: "survey_id"
+    listId: "list_id",
+    surveyId: "survey_id"
 });
 
 ```
@@ -15380,8 +15775,8 @@ Publish a survey that is in draft, unpublished, or has been previously published
 
 ```typescript
 await client.surveys.createListSurveyActionPublish({
-    list_id: "list_id",
-    survey_id: "survey_id"
+    listId: "list_id",
+    surveyId: "survey_id"
 });
 
 ```
@@ -15446,8 +15841,8 @@ Unpublish a survey that has been published.
 
 ```typescript
 await client.surveys.createListSurveyActionUnpublish({
-    list_id: "list_id",
-    survey_id: "survey_id"
+    listId: "list_id",
+    surveyId: "survey_id"
 });
 
 ```
@@ -15631,7 +16026,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.reporting.listFacebookAds();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -15699,7 +16094,7 @@ Get report of a Facebook ad.
 
 ```typescript
 await client.reporting.getFacebookAd({
-    outreach_id: "outreach_id"
+    outreachId: "outreach_id"
 });
 
 ```
@@ -15736,7 +16131,7 @@ await client.reporting.getFacebookAd({
 </dl>
 </details>
 
-<details><summary><code>client.reporting.<a href="/src/api/resources/reporting/client/Client.ts">listFacebookAdEcommerceProductActivity</a>({ ...params }) -> core.Page&lt;Mailchimp.ListFacebookAdEcommerceProductActivityReportingResponse.Products.Item, Mailchimp.ListFacebookAdEcommerceProductActivityReportingResponse&gt;</code></summary>
+<details><summary><code>client.reporting.<a href="/src/api/resources/reporting/client/Client.ts">listFacebookAdEcommerceProductActivity</a>({ ...params }) -> core.Page&lt;Mailchimp.ListFacebookAdEcommerceProductActivityReportingResponseProductsItem, Mailchimp.ListFacebookAdEcommerceProductActivityReportingResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -15764,7 +16159,7 @@ Get breakdown of product activity for an outreach.
 
 ```typescript
 const pageableResponse = await client.reporting.listFacebookAdEcommerceProductActivity({
-    outreach_id: "outreach_id"
+    outreachId: "outreach_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -15772,10 +16167,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.reporting.listFacebookAdEcommerceProductActivity({
-    outreach_id: "outreach_id"
+    outreachId: "outreach_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -15850,7 +16245,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.reporting.listLandingPages();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -15918,7 +16313,7 @@ Get report of a landing page.
 
 ```typescript
 await client.reporting.getLandingPage({
-    outreach_id: "outreach_id"
+    outreachId: "outreach_id"
 });
 
 ```
@@ -15955,7 +16350,7 @@ await client.reporting.getLandingPage({
 </dl>
 </details>
 
-<details><summary><code>client.reporting.<a href="/src/api/resources/reporting/client/Client.ts">listSurveys</a>({ ...params }) -> core.Page&lt;Mailchimp.ListSurveysReportingResponse.Surveys.Item, Mailchimp.ListSurveysReportingResponse&gt;</code></summary>
+<details><summary><code>client.reporting.<a href="/src/api/resources/reporting/client/Client.ts">listSurveys</a>({ ...params }) -> core.Page&lt;Mailchimp.ListSurveysReportingResponseSurveysItem, Mailchimp.ListSurveysReportingResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -15990,7 +16385,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.reporting.listSurveys();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -16058,7 +16453,7 @@ Get report for a survey.
 
 ```typescript
 await client.reporting.getSurvey({
-    survey_id: "survey_id"
+    surveyId: "survey_id"
 });
 
 ```
@@ -16123,7 +16518,7 @@ Get reports for survey questions.
 
 ```typescript
 await client.reporting.listSurveyQuestions({
-    survey_id: "survey_id"
+    surveyId: "survey_id"
 });
 
 ```
@@ -16188,8 +16583,8 @@ Get report for a survey question.
 
 ```typescript
 await client.reporting.getSurveyQuestion({
-    survey_id: "survey_id",
-    question_id: "question_id"
+    surveyId: "survey_id",
+    questionId: "question_id"
 });
 
 ```
@@ -16254,8 +16649,8 @@ Get answers for a survey question.
 
 ```typescript
 await client.reporting.listSurveyQuestionAnswers({
-    survey_id: "survey_id",
-    question_id: "question_id"
+    surveyId: "survey_id",
+    questionId: "question_id"
 });
 
 ```
@@ -16320,7 +16715,7 @@ Get responses to a survey.
 
 ```typescript
 await client.reporting.listSurveyResponses({
-    survey_id: "survey_id"
+    surveyId: "survey_id"
 });
 
 ```
@@ -16385,8 +16780,8 @@ Get a single survey response.
 
 ```typescript
 await client.reporting.getSurveyRespons({
-    survey_id: "survey_id",
-    response_id: "response_id"
+    surveyId: "survey_id",
+    responseId: "response_id"
 });
 
 ```
@@ -16459,7 +16854,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.reports.list();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -16527,7 +16922,7 @@ Get report details for a specific sent campaign.
 
 ```typescript
 await client.reports.get({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -16592,7 +16987,7 @@ Get a list of abuse complaints for a specific campaign.
 
 ```typescript
 await client.reports.listAbuseReports({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -16657,8 +17052,8 @@ Get information about a specific abuse report for a campaign.
 
 ```typescript
 await client.reports.getAbuseReport({
-    campaign_id: "campaign_id",
-    report_id: "report_id"
+    campaignId: "campaign_id",
+    reportId: "report_id"
 });
 
 ```
@@ -16723,7 +17118,7 @@ Get feedback based on a campaign's statistics. Advice feedback is based on campa
 
 ```typescript
 await client.reports.listAdvice({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -16788,7 +17183,7 @@ Get information about clicks on specific links in your Mailchimp campaigns.
 
 ```typescript
 const pageableResponse = await client.reports.listClickDetails({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -16796,10 +17191,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.reports.listClickDetails({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -16867,8 +17262,8 @@ Get click details for a specific link in a campaign.
 
 ```typescript
 await client.reports.getClickDetail({
-    campaign_id: "campaign_id",
-    link_id: "link_id"
+    campaignId: "campaign_id",
+    linkId: "link_id"
 });
 
 ```
@@ -16933,8 +17328,8 @@ Get information about list members who clicked on a specific link in a campaign.
 
 ```typescript
 const pageableResponse = await client.reports.listClickDetailMembers({
-    campaign_id: "campaign_id",
-    link_id: "link_id"
+    campaignId: "campaign_id",
+    linkId: "link_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -16942,11 +17337,11 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.reports.listClickDetailMembers({
-    campaign_id: "campaign_id",
-    link_id: "link_id"
+    campaignId: "campaign_id",
+    linkId: "link_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -17014,9 +17409,9 @@ Get information about a specific subscriber who clicked a link in a specific cam
 
 ```typescript
 await client.reports.getClickDetailMember({
-    campaign_id: "campaign_id",
-    link_id: "link_id",
-    subscriber_hash: "subscriber_hash"
+    campaignId: "campaign_id",
+    linkId: "link_id",
+    subscriberHash: "subscriber_hash"
 });
 
 ```
@@ -17081,7 +17476,7 @@ Get statistics for the top-performing email domains in a campaign.
 
 ```typescript
 await client.reports.listDomainPerformance({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -17118,7 +17513,7 @@ await client.reports.listDomainPerformance({
 </dl>
 </details>
 
-<details><summary><code>client.reports.<a href="/src/api/resources/reports/client/Client.ts">listEcommerceProductActivity</a>({ ...params }) -> core.Page&lt;Mailchimp.ListEcommerceProductActivityReportsResponse.Products.Item, Mailchimp.ListEcommerceProductActivityReportsResponse&gt;</code></summary>
+<details><summary><code>client.reports.<a href="/src/api/resources/reports/client/Client.ts">listEcommerceProductActivity</a>({ ...params }) -> core.Page&lt;Mailchimp.ListEcommerceProductActivityReportsResponseProductsItem, Mailchimp.ListEcommerceProductActivityReportsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -17146,7 +17541,7 @@ Get breakdown of product activity for a campaign
 
 ```typescript
 const pageableResponse = await client.reports.listEcommerceProductActivity({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -17154,10 +17549,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.reports.listEcommerceProductActivity({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -17225,7 +17620,7 @@ Get a summary of social activity for the campaign, tracked by EepURL.
 
 ```typescript
 await client.reports.listEepurl({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -17290,7 +17685,7 @@ Get a list of member's subscriber activity in a specific campaign.
 
 ```typescript
 const pageableResponse = await client.reports.listEmailActivity({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -17298,10 +17693,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.reports.listEmailActivity({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -17369,8 +17764,8 @@ Get a specific list member's activity in a campaign including opens, clicks, and
 
 ```typescript
 await client.reports.getEmailActivity({
-    campaign_id: "campaign_id",
-    subscriber_hash: "subscriber_hash"
+    campaignId: "campaign_id",
+    subscriberHash: "subscriber_hash"
 });
 
 ```
@@ -17407,7 +17802,7 @@ await client.reports.getEmailActivity({
 </dl>
 </details>
 
-<details><summary><code>client.reports.<a href="/src/api/resources/reports/client/Client.ts">listLocations</a>({ ...params }) -> core.Page&lt;Mailchimp.ListLocationsReportsResponse.Locations.Item, Mailchimp.ListLocationsReportsResponse&gt;</code></summary>
+<details><summary><code>client.reports.<a href="/src/api/resources/reports/client/Client.ts">listLocations</a>({ ...params }) -> core.Page&lt;Mailchimp.ListLocationsReportsResponseLocationsItem, Mailchimp.ListLocationsReportsResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -17435,7 +17830,7 @@ Get top open locations for a specific campaign.
 
 ```typescript
 const pageableResponse = await client.reports.listLocations({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -17443,10 +17838,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.reports.listLocations({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -17514,7 +17909,7 @@ Get detailed information about any campaign emails that were opened by a list me
 
 ```typescript
 const pageableResponse = await client.reports.listOpenDetails({
-    campaign_id: "campaign_id",
+    campaignId: "campaign_id",
     since: "2016-04-12 12:00:00"
 });
 for await (const item of pageableResponse) {
@@ -17523,11 +17918,11 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.reports.listOpenDetails({
-    campaign_id: "campaign_id",
+    campaignId: "campaign_id",
     since: "2016-04-12 12:00:00"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -17595,8 +17990,8 @@ Get information about a specific subscriber who opened a campaign.
 
 ```typescript
 await client.reports.getOpenDetail({
-    campaign_id: "campaign_id",
-    subscriber_hash: "subscriber_hash"
+    campaignId: "campaign_id",
+    subscriberHash: "subscriber_hash"
 });
 
 ```
@@ -17661,7 +18056,7 @@ Get information about campaign recipients.
 
 ```typescript
 const pageableResponse = await client.reports.listSentTo({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -17669,10 +18064,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.reports.listSentTo({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -17740,8 +18135,8 @@ Get information about a specific campaign recipient.
 
 ```typescript
 await client.reports.getSentTo({
-    campaign_id: "campaign_id",
-    subscriber_hash: "subscriber_hash"
+    campaignId: "campaign_id",
+    subscriberHash: "subscriber_hash"
 });
 
 ```
@@ -17806,7 +18201,7 @@ Get a list of reports with child campaigns for a specific parent campaign.
 
 ```typescript
 await client.reports.listSubReports({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 
 ```
@@ -17871,7 +18266,7 @@ Get information about members who have unsubscribed from a specific campaign.
 
 ```typescript
 const pageableResponse = await client.reports.listUnsubscribed({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 for await (const item of pageableResponse) {
     console.log(item);
@@ -17879,10 +18274,10 @@ for await (const item of pageableResponse) {
 
 // Or you can manually iterate page-by-page
 let page = await client.reports.listUnsubscribed({
-    campaign_id: "campaign_id"
+    campaignId: "campaign_id"
 });
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -17950,8 +18345,8 @@ Get information about a specific list member who unsubscribed from a campaign.
 
 ```typescript
 await client.reports.getUnsubscribed({
-    campaign_id: "campaign_id",
-    subscriber_hash: "subscriber_hash"
+    campaignId: "campaign_id",
+    subscriberHash: "subscriber_hash"
 });
 
 ```
@@ -18090,7 +18485,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.smsCampaigns.list();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -18223,7 +18618,7 @@ Get the details for a single SMS campaign.
 
 ```typescript
 await client.smsCampaigns.get({
-    sms_campaign_id: "sms_campaign_id"
+    smsCampaignId: "sms_campaign_id"
 });
 
 ```
@@ -18288,7 +18683,7 @@ Remove a campaign from your Mailchimp account.
 
 ```typescript
 await client.smsCampaigns.delete({
-    sms_campaign_id: "sms_campaign_id"
+    smsCampaignId: "sms_campaign_id"
 });
 
 ```
@@ -18353,7 +18748,7 @@ Update an SMS campaign.
 
 ```typescript
 await client.smsCampaigns.update({
-    sms_campaign_id: "sms_campaign_id"
+    smsCampaignId: "sms_campaign_id"
 });
 
 ```
@@ -18418,7 +18813,7 @@ Cancel a scheduled or sending SMS campaign.
 
 ```typescript
 await client.smsCampaigns.createActionCancelSend({
-    sms_campaign_id: "sms_campaign_id"
+    smsCampaignId: "sms_campaign_id"
 });
 
 ```
@@ -18483,8 +18878,8 @@ Schedule an SMS campaign for delivery.
 
 ```typescript
 await client.smsCampaigns.createActionSchedule({
-    sms_campaign_id: "sms_campaign_id",
-    schedule_time: "2024-01-15T09:30:00Z"
+    smsCampaignId: "sms_campaign_id",
+    scheduleTime: new Date("2024-01-15T09:30:00.000Z")
 });
 
 ```
@@ -18549,7 +18944,7 @@ Send an SMS campaign.
 
 ```typescript
 await client.smsCampaigns.createActionSend({
-    sms_campaign_id: "sms_campaign_id"
+    smsCampaignId: "sms_campaign_id"
 });
 
 ```
@@ -18614,7 +19009,7 @@ Get the content for an SMS campaign.
 
 ```typescript
 await client.smsCampaigns.getContent({
-    sms_campaign_id: "sms_campaign_id"
+    smsCampaignId: "sms_campaign_id"
 });
 
 ```
@@ -18679,8 +19074,8 @@ Set the content for an SMS campaign.
 
 ```typescript
 await client.smsCampaigns.upsertContent({
-    sms_campaign_id: "sms_campaign_id",
-    message_body: "message_body"
+    smsCampaignId: "sms_campaign_id",
+    messageBody: "message_body"
 });
 
 ```
@@ -18784,7 +19179,7 @@ await client.searchMembers.list({
 </details>
 
 ## TemplateFolders
-<details><summary><code>client.templateFolders.<a href="/src/api/resources/templateFolders/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;Mailchimp.ListTemplateFoldersResponse.Folders.Item, Mailchimp.ListTemplateFoldersResponse&gt;</code></summary>
+<details><summary><code>client.templateFolders.<a href="/src/api/resources/templateFolders/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;Mailchimp.ListTemplateFoldersResponseFoldersItem, Mailchimp.ListTemplateFoldersResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -18819,7 +19214,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.templateFolders.list();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -18952,7 +19347,7 @@ Get information about a specific folder used to organize templates.
 
 ```typescript
 await client.templateFolders.get({
-    folder_id: "folder_id"
+    folderId: "folder_id"
 });
 
 ```
@@ -19017,7 +19412,7 @@ Delete a specific template folder, and mark all the templates in the folder as '
 
 ```typescript
 await client.templateFolders.delete({
-    folder_id: "folder_id"
+    folderId: "folder_id"
 });
 
 ```
@@ -19082,7 +19477,7 @@ Update a specific folder used to organize templates.
 
 ```typescript
 await client.templateFolders.update({
-    folder_id: "folder_id",
+    folderId: "folder_id",
     name: "name"
 });
 
@@ -19156,7 +19551,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.templates.list();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response
@@ -19290,7 +19685,7 @@ Get information about a specific template.
 
 ```typescript
 await client.templates.get({
-    template_id: "template_id"
+    templateId: "template_id"
 });
 
 ```
@@ -19355,7 +19750,7 @@ Delete a specific template.
 
 ```typescript
 await client.templates.delete({
-    template_id: "template_id"
+    templateId: "template_id"
 });
 
 ```
@@ -19420,7 +19815,7 @@ Update the name, HTML, or `folder_id` of an existing template.
 
 ```typescript
 await client.templates.update({
-    template_id: "template_id"
+    templateId: "template_id"
 });
 
 ```
@@ -19485,7 +19880,7 @@ Get the sections that you can edit in a template, including each section's defau
 
 ```typescript
 await client.templates.listDefaultContent({
-    template_id: "template_id"
+    templateId: "template_id"
 });
 
 ```
@@ -19606,7 +20001,7 @@ Add a domain to the account.
 
 ```typescript
 await client.verifiedDomains.create({
-    verification_email: "verification_email"
+    verificationEmail: "verification_email"
 });
 
 ```
@@ -19671,7 +20066,7 @@ Get the details for a single domain on the account.
 
 ```typescript
 await client.verifiedDomains.get({
-    domain_name: "domain_name"
+    domainName: "domain_name"
 });
 
 ```
@@ -19736,7 +20131,7 @@ Delete a verified domain from the account.
 
 ```typescript
 await client.verifiedDomains.delete({
-    domain_name: "domain_name"
+    domainName: "domain_name"
 });
 
 ```
@@ -19801,7 +20196,7 @@ Verify a domain for sending.
 
 ```typescript
 await client.verifiedDomains.createActionVerify({
-    domain_name: "domain_name",
+    domainName: "domain_name",
     code: "code"
 });
 

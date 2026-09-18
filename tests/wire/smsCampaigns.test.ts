@@ -41,13 +41,44 @@ describe("SmsCampaignsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            smsCampaigns: [
+                {
+                    id: "id",
+                    webId: "web_id",
+                    name: "name",
+                    status: "status",
+                    channel: "channel",
+                    listId: 1,
+                    recipientCount: 1,
+                    createTime: new Date("2024-01-15T09:30:00.000Z"),
+                    sendTime: new Date("2024-01-15T09:30:00.000Z"),
+                    updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+                    expireTime: new Date("2024-01-15T09:30:00.000Z"),
+                    isSendNow: true,
+                    folderId: "folder_id",
+                    segments: [1],
+                    excludedSegments: [1],
+                    links: [{}],
+                },
+            ],
+            totalItems: 1,
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+        };
         const page = await client.smsCampaigns.list();
 
-        expect(expected.sms_campaigns).toEqual(page.data);
+        expect(expected.smsCampaigns).toEqual(page.data);
         expect(page.hasNextPage()).toBe(true);
         const nextPage = await page.getNextPage();
-        expect(expected.sms_campaigns).toEqual(nextPage.data);
+        expect(expected.smsCampaigns).toEqual(nextPage.data);
     });
 
     test("create", async () => {
@@ -85,7 +116,32 @@ describe("SmsCampaignsClient", () => {
         const response = await client.smsCampaigns.create({
             name: "name",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            id: "id",
+            webId: "web_id",
+            name: "name",
+            status: "status",
+            channel: "channel",
+            listId: 1,
+            recipientCount: 1,
+            createTime: new Date("2024-01-15T09:30:00.000Z"),
+            sendTime: new Date("2024-01-15T09:30:00.000Z"),
+            updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+            expireTime: new Date("2024-01-15T09:30:00.000Z"),
+            isSendNow: true,
+            folderId: "folder_id",
+            segments: [1],
+            excludedSegments: [1],
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+        });
     });
 
     test("get", async () => {
@@ -120,9 +176,34 @@ describe("SmsCampaignsClient", () => {
             .build();
 
         const response = await client.smsCampaigns.get({
-            sms_campaign_id: "sms_campaign_id",
+            smsCampaignId: "sms_campaign_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            id: "id",
+            webId: "web_id",
+            name: "name",
+            status: "status",
+            channel: "channel",
+            listId: 1,
+            recipientCount: 1,
+            createTime: new Date("2024-01-15T09:30:00.000Z"),
+            sendTime: new Date("2024-01-15T09:30:00.000Z"),
+            updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+            expireTime: new Date("2024-01-15T09:30:00.000Z"),
+            isSendNow: true,
+            folderId: "folder_id",
+            segments: [1],
+            excludedSegments: [1],
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+        });
     });
 
     test("delete", async () => {
@@ -132,7 +213,7 @@ describe("SmsCampaignsClient", () => {
         server.mockEndpoint().delete("/3.0/sms-campaigns/sms_campaign_id").respondWith().statusCode(200).build();
 
         const response = await client.smsCampaigns.delete({
-            sms_campaign_id: "sms_campaign_id",
+            smsCampaignId: "sms_campaign_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -170,9 +251,34 @@ describe("SmsCampaignsClient", () => {
             .build();
 
         const response = await client.smsCampaigns.update({
-            sms_campaign_id: "sms_campaign_id",
+            smsCampaignId: "sms_campaign_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            id: "id",
+            webId: "web_id",
+            name: "name",
+            status: "status",
+            channel: "channel",
+            listId: 1,
+            recipientCount: 1,
+            createTime: new Date("2024-01-15T09:30:00.000Z"),
+            sendTime: new Date("2024-01-15T09:30:00.000Z"),
+            updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+            expireTime: new Date("2024-01-15T09:30:00.000Z"),
+            isSendNow: true,
+            folderId: "folder_id",
+            segments: [1],
+            excludedSegments: [1],
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+        });
     });
 
     test("create-action-cancel-send", async () => {
@@ -187,7 +293,7 @@ describe("SmsCampaignsClient", () => {
             .build();
 
         const response = await client.smsCampaigns.createActionCancelSend({
-            sms_campaign_id: "sms_campaign_id",
+            smsCampaignId: "sms_campaign_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -206,8 +312,8 @@ describe("SmsCampaignsClient", () => {
             .build();
 
         const response = await client.smsCampaigns.createActionSchedule({
-            sms_campaign_id: "sms_campaign_id",
-            schedule_time: "2024-01-15T09:30:00Z",
+            smsCampaignId: "sms_campaign_id",
+            scheduleTime: new Date("2024-01-15T09:30:00.000Z"),
         });
         expect(response).toEqual(undefined);
     });
@@ -224,7 +330,7 @@ describe("SmsCampaignsClient", () => {
             .build();
 
         const response = await client.smsCampaigns.createActionSend({
-            sms_campaign_id: "sms_campaign_id",
+            smsCampaignId: "sms_campaign_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -256,9 +362,36 @@ describe("SmsCampaignsClient", () => {
             .build();
 
         const response = await client.smsCampaigns.getContent({
-            sms_campaign_id: "sms_campaign_id",
+            smsCampaignId: "sms_campaign_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            messageBody: "message_body",
+            estimatedSegments: 1,
+            mergeFields: ["merge_fields"],
+            media: [
+                {
+                    url: "url",
+                },
+            ],
+            source: {
+                type: "type",
+                id: "id",
+            },
+            properties: {
+                contentType: "content_type",
+                sender: "sender",
+                optoutMessageLanguage: "optout_message_language",
+            },
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+        });
     });
 
     test("upsert-content", async () => {
@@ -289,9 +422,36 @@ describe("SmsCampaignsClient", () => {
             .build();
 
         const response = await client.smsCampaigns.upsertContent({
-            sms_campaign_id: "sms_campaign_id",
-            message_body: "message_body",
+            smsCampaignId: "sms_campaign_id",
+            messageBody: "message_body",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            messageBody: "message_body",
+            estimatedSegments: 1,
+            mergeFields: ["merge_fields"],
+            media: [
+                {
+                    url: "url",
+                },
+            ],
+            source: {
+                type: "type",
+                id: "id",
+            },
+            properties: {
+                contentType: "content_type",
+                sender: "sender",
+                optoutMessageLanguage: "optout_message_language",
+            },
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+        });
     });
 });

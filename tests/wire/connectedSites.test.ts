@@ -37,7 +37,34 @@ describe("ConnectedSitesClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            sites: [
+                {
+                    links: [{}],
+                    createdAt: new Date("2015-07-15T19:28:00.000Z"),
+                    domain: "example.myshopify.com",
+                    foreignId: "a180c384d7db88b if created in-app, MC001 if created via API",
+                    platform: "shopify, magento, bigcommerce, woocommerce",
+                    siteScript: {
+                        fragment:
+                            '<script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/{user-hash}/{site-hash}.js");</script>',
+                        url: "https://chimpstatic.com/mcjs-connected/js/users/{user-hash}/{site-hash}.js",
+                    },
+                    storeId: "MC001",
+                    updatedAt: new Date("2015-07-15T19:35:00.000Z"),
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.connectedSites.list();
 
         expect(expected.sites).toEqual(page.data);
@@ -76,9 +103,30 @@ describe("ConnectedSitesClient", () => {
 
         const response = await client.connectedSites.create({
             domain: "example.com",
-            foreign_id: "MC001",
+            foreignId: "MC001",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            createdAt: new Date("2015-07-15T19:28:00.000Z"),
+            domain: "example.myshopify.com",
+            foreignId: "a180c384d7db88b if created in-app, MC001 if created via API",
+            platform: "shopify, magento, bigcommerce, woocommerce",
+            siteScript: {
+                fragment:
+                    '<script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/{user-hash}/{site-hash}.js");</script>',
+                url: "https://chimpstatic.com/mcjs-connected/js/users/{user-hash}/{site-hash}.js",
+            },
+            storeId: "MC001",
+            updatedAt: new Date("2015-07-15T19:35:00.000Z"),
+        });
     });
 
     test("get", async () => {
@@ -109,9 +157,30 @@ describe("ConnectedSitesClient", () => {
             .build();
 
         const response = await client.connectedSites.get({
-            connected_site_id: "connected_site_id",
+            connectedSiteId: "connected_site_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            createdAt: new Date("2015-07-15T19:28:00.000Z"),
+            domain: "example.myshopify.com",
+            foreignId: "a180c384d7db88b if created in-app, MC001 if created via API",
+            platform: "shopify, magento, bigcommerce, woocommerce",
+            siteScript: {
+                fragment:
+                    '<script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/{user-hash}/{site-hash}.js");</script>',
+                url: "https://chimpstatic.com/mcjs-connected/js/users/{user-hash}/{site-hash}.js",
+            },
+            storeId: "MC001",
+            updatedAt: new Date("2015-07-15T19:35:00.000Z"),
+        });
     });
 
     test("delete", async () => {
@@ -121,7 +190,7 @@ describe("ConnectedSitesClient", () => {
         server.mockEndpoint().delete("/3.0/connected-sites/connected_site_id").respondWith().statusCode(200).build();
 
         const response = await client.connectedSites.delete({
-            connected_site_id: "connected_site_id",
+            connectedSiteId: "connected_site_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -138,7 +207,7 @@ describe("ConnectedSitesClient", () => {
             .build();
 
         const response = await client.connectedSites.createActionVerifyScriptInstallation({
-            connected_site_id: "connected_site_id",
+            connectedSiteId: "connected_site_id",
         });
         expect(response).toEqual(undefined);
     });

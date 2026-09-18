@@ -5,12 +5,12 @@ import type * as Mailchimp from "../../../../index.js";
 /**
  * @example
  *     {
- *         list_id: "list_id"
+ *         listId: "list_id"
  *     }
  */
 export interface CreateSurveyListsRequest {
     /** The unique ID for the list. */
-    list_id: string;
+    listId: string;
     /** The title of the survey. */
     title?: string;
     /** Initial survey sections. */

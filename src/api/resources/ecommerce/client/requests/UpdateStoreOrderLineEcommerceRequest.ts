@@ -1,33 +1,30 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../../../../index.js";
+
 /**
  * @example
  *     {
- *         store_id: "store_id",
- *         order_id: "order_id",
- *         line_id: "line_id"
+ *         storeId: "store_id",
+ *         orderId: "order_id",
+ *         lineId: "line_id"
  *     }
  */
 export interface UpdateStoreOrderLineEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     /** The id for the order in a store. */
-    order_id: string;
+    orderId: string;
     /** The id for the line item of an order. */
-    line_id: string;
-    discount?: UpdateStoreOrderLineEcommerceRequest.Discount;
+    lineId: string;
+    discount?: Mailchimp.UpdateStoreOrderLineEcommerceRequestDiscount;
     /** A unique identifier for the order line item. */
     id?: string;
-    price?: UpdateStoreOrderLineEcommerceRequest.Price;
+    price?: Mailchimp.UpdateStoreOrderLineEcommerceRequestPrice;
     /** A unique identifier for the product associated with the order line item. */
-    product_id?: string;
+    productId?: string;
     /** A unique identifier for the product variant associated with the order line item. */
-    product_variant_id?: string;
+    productVariantId?: string;
     /** The quantity of an order line item. */
     quantity?: number;
-}
-
-export namespace UpdateStoreOrderLineEcommerceRequest {
-    export type Discount = number | string;
-    export type Price = number | string;
 }

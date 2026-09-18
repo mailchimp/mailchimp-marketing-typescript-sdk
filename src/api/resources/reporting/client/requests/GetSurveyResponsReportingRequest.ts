@@ -3,13 +3,13 @@
 /**
  * @example
  *     {
- *         survey_id: "survey_id",
- *         response_id: "response_id"
+ *         surveyId: "survey_id",
+ *         responseId: "response_id"
  *     }
  */
 export interface GetSurveyResponsReportingRequest {
     /** The ID of the survey. */
-    survey_id: string;
+    surveyId: string;
     /** The ID of the survey response. */
-    response_id: string;
+    responseId: string;
 }

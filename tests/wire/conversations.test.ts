@@ -34,7 +34,31 @@ describe("ConversationsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            conversations: [
+                {
+                    links: [{}],
+                    campaignId: "campaign_id",
+                    fromEmail: "from_email",
+                    fromLabel: "from_label",
+                    id: "id",
+                    listId: "list_id",
+                    messageCount: 1,
+                    subject: "subject",
+                    unreadMessages: 1,
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.conversations.list();
 
         expect(expected.conversations).toEqual(page.data);
@@ -76,9 +100,35 @@ describe("ConversationsClient", () => {
             .build();
 
         const response = await client.conversations.get({
-            conversation_id: "conversation_id",
+            conversationId: "conversation_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "campaign_id",
+            fromEmail: "from_email",
+            fromLabel: "from_label",
+            id: "id",
+            lastMessage: {
+                fromEmail: "from_email",
+                fromLabel: "from_label",
+                message: "message",
+                read: true,
+                subject: "subject",
+                timestamp: new Date("2024-01-15T09:30:00.000Z"),
+            },
+            listId: "list_id",
+            messageCount: 1,
+            subject: "subject",
+            unreadMessages: 1,
+        });
     });
 
     test("list-messages", async () => {
@@ -114,9 +164,35 @@ describe("ConversationsClient", () => {
             .build();
 
         const response = await client.conversations.listMessages({
-            conversation_id: "conversation_id",
+            conversationId: "conversation_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            conversationId: "conversation_id",
+            conversationMessages: [
+                {
+                    links: [{}],
+                    conversationId: "conversation_id",
+                    fromEmail: "from_email",
+                    fromLabel: "from_label",
+                    id: "id",
+                    listId: 1,
+                    message: "message",
+                    read: true,
+                    subject: "subject",
+                    timestamp: new Date("2024-01-15T09:30:00.000Z"),
+                },
+            ],
+            totalItems: 1,
+        });
     });
 
     test("get-message", async () => {
@@ -145,9 +221,28 @@ describe("ConversationsClient", () => {
             .build();
 
         const response = await client.conversations.getMessage({
-            conversation_id: "conversation_id",
-            message_id: "message_id",
+            conversationId: "conversation_id",
+            messageId: "message_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            conversationId: "conversation_id",
+            fromEmail: "from_email",
+            fromLabel: "from_label",
+            id: "id",
+            listId: 1,
+            message: "message",
+            read: true,
+            subject: "subject",
+            timestamp: new Date("2024-01-15T09:30:00.000Z"),
+        });
     });
 });

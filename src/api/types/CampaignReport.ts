@@ -1,353 +1,63 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../index.js";
+
 /**
  * Report details about a sent campaign.
  */
 export interface CampaignReport {
     /** A list of link types and descriptions for the API schema documents. */
-    _links?: CampaignReport.Links.Item[] | undefined;
+    links?: Mailchimp.CampaignReportLinksItem[];
     /** General stats about different groups of an A/B Split campaign. Does not return information about Multivariate Campaigns. */
-    ab_split?: CampaignReport.AbSplit | undefined;
+    abSplit?: Mailchimp.CampaignReportAbSplit;
     /** The number of abuse reports generated for this campaign. */
-    abuse_reports?: number | undefined;
+    abuseReports?: number;
     /** An object describing the bounce summary for the campaign. */
-    bounces?: CampaignReport.Bounces | undefined;
+    bounces?: Mailchimp.CampaignReportBounces;
     /** The title of the campaign. */
-    campaign_title?: string | undefined;
+    campaignTitle?: string;
     /** An object describing the click activity for the campaign. */
-    clicks?: CampaignReport.Clicks | undefined;
+    clicks?: Mailchimp.CampaignReportClicks;
     /** Updates on campaigns in the process of sending. */
-    delivery_status?: CampaignReport.DeliveryStatus | undefined;
+    deliveryStatus?: Mailchimp.CampaignReportDeliveryStatus;
     /** E-Commerce stats for a campaign. */
-    ecommerce?: CampaignReport.Ecommerce | undefined;
+    ecommerce?: Mailchimp.CampaignReportEcommerce;
     /** The total number of emails sent for this campaign. */
-    emails_sent?: number | undefined;
+    emailsSent?: number;
     /** An object describing campaign engagement on Facebook. */
-    facebook_likes?: CampaignReport.FacebookLikes | undefined;
+    facebookLikes?: Mailchimp.CampaignReportFacebookLikes;
     /** An object describing the forwards and forward activity for the campaign. */
-    forwards?: CampaignReport.Forwards | undefined;
+    forwards?: Mailchimp.CampaignReportForwards;
     /** A string that uniquely identifies this campaign. */
-    id?: string | undefined;
+    id?: string;
     /** The average campaign statistics for your industry. */
-    industry_stats?: CampaignReport.IndustryStats | undefined;
+    industryStats?: Mailchimp.CampaignReportIndustryStats;
     /** The unique list id. */
-    list_id?: string | undefined;
+    listId?: string;
     /** The status of the list used, namely if it's deleted or disabled. */
-    list_is_active?: boolean | undefined;
+    listIsActive?: boolean;
     /** The name of the list. */
-    list_name?: string | undefined;
+    listName?: string;
     /** The average campaign statistics for your list. This won't be present if we haven't calculated it yet for this list. */
-    list_stats?: CampaignReport.ListStats | undefined;
+    listStats?: Mailchimp.CampaignReportListStats;
     /** An object describing the open activity for the campaign. */
-    opens?: CampaignReport.Opens | undefined;
+    opens?: Mailchimp.CampaignReportOpens;
     /** The preview text for the campaign. */
-    preview_text?: string | undefined;
+    previewText?: string;
     /** For RSS campaigns, the date and time of the last send in ISO 8601 format. */
-    rss_last_send?: string | undefined;
+    rssLastSend?: Date;
     /** The date and time a campaign was sent in ISO 8601 format. */
-    send_time?: string | undefined;
+    sendTime?: Date;
     /** The url and password for the [VIP report](https://mailchimp.com/help/share-a-campaign-report/). */
-    share_report?: CampaignReport.ShareReport | undefined;
+    shareReport?: Mailchimp.CampaignReportShareReport;
     /** The subject line for the campaign. */
-    subject_line?: string | undefined;
+    subjectLine?: string;
     /** An hourly breakdown of the performance of the campaign over the first 24 hours. */
-    timeseries?: CampaignReport.Timeseries.Item[] | undefined;
+    timeseries?: Mailchimp.CampaignReportTimeseriesItem[];
     /** An hourly breakdown of sends, opens, and clicks if a campaign is sent using timewarp. */
-    timewarp?: CampaignReport.Timewarp.Item[] | undefined;
+    timewarp?: Mailchimp.CampaignReportTimewarpItem[];
     /** The type of campaign (regular, plain-text, ab_split, rss, automation, variate, or auto). */
-    type?: string | undefined;
+    type?: string;
     /** The total number of unsubscribed members for this campaign. */
-    unsubscribed?: number | undefined;
-}
-
-export namespace CampaignReport {
-    export type Links = Links.Item[];
-
-    export namespace Links {
-        /**
-         * This object represents a link from the resource where it is found to another resource or action that may be performed.
-         */
-        export interface Item {
-            /** This property contains a fully-qualified URL that can be called to retrieve the linked resource or perform the linked action. */
-            href?: string | undefined;
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            method?: Item.Method | undefined;
-            /** As with an HTML 'rel' attribute, this describes the type of link. */
-            rel?: string | undefined;
-            /** For HTTP methods that can receive bodies (POST and PUT), this is a URL representing the schema that the body should conform to. */
-            schema?: string | undefined;
-            /** For GETs, this is a URL representing the schema that the response should conform to. */
-            targetSchema?: string | undefined;
-        }
-
-        export namespace Item {
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            export const Method = {
-                Get: "GET",
-                Post: "POST",
-                Put: "PUT",
-                Patch: "PATCH",
-                Delete: "DELETE",
-                Options: "OPTIONS",
-                Head: "HEAD",
-            } as const;
-            export type Method = (typeof Method)[keyof typeof Method];
-        }
-    }
-
-    /**
-     * General stats about different groups of an A/B Split campaign. Does not return information about Multivariate Campaigns.
-     */
-    export interface AbSplit {
-        /** Stats for Campaign A. */
-        a?: AbSplit.A | undefined;
-        /** Stats for Campaign B. */
-        b?: AbSplit.B | undefined;
-    }
-
-    export namespace AbSplit {
-        /**
-         * Stats for Campaign A.
-         */
-        export interface A {
-            /** Abuse reports for Campaign A. */
-            abuse_reports?: number | undefined;
-            /** Bounces for Campaign A. */
-            bounces?: number | undefined;
-            /** Forwards for Campaign A. */
-            forwards?: number | undefined;
-            /** Opens from forwards for Campaign A. */
-            forwards_opens?: number | undefined;
-            /** The last open for Campaign A. */
-            last_open?: string | undefined;
-            /** Opens for Campaign A. */
-            opens?: number | undefined;
-            /** Recipient Clicks for Campaign A. */
-            recipient_clicks?: number | undefined;
-            /** Unique opens for Campaign A. */
-            unique_opens?: number | undefined;
-            /** Unsubscribes for Campaign A. */
-            unsubs?: number | undefined;
-        }
-
-        /**
-         * Stats for Campaign B.
-         */
-        export interface B {
-            /** Abuse reports for Campaign B. */
-            abuse_reports?: number | undefined;
-            /** Bounces for Campaign B. */
-            bounces?: number | undefined;
-            /** Forwards for Campaign B. */
-            forwards?: number | undefined;
-            /** Opens for forwards from Campaign B. */
-            forwards_opens?: number | undefined;
-            /** The last open for Campaign B. */
-            last_open?: string | undefined;
-            /** Opens for Campaign B. */
-            opens?: number | undefined;
-            /** Recipients clicks for Campaign B. */
-            recipient_clicks?: number | undefined;
-            /** Unique opens for Campaign B. */
-            unique_opens?: number | undefined;
-            /** Unsubscribes for Campaign B. */
-            unsubs?: number | undefined;
-        }
-    }
-
-    /**
-     * An object describing the bounce summary for the campaign.
-     */
-    export interface Bounces {
-        /** The total number of hard bounced email addresses. */
-        hard_bounces?: number | undefined;
-        /** The total number of soft bounced email addresses. */
-        soft_bounces?: number | undefined;
-        /** The total number of addresses that were syntax-related bounces. */
-        syntax_errors?: number | undefined;
-    }
-
-    /**
-     * An object describing the click activity for the campaign.
-     */
-    export interface Clicks {
-        /** The number of unique clicks divided by the total number of successful deliveries. */
-        click_rate?: number | undefined;
-        /** The total number of clicks for the campaign. */
-        clicks_total?: number | undefined;
-        /** The date and time of the last recorded click for the campaign in ISO 8601 format. */
-        last_click?: string | undefined;
-        /** The total number of unique clicks for links across a campaign. */
-        unique_clicks?: number | undefined;
-        /** The total number of subscribers who clicked on a campaign. */
-        unique_subscriber_clicks?: number | undefined;
-    }
-
-    /**
-     * Updates on campaigns in the process of sending.
-     */
-    export interface DeliveryStatus {
-        /** Whether a campaign send can be canceled. */
-        can_cancel?: boolean | undefined;
-        /** The total number of emails canceled for this campaign. */
-        emails_canceled?: number | undefined;
-        /** The total number of emails confirmed sent for this campaign so far. */
-        emails_sent?: number | undefined;
-        /** Whether Campaign Delivery Status is enabled for this account and campaign. */
-        enabled?: boolean | undefined;
-        /** The current state of a campaign delivery. */
-        status?: DeliveryStatus.Status | undefined;
-    }
-
-    export namespace DeliveryStatus {
-        /** The current state of a campaign delivery. */
-        export const Status = {
-            Delivering: "delivering",
-            Delivered: "delivered",
-            Canceling: "canceling",
-            Canceled: "canceled",
-        } as const;
-        export type Status = (typeof Status)[keyof typeof Status];
-    }
-
-    /**
-     * E-Commerce stats for a campaign.
-     */
-    export interface Ecommerce {
-        currency_code?: string | undefined;
-        /** The total orders for a campaign. */
-        total_orders?: number | undefined;
-        /** The total revenue for a campaign. Calculated as the sum of all order totals minus shipping and tax totals. */
-        total_revenue?: number | undefined;
-        /** The total spent for a campaign. Calculated as the sum of all order totals with no deductions. */
-        total_spent?: number | undefined;
-    }
-
-    /**
-     * An object describing campaign engagement on Facebook.
-     */
-    export interface FacebookLikes {
-        /** The number of Facebook likes for the campaign. */
-        facebook_likes?: number | undefined;
-        /** The number of recipients who liked the campaign on Facebook. */
-        recipient_likes?: number | undefined;
-        /** The number of unique likes. */
-        unique_likes?: number | undefined;
-    }
-
-    /**
-     * An object describing the forwards and forward activity for the campaign.
-     */
-    export interface Forwards {
-        /** How many times the campaign has been forwarded. */
-        forwards_count?: number | undefined;
-        /** How many times the forwarded campaign has been opened. */
-        forwards_opens?: number | undefined;
-    }
-
-    /**
-     * The average campaign statistics for your industry.
-     */
-    export interface IndustryStats {
-        /** The industry abuse rate. */
-        abuse_rate?: number | undefined;
-        /** The industry bounce rate. */
-        bounce_rate?: number | undefined;
-        /** The industry click rate. */
-        click_rate?: number | undefined;
-        /** The industry open rate. */
-        open_rate?: number | undefined;
-        /** The type of business industry associated with your account. For example: retail, education, etc. */
-        type?: string | undefined;
-        /** The industry unopened rate. */
-        unopen_rate?: number | undefined;
-        /** The industry unsubscribe rate. */
-        unsub_rate?: number | undefined;
-    }
-
-    /**
-     * The average campaign statistics for your list. This won't be present if we haven't calculated it yet for this list.
-     */
-    export interface ListStats {
-        /** The average click rate (a percentage represented as a number between 0 and 100) per campaign for the list. */
-        click_rate?: number | undefined;
-        /** The average unique open rate (a percentage represented as a number between 0 and 100) per campaign for the list. */
-        open_rate?: number | undefined;
-        /** The average unique open rate (a percentage represented as a number between 0 and 100) per campaign for the list, excluding opens from email clients that use proxies. */
-        proxy_excluded_open_rate?: number | undefined;
-        /** The average number of subscriptions per month for the list. */
-        sub_rate?: number | undefined;
-        /** The average number of unsubscriptions per month for the list. */
-        unsub_rate?: number | undefined;
-    }
-
-    /**
-     * An object describing the open activity for the campaign.
-     */
-    export interface Opens {
-        /** The date and time of the last recorded open in ISO 8601 format. */
-        last_open?: string | undefined;
-        /** The number of unique opens for a campaign divided by the total number of successful deliveries. */
-        open_rate?: number | undefined;
-        /** The total number of opens for a campaign. */
-        opens_total?: number | undefined;
-        /** The average unique open rate for a campaign, excluding opens from email clients that use proxies. */
-        proxy_excluded_open_rate?: number | undefined;
-        /** The total number of opens for a campaign, excluding opens from email clients that use proxies. */
-        proxy_excluded_opens?: number | undefined;
-        /** The total number of unique opens for a campaign, excluding opens from email clients that use proxies. */
-        proxy_excluded_unique_opens?: number | undefined;
-        /** The total number of unique opens for a campaign. */
-        unique_opens?: number | undefined;
-    }
-
-    /**
-     * The url and password for the [VIP report](https://mailchimp.com/help/share-a-campaign-report/).
-     */
-    export interface ShareReport {
-        /** If password protected, the password for the VIP report. */
-        share_password?: string | undefined;
-        /** The URL for the VIP report. */
-        share_url?: string | undefined;
-    }
-
-    export type Timeseries = Timeseries.Item[];
-
-    export namespace Timeseries {
-        export interface Item {
-            /** The number of emails sent in the timeseries. */
-            emails_sent?: number | undefined;
-            /** The number of unique opens in the timeseries, excluding opens from email clients that use proxies. */
-            proxy_excluded_unique_opens?: number | undefined;
-            /** The number of clicks in the timeseries. */
-            recipients_clicks?: number | undefined;
-            /** The date and time for the series in ISO 8601 format. */
-            timestamp?: string | undefined;
-            /** The number of unique opens in the timeseries. */
-            unique_opens?: number | undefined;
-        }
-    }
-
-    export type Timewarp = Timewarp.Item[];
-
-    export namespace Timewarp {
-        export interface Item {
-            /** The number of bounces. */
-            bounces?: number | undefined;
-            /** The number of clicks. */
-            clicks?: number | undefined;
-            /** For campaigns sent with timewarp, the time zone group the member is apart of. */
-            gmt_offset?: number | undefined;
-            /** The date and time of the last click in ISO 8601 format. */
-            last_click?: string | undefined;
-            /** The date and time of the last open in ISO 8601 format. */
-            last_open?: string | undefined;
-            /** The number of opens. */
-            opens?: number | undefined;
-            /** The number of unique clicks. */
-            unique_clicks?: number | undefined;
-            /** The number of unique opens. */
-            unique_opens?: number | undefined;
-        }
-    }
+    unsubscribed?: number;
 }

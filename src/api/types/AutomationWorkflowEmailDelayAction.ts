@@ -1,0 +1,40 @@
+//  This file was auto-generated from our API Definition.
+
+/** The action that triggers the delay of an Automation email. */
+export const AutomationWorkflowEmailDelayAction = {
+    PreviousCampaignSent: "previous_campaign_sent",
+    PreviousCampaignOpened: "previous_campaign_opened",
+    PreviousCampaignNotOpened: "previous_campaign_not_opened",
+    PreviousCampaignClickedAny: "previous_campaign_clicked_any",
+    PreviousCampaignNotClickedAny: "previous_campaign_not_clicked_any",
+    PreviousCampaignSpecificClicked: "previous_campaign_specific_clicked",
+    EcommBoughtAny: "ecomm_bought_any",
+    EcommBoughtProduct: "ecomm_bought_product",
+    EcommBoughtCategory: "ecomm_bought_category",
+    EcommNotBoughtAny: "ecomm_not_bought_any",
+    EcommAbandonedCart: "ecomm_abandoned_cart",
+    CampaignSent: "campaign_sent",
+    OpenedEmail: "opened_email",
+    NotOpenedEmail: "not_opened_email",
+    ClickedEmail: "clicked_email",
+    NotClickedEmail: "not_clicked_email",
+    CampaignSpecificClicked: "campaign_specific_clicked",
+    Manual: "manual",
+    Signup: "signup",
+    MergeChanged: "merge_changed",
+    GroupAdd: "group_add",
+    GroupRemove: "group_remove",
+    MandrillSent: "mandrill_sent",
+    MandrillOpened: "mandrill_opened",
+    MandrillClicked: "mandrill_clicked",
+    MandrillAny: "mandrill_any",
+    Api: "api",
+    Goal: "goal",
+    Annual: "annual",
+    Birthday: "birthday",
+    Date: "date",
+    DateAdded: "date_added",
+    TagAdd: "tag_add",
+} as const;
+export type AutomationWorkflowEmailDelayAction =
+    (typeof AutomationWorkflowEmailDelayAction)[keyof typeof AutomationWorkflowEmailDelayAction];

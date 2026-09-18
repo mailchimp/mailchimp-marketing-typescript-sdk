@@ -3,17 +3,17 @@
 /**
  * @example
  *     {
- *         store_id: "store_id",
- *         promo_rule_id: "promo_rule_id"
+ *         storeId: "store_id",
+ *         promoRuleId: "promo_rule_id"
  *     }
  */
 export interface GetStorePromoRuleEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     /** The id for the promo rule of a store. */
-    promo_rule_id: string;
+    promoRuleId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

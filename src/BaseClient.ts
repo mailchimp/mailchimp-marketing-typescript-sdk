@@ -66,8 +66,8 @@ export function normalizeClientOptions<T extends BaseClientOptions = BaseClientO
         {
             "X-Fern-Language": "JavaScript",
             "X-Fern-SDK-Name": "@mailchimp/mailchimp-marketing",
-            "X-Fern-SDK-Version": "0.0.155",
-            "User-Agent": "@mailchimp/mailchimp-marketing/0.0.155",
+            "X-Fern-SDK-Version": "0.0.214",
+            "User-Agent": "@mailchimp/mailchimp-marketing/0.0.214",
             "X-Fern-Runtime": core.RUNTIME.type,
             "X-Fern-Runtime-Version": core.RUNTIME.version,
         },

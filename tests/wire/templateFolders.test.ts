@@ -22,7 +22,26 @@ describe("TemplateFoldersClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            folders: [
+                {
+                    links: [{}],
+                    count: 1,
+                    id: "id",
+                    name: "name",
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.templateFolders.list();
 
         expect(expected.folders).toEqual(page.data);
@@ -54,7 +73,20 @@ describe("TemplateFoldersClient", () => {
         const response = await client.templateFolders.create({
             name: "name",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            count: 1,
+            id: "id",
+            name: "name",
+        });
     });
 
     test("get", async () => {
@@ -77,9 +109,22 @@ describe("TemplateFoldersClient", () => {
             .build();
 
         const response = await client.templateFolders.get({
-            folder_id: "folder_id",
+            folderId: "folder_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            count: 1,
+            id: "id",
+            name: "name",
+        });
     });
 
     test("delete", async () => {
@@ -89,7 +134,7 @@ describe("TemplateFoldersClient", () => {
         server.mockEndpoint().delete("/3.0/template-folders/folder_id").respondWith().statusCode(200).build();
 
         const response = await client.templateFolders.delete({
-            folder_id: "folder_id",
+            folderId: "folder_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -115,9 +160,22 @@ describe("TemplateFoldersClient", () => {
             .build();
 
         const response = await client.templateFolders.update({
-            folder_id: "folder_id",
+            folderId: "folder_id",
             name: "name",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            count: 1,
+            id: "id",
+            name: "name",
+        });
     });
 });

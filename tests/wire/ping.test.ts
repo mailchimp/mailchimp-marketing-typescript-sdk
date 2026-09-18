@@ -13,6 +13,8 @@ describe("PingClient", () => {
         server.mockEndpoint().get("/3.0/ping").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.ping.list();
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            healthStatus: '"Everything\'s Chimpy!"',
+        });
     });
 });

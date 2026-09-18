@@ -3,13 +3,13 @@
 /**
  * @example
  *     {
- *         list_id: "list_id",
- *         interest_category_id: "interest_category_id"
+ *         listId: "list_id",
+ *         interestCategoryId: "interest_category_id"
  *     }
  */
 export interface DeleteInterestCategoryListsRequest {
     /** The unique ID for the list. */
-    list_id: string;
+    listId: string;
     /** The unique ID for the interest category. */
-    interest_category_id: string;
+    interestCategoryId: string;
 }

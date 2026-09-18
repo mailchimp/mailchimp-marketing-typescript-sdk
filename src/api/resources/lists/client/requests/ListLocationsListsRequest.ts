@@ -3,14 +3,14 @@
 /**
  * @example
  *     {
- *         list_id: "list_id"
+ *         listId: "list_id"
  *     }
  */
 export interface ListLocationsListsRequest {
     /** The unique ID for the list. */
-    list_id: string;
+    listId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

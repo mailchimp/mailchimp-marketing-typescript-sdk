@@ -3,20 +3,20 @@
 /**
  * @example
  *     {
- *         store_id: "store_id",
- *         product_id: "product_id",
- *         variant_id: "variant_id"
+ *         storeId: "store_id",
+ *         productId: "product_id",
+ *         variantId: "variant_id"
  *     }
  */
 export interface GetStoreProductVariantEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     /** The id for the product of a store. */
-    product_id: string;
+    productId: string;
     /** The id for the product variant. */
-    variant_id: string;
+    variantId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

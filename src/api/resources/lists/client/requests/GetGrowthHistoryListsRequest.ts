@@ -3,17 +3,17 @@
 /**
  * @example
  *     {
- *         list_id: "list_id",
+ *         listId: "list_id",
  *         month: "month"
  *     }
  */
 export interface GetGrowthHistoryListsRequest {
     /** The unique ID for the list. */
-    list_id: string;
+    listId: string;
     /** A specific month of list growth history. */
     month: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

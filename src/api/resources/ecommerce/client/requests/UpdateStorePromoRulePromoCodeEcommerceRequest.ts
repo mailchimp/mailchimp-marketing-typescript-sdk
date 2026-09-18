@@ -3,30 +3,30 @@
 /**
  * @example
  *     {
- *         store_id: "store_id",
- *         promo_rule_id: "promo_rule_id",
- *         promo_code_id: "promo_code_id"
+ *         storeId: "store_id",
+ *         promoRuleId: "promo_rule_id",
+ *         promoCodeId: "promo_code_id"
  *     }
  */
 export interface UpdateStorePromoRulePromoCodeEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     /** The id for the promo rule of a store. */
-    promo_rule_id: string;
+    promoRuleId: string;
     /** The id for the promo code of a store. */
-    promo_code_id: string;
+    promoCodeId: string;
     /** The discount code. Restricted to UTF-8 characters with max length 50. */
     code?: string;
     /** The date and time the promotion was created in ISO 8601 format. */
-    created_at_foreign?: string;
+    createdAtForeign?: string;
     /** Whether the promo code is currently enabled. */
     enabled?: boolean;
     /** A unique identifier for the promo code. Restricted to UTF-8 characters with max length 50. */
     id?: string;
     /** The url that should be used in the promotion campaign restricted to UTF-8 characters with max length 2000. */
-    redemption_url?: string;
+    redemptionUrl?: string;
     /** The date and time the promotion was updated in ISO 8601 format. */
-    updated_at_foreign?: string;
+    updatedAtForeign?: string;
     /** Number of times promo code has been used. */
-    usage_count?: number;
+    usageCount?: number;
 }

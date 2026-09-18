@@ -1,34 +1,25 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../../../../index.js";
+
 /**
  * @example
  *     {
- *         list_id: "list_id",
+ *         listId: "list_id",
  *         members: []
  *     }
  */
 export interface BatchSubscribeOrUnsubscribeListsRequest {
     /** The unique ID for the list. */
-    list_id: string;
+    listId: string;
     /** If skip_merge_validation is true, member data will be accepted without merge field values, even if the merge field is usually required. This defaults to false. */
-    skip_merge_validation?: boolean;
+    skipMergeValidation?: boolean;
     /** If skip_duplicate_check is true, we will ignore duplicates sent in the request when using the batch sub/unsub on the lists endpoint. The status of the first appearance in the request will be saved. This defaults to false. */
-    skip_duplicate_check?: boolean;
+    skipDuplicateCheck?: boolean;
     /** An array of objects, each representing an email address and the subscription status for a specific list. Up to 500 members may be added or updated with each API call. */
-    members: BatchSubscribeOrUnsubscribeListsRequest.Members.Item[];
+    members: Mailchimp.BatchSubscribeOrUnsubscribeListsRequestMembersItem[];
     /** Whether this batch operation will replace all existing tags with tags in request. */
-    sync_tags?: boolean | null;
+    syncTags?: boolean | null;
     /** Whether this batch operation will change existing members' subscription status. */
-    update_existing?: boolean | null;
-}
-
-export namespace BatchSubscribeOrUnsubscribeListsRequest {
-    export type Members = Members.Item[];
-
-    export namespace Members {
-        /**
-         * Individuals who are currently or have been previously subscribed to this list, including members who have bounced or unsubscribed.
-         */
-        export type Item = unknown;
-    }
+    updateExisting?: boolean | null;
 }

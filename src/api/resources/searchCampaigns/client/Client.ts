@@ -7,6 +7,7 @@ import * as core from "../../../../core/index.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace SearchCampaignsClient {
@@ -47,7 +48,7 @@ export class SearchCampaignsClient {
         request: Mailchimp.ListSearchCampaignsRequest,
         requestOptions?: SearchCampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListSearchCampaignsResponse>> {
-        const { fields, exclude_fields: excludeFields, query } = request;
+        const { fields, excludeFields, query } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -83,7 +84,13 @@ export class SearchCampaignsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListSearchCampaignsResponse,
+                data: serializers.ListSearchCampaignsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }

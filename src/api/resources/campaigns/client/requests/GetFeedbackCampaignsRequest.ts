@@ -3,17 +3,17 @@
 /**
  * @example
  *     {
- *         campaign_id: "campaign_id",
- *         feedback_id: "feedback_id"
+ *         campaignId: "campaign_id",
+ *         feedbackId: "feedback_id"
  *     }
  */
 export interface GetFeedbackCampaignsRequest {
     /** The unique id for the campaign. */
-    campaign_id: string;
+    campaignId: string;
     /** The unique id for the feedback message. */
-    feedback_id: string;
+    feedbackId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

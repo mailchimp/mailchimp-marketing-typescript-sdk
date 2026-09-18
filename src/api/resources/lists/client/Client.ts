@@ -8,6 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace ListsClient {
@@ -16,6 +17,9 @@ export declare namespace ListsClient {
     export interface RequestOptions extends BaseRequestOptions {}
 }
 
+/**
+ * Audiences and their contacts, tags, segments, merge fields, and webhooks.
+ */
 export class ListsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ListsClient.Options>;
 
@@ -43,18 +47,18 @@ export class ListsClient {
             async (request: Mailchimp.ListListsRequest): Promise<core.WithRawResponse<Mailchimp.ListListsResponse>> => {
                 const {
                     fields,
-                    exclude_fields: excludeFields,
+                    excludeFields,
                     count,
                     offset,
-                    before_date_created: beforeDateCreated,
-                    since_date_created: sinceDateCreated,
-                    before_campaign_last_sent: beforeCampaignLastSent,
-                    since_campaign_last_sent: sinceCampaignLastSent,
+                    beforeDateCreated,
+                    sinceDateCreated,
+                    beforeCampaignLastSent,
+                    sinceCampaignLastSent,
                     email,
-                    sort_field: sortField,
-                    sort_dir: sortDir,
-                    has_ecommerce_store: hasEcommerceStore,
-                    include_total_contacts: includeTotalContacts,
+                    sortField,
+                    sortDir,
+                    hasEcommerceStore,
+                    includeTotalContacts,
                 } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
@@ -66,8 +70,20 @@ export class ListsClient {
                     before_campaign_last_sent: beforeCampaignLastSent,
                     since_campaign_last_sent: sinceCampaignLastSent,
                     email,
-                    sort_field: sortField != null ? sortField : undefined,
-                    sort_dir: sortDir != null ? sortDir : undefined,
+                    sort_field:
+                        sortField != null
+                            ? serializers.ListListsRequestSortField.jsonOrThrow(sortField, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
+                    sort_dir:
+                        sortDir != null
+                            ? serializers.ListListsRequestSortDir.jsonOrThrow(sortDir, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
                     has_ecommerce_store: hasEcommerceStore,
                     include_total_contacts: includeTotalContacts,
                 };
@@ -100,7 +116,16 @@ export class ListsClient {
                     logging: this._options.logging,
                 });
                 if (_response.ok) {
-                    return { data: _response.body as Mailchimp.ListListsResponse, rawResponse: _response.rawResponse };
+                    return {
+                        data: serializers.ListListsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        rawResponse: _response.rawResponse,
+                    };
                 }
                 if (_response.error.reason === "status-code") {
                     throw new errors.MailchimpError({
@@ -137,9 +162,9 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.create({
-     *         campaign_defaults: {
-     *             from_email: "from_email",
-     *             from_name: "from_name",
+     *         campaignDefaults: {
+     *             fromEmail: "from_email",
+     *             fromName: "from_name",
      *             language: "language",
      *             subject: "subject"
      *         },
@@ -149,9 +174,9 @@ export class ListsClient {
      *             company: "company",
      *             country: "country"
      *         },
-     *         email_type_option: true,
+     *         emailTypeOption: true,
      *         name: "name",
-     *         permission_reminder: "permission_reminder"
+     *         permissionReminder: "permission_reminder"
      *     })
      */
     public create(
@@ -183,7 +208,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateListsRequest.jsonOrThrow(request, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -191,7 +222,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.SubscriberList, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.SubscriberList.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -216,7 +256,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.get({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public get(
@@ -230,12 +270,7 @@ export class ListsClient {
         request: Mailchimp.GetListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.SubscriberList>> {
-        const {
-            list_id: listId,
-            fields,
-            exclude_fields: excludeFields,
-            include_total_contacts: includeTotalContacts,
-        } = request;
+        const { listId, fields, excludeFields, includeTotalContacts } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -270,7 +305,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.SubscriberList, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.SubscriberList.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -295,7 +339,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.batchSubscribeOrUnsubscribe({
-     *         list_id: "list_id",
+     *         listId: "list_id",
      *         members: []
      *     })
      */
@@ -310,12 +354,7 @@ export class ListsClient {
         request: Mailchimp.BatchSubscribeOrUnsubscribeListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.BatchSubscribeOrUnsubscribeListsResponse>> {
-        const {
-            list_id: listId,
-            skip_merge_validation: skipMergeValidation,
-            skip_duplicate_check: skipDuplicateCheck,
-            ..._body
-        } = request;
+        const { listId, skipMergeValidation, skipDuplicateCheck, ..._body } = request;
         const _queryParams: Record<string, unknown> = {
             skip_merge_validation: skipMergeValidation,
             skip_duplicate_check: skipDuplicateCheck,
@@ -342,7 +381,13 @@ export class ListsClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.BatchSubscribeOrUnsubscribeListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -351,7 +396,13 @@ export class ListsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.BatchSubscribeOrUnsubscribeListsResponse,
+                data: serializers.BatchSubscribeOrUnsubscribeListsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -378,7 +429,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.delete({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public delete(
@@ -392,7 +443,7 @@ export class ListsClient {
         request: Mailchimp.DeleteListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { list_id: listId } = request;
+        const { listId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -441,7 +492,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.update({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public update(
@@ -455,7 +506,7 @@ export class ListsClient {
         request: Mailchimp.UpdateListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.SubscriberList>> {
-        const { list_id: listId, ..._body } = request;
+        const { listId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -474,7 +525,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -482,7 +539,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.SubscriberList, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.SubscriberList.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -507,7 +573,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listAbuseReports({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public async listAbuseReports(
@@ -518,7 +584,7 @@ export class ListsClient {
             async (
                 request: Mailchimp.ListAbuseReportsListsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListAbuseReportsListsResponse>> => {
-                const { list_id: listId, fields, exclude_fields: excludeFields, count, offset } = request;
+                const { listId, fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -555,7 +621,13 @@ export class ListsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListAbuseReportsListsResponse,
+                        data: serializers.ListAbuseReportsListsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -579,8 +651,8 @@ export class ListsClient {
         return new core.Page<Mailchimp.ListsAbuseReports, Mailchimp.ListAbuseReportsListsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
-            hasNextPage: (response) => (response?.abuse_reports ?? []).length > 0,
-            getItems: (response) => response?.abuse_reports ?? [],
+            hasNextPage: (response) => (response?.abuseReports ?? []).length > 0,
+            getItems: (response) => response?.abuseReports ?? [],
             loadPage: (_response) => {
                 _offset += 1;
                 return list(core.setObjectProperty(request, "offset", _offset));
@@ -599,8 +671,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.getAbuseReport({
-     *         list_id: "list_id",
-     *         report_id: "report_id"
+     *         listId: "list_id",
+     *         reportId: "report_id"
      *     })
      */
     public getAbuseReport(
@@ -614,7 +686,7 @@ export class ListsClient {
         request: Mailchimp.GetAbuseReportListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListsAbuseReports>> {
-        const { list_id: listId, report_id: reportId, fields, exclude_fields: excludeFields, count, offset } = request;
+        const { listId, reportId, fields, excludeFields, count, offset } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -650,7 +722,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListsAbuseReports, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ListsAbuseReports.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -680,18 +761,18 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listActivity({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public async listActivity(
         request: Mailchimp.ListActivityListsRequest,
         requestOptions?: ListsClient.RequestOptions,
-    ): Promise<core.Page<Mailchimp.ListActivityListsResponse.Activity.Item, Mailchimp.ListActivityListsResponse>> {
+    ): Promise<core.Page<Mailchimp.ListActivityListsResponseActivityItem, Mailchimp.ListActivityListsResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
                 request: Mailchimp.ListActivityListsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListActivityListsResponse>> => {
-                const { list_id: listId, fields, exclude_fields: excludeFields, count, offset } = request;
+                const { listId, fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -728,7 +809,13 @@ export class ListsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListActivityListsResponse,
+                        data: serializers.ListActivityListsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -749,7 +836,7 @@ export class ListsClient {
         );
         let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<Mailchimp.ListActivityListsResponse.Activity.Item, Mailchimp.ListActivityListsResponse>({
+        return new core.Page<Mailchimp.ListActivityListsResponseActivityItem, Mailchimp.ListActivityListsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) => (response?.activity ?? []).length > 0,
@@ -772,7 +859,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listClients({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public listClients(
@@ -786,7 +873,7 @@ export class ListsClient {
         request: Mailchimp.ListClientsListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListClientsListsResponse>> {
-        const { list_id: listId, fields, exclude_fields: excludeFields } = request;
+        const { listId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -820,7 +907,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListClientsListsResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ListClientsListsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -845,7 +941,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listGrowthHistory({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public async listGrowthHistory(
@@ -856,22 +952,26 @@ export class ListsClient {
             async (
                 request: Mailchimp.ListGrowthHistoryListsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListGrowthHistoryListsResponse>> => {
-                const {
-                    list_id: listId,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                    sort_field: sortField,
-                    sort_dir: sortDir,
-                } = request;
+                const { listId, fields, excludeFields, count, offset, sortField, sortDir } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
                     count,
                     offset,
-                    sort_field: sortField != null ? sortField : undefined,
-                    sort_dir: sortDir != null ? sortDir : undefined,
+                    sort_field:
+                        sortField != null
+                            ? serializers.ListGrowthHistoryListsRequestSortField.jsonOrThrow(sortField, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
+                    sort_dir:
+                        sortDir != null
+                            ? serializers.ListGrowthHistoryListsRequestSortDir.jsonOrThrow(sortDir, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
                 };
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -903,7 +1003,13 @@ export class ListsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListGrowthHistoryListsResponse,
+                        data: serializers.ListGrowthHistoryListsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -947,7 +1053,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.getGrowthHistory({
-     *         list_id: "list_id",
+     *         listId: "list_id",
      *         month: "month"
      *     })
      */
@@ -962,7 +1068,7 @@ export class ListsClient {
         request: Mailchimp.GetGrowthHistoryListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.GrowthHistory>> {
-        const { list_id: listId, month, fields, exclude_fields: excludeFields } = request;
+        const { listId, month, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -996,7 +1102,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.GrowthHistory, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.GrowthHistory.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1026,7 +1141,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listInterestCategories({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public async listInterestCategories(
@@ -1037,24 +1152,27 @@ export class ListsClient {
             async (
                 request: Mailchimp.ListInterestCategoriesListsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListInterestCategoriesListsResponse>> => {
-                const {
-                    list_id: listId,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                    type: type_,
-                    sort_field: sortField,
-                    sort_dir: sortDir,
-                } = request;
+                const { listId, fields, excludeFields, count, offset, type: type_, sortField, sortDir } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
                     count,
                     offset,
                     type: type_,
-                    sort_field: sortField != null ? sortField : undefined,
-                    sort_dir: sortDir != null ? sortDir : undefined,
+                    sort_field:
+                        sortField != null
+                            ? serializers.ListInterestCategoriesListsRequestSortField.jsonOrThrow(sortField, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
+                    sort_dir:
+                        sortDir != null
+                            ? serializers.ListInterestCategoriesListsRequestSortDir.jsonOrThrow(sortDir, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
                 };
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -1086,7 +1204,13 @@ export class ListsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListInterestCategoriesListsResponse,
+                        data: serializers.ListInterestCategoriesListsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -1130,7 +1254,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.createInterestCategory({
-     *         list_id: "list_id",
+     *         listId: "list_id",
      *         title: "title",
      *         type: "checkboxes"
      *     })
@@ -1146,7 +1270,7 @@ export class ListsClient {
         request: Mailchimp.CreateInterestCategoryListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.InterestCategory>> {
-        const { list_id: listId, ..._body } = request;
+        const { listId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1165,7 +1289,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateInterestCategoryListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1173,7 +1303,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.InterestCategory, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.InterestCategory.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1203,8 +1342,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.getInterestCategory({
-     *         list_id: "list_id",
-     *         interest_category_id: "interest_category_id"
+     *         listId: "list_id",
+     *         interestCategoryId: "interest_category_id"
      *     })
      */
     public getInterestCategory(
@@ -1218,12 +1357,7 @@ export class ListsClient {
         request: Mailchimp.GetInterestCategoryListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.InterestCategory>> {
-        const {
-            list_id: listId,
-            interest_category_id: interestCategoryId,
-            fields,
-            exclude_fields: excludeFields,
-        } = request;
+        const { listId, interestCategoryId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -1257,7 +1391,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.InterestCategory, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.InterestCategory.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1287,8 +1430,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.deleteInterestCategory({
-     *         list_id: "list_id",
-     *         interest_category_id: "interest_category_id"
+     *         listId: "list_id",
+     *         interestCategoryId: "interest_category_id"
      *     })
      */
     public deleteInterestCategory(
@@ -1302,7 +1445,7 @@ export class ListsClient {
         request: Mailchimp.DeleteInterestCategoryListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { list_id: listId, interest_category_id: interestCategoryId } = request;
+        const { listId, interestCategoryId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1356,8 +1499,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.updateInterestCategory({
-     *         list_id: "list_id",
-     *         interest_category_id: "interest_category_id"
+     *         listId: "list_id",
+     *         interestCategoryId: "interest_category_id"
      *     })
      */
     public updateInterestCategory(
@@ -1371,7 +1514,7 @@ export class ListsClient {
         request: Mailchimp.UpdateInterestCategoryListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.InterestCategory>> {
-        const { list_id: listId, interest_category_id: interestCategoryId, ..._body } = request;
+        const { listId, interestCategoryId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1390,7 +1533,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateInterestCategoryListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1398,7 +1547,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.InterestCategory, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.InterestCategory.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1428,8 +1586,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listInterestCategoryInterests({
-     *         list_id: "list_id",
-     *         interest_category_id: "interest_category_id"
+     *         listId: "list_id",
+     *         interestCategoryId: "interest_category_id"
      *     })
      */
     public async listInterestCategoryInterests(
@@ -1440,14 +1598,7 @@ export class ListsClient {
             async (
                 request: Mailchimp.ListInterestCategoryInterestsListsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListInterestCategoryInterestsListsResponse>> => {
-                const {
-                    list_id: listId,
-                    interest_category_id: interestCategoryId,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                } = request;
+                const { listId, interestCategoryId, fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -1484,7 +1635,13 @@ export class ListsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListInterestCategoryInterestsListsResponse,
+                        data: serializers.ListInterestCategoryInterestsListsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -1528,8 +1685,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.createInterestCategoryInterest({
-     *         list_id: "list_id",
-     *         interest_category_id: "interest_category_id",
+     *         listId: "list_id",
+     *         interestCategoryId: "interest_category_id",
      *         name: "name"
      *     })
      */
@@ -1544,7 +1701,7 @@ export class ListsClient {
         request: Mailchimp.CreateInterestCategoryInterestListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.Interest>> {
-        const { list_id: listId, interest_category_id: interestCategoryId, ..._body } = request;
+        const { listId, interestCategoryId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1563,7 +1720,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateInterestCategoryInterestListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1571,7 +1734,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.Interest, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.Interest.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1601,9 +1773,9 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.getInterestCategoryInterest({
-     *         list_id: "list_id",
-     *         interest_category_id: "interest_category_id",
-     *         interest_id: "interest_id"
+     *         listId: "list_id",
+     *         interestCategoryId: "interest_category_id",
+     *         interestId: "interest_id"
      *     })
      */
     public getInterestCategoryInterest(
@@ -1617,13 +1789,7 @@ export class ListsClient {
         request: Mailchimp.GetInterestCategoryInterestListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.Interest>> {
-        const {
-            list_id: listId,
-            interest_category_id: interestCategoryId,
-            interest_id: interestId,
-            fields,
-            exclude_fields: excludeFields,
-        } = request;
+        const { listId, interestCategoryId, interestId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -1657,7 +1823,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.Interest, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.Interest.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1687,9 +1862,9 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.deleteInterestCategoryInterest({
-     *         list_id: "list_id",
-     *         interest_category_id: "interest_category_id",
-     *         interest_id: "interest_id"
+     *         listId: "list_id",
+     *         interestCategoryId: "interest_category_id",
+     *         interestId: "interest_id"
      *     })
      */
     public deleteInterestCategoryInterest(
@@ -1703,7 +1878,7 @@ export class ListsClient {
         request: Mailchimp.DeleteInterestCategoryInterestListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { list_id: listId, interest_category_id: interestCategoryId, interest_id: interestId } = request;
+        const { listId, interestCategoryId, interestId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1757,9 +1932,9 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.updateInterestCategoryInterest({
-     *         list_id: "list_id",
-     *         interest_category_id: "interest_category_id",
-     *         interest_id: "interest_id"
+     *         listId: "list_id",
+     *         interestCategoryId: "interest_category_id",
+     *         interestId: "interest_id"
      *     })
      */
     public updateInterestCategoryInterest(
@@ -1773,12 +1948,7 @@ export class ListsClient {
         request: Mailchimp.UpdateInterestCategoryInterestListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.Interest>> {
-        const {
-            list_id: listId,
-            interest_category_id: interestCategoryId,
-            interest_id: interestId,
-            ..._body
-        } = request;
+        const { listId, interestCategoryId, interestId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1797,7 +1967,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateInterestCategoryInterestListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1805,7 +1981,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.Interest, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.Interest.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1835,7 +2020,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listLocations({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public listLocations(
@@ -1849,7 +2034,7 @@ export class ListsClient {
         request: Mailchimp.ListLocationsListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListLocationsListsResponse>> {
-        const { list_id: listId, fields, exclude_fields: excludeFields } = request;
+        const { listId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -1883,7 +2068,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListLocationsListsResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ListLocationsListsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1913,7 +2107,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listMembers({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public async listMembers(
@@ -1925,26 +2119,26 @@ export class ListsClient {
                 request: Mailchimp.ListMembersListsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListMembersListsResponse>> => {
                 const {
-                    list_id: listId,
+                    listId,
                     fields,
-                    exclude_fields: excludeFields,
+                    excludeFields,
                     count,
                     offset,
-                    email_type: emailType,
+                    emailType,
                     status,
-                    since_timestamp_opt: sinceTimestampOpt,
-                    before_timestamp_opt: beforeTimestampOpt,
-                    since_last_changed: sinceLastChanged,
-                    before_last_changed: beforeLastChanged,
-                    unique_email_id: uniqueEmailId,
-                    vip_only: vipOnly,
-                    interest_category_id: interestCategoryId,
-                    interest_ids: interestIds,
-                    interest_match: interestMatch,
-                    sort_field: sortField,
-                    sort_dir: sortDir,
-                    since_last_campaign: sinceLastCampaign,
-                    unsubscribed_since: unsubscribedSince,
+                    sinceTimestampOpt,
+                    beforeTimestampOpt,
+                    sinceLastChanged,
+                    beforeLastChanged,
+                    uniqueEmailId,
+                    vipOnly,
+                    interestCategoryId,
+                    interestIds,
+                    interestMatch,
+                    sortField,
+                    sortDir,
+                    sinceLastCampaign,
+                    unsubscribedSince,
                 } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
@@ -1952,7 +2146,13 @@ export class ListsClient {
                     count,
                     offset,
                     email_type: emailType,
-                    status: status != null ? status : undefined,
+                    status:
+                        status != null
+                            ? serializers.ListMembersListsRequestStatus.jsonOrThrow(status, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
                     since_timestamp_opt: sinceTimestampOpt,
                     before_timestamp_opt: beforeTimestampOpt,
                     since_last_changed: sinceLastChanged,
@@ -1961,9 +2161,27 @@ export class ListsClient {
                     vip_only: vipOnly,
                     interest_category_id: interestCategoryId,
                     interest_ids: interestIds,
-                    interest_match: interestMatch != null ? interestMatch : undefined,
-                    sort_field: sortField != null ? sortField : undefined,
-                    sort_dir: sortDir != null ? sortDir : undefined,
+                    interest_match:
+                        interestMatch != null
+                            ? serializers.ListMembersListsRequestInterestMatch.jsonOrThrow(interestMatch, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
+                    sort_field:
+                        sortField != null
+                            ? serializers.ListMembersListsRequestSortField.jsonOrThrow(sortField, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
+                    sort_dir:
+                        sortDir != null
+                            ? serializers.ListMembersListsRequestSortDir.jsonOrThrow(sortDir, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
                     since_last_campaign: sinceLastCampaign,
                     unsubscribed_since: unsubscribedSince,
                 };
@@ -1997,7 +2215,13 @@ export class ListsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListMembersListsResponse,
+                        data: serializers.ListMembersListsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -2041,8 +2265,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.createMember({
-     *         list_id: "list_id",
-     *         email_address: "email_address",
+     *         listId: "list_id",
+     *         emailAddress: "email_address",
      *         status: "subscribed"
      *     })
      */
@@ -2057,7 +2281,7 @@ export class ListsClient {
         request: Mailchimp.CreateMemberListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListMembers>> {
-        const { list_id: listId, skip_merge_validation: skipMergeValidation, ..._body } = request;
+        const { listId, skipMergeValidation, ..._body } = request;
         const _queryParams: Record<string, unknown> = {
             skip_merge_validation: skipMergeValidation,
         };
@@ -2083,7 +2307,13 @@ export class ListsClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateMemberListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -2091,7 +2321,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListMembers, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ListMembers.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -2116,8 +2355,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.getMember({
-     *         list_id: "list_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         listId: "list_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public getMember(
@@ -2131,7 +2370,7 @@ export class ListsClient {
         request: Mailchimp.GetMemberListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListMembers>> {
-        const { list_id: listId, subscriber_hash: subscriberHash, fields, exclude_fields: excludeFields } = request;
+        const { listId, subscriberHash, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -2165,7 +2404,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListMembers, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ListMembers.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -2195,9 +2443,9 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.upsertMember({
-     *         list_id: "list_id",
-     *         subscriber_hash: "subscriber_hash",
-     *         email_address: "email_address"
+     *         listId: "list_id",
+     *         subscriberHash: "subscriber_hash",
+     *         emailAddress: "email_address"
      *     })
      */
     public upsertMember(
@@ -2211,12 +2459,7 @@ export class ListsClient {
         request: Mailchimp.UpsertMemberListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListMembers>> {
-        const {
-            list_id: listId,
-            subscriber_hash: subscriberHash,
-            skip_merge_validation: skipMergeValidation,
-            ..._body
-        } = request;
+        const { listId, subscriberHash, skipMergeValidation, ..._body } = request;
         const _queryParams: Record<string, unknown> = {
             skip_merge_validation: skipMergeValidation,
         };
@@ -2242,7 +2485,13 @@ export class ListsClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpsertMemberListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -2250,7 +2499,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListMembers, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ListMembers.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -2280,8 +2538,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.deleteMember({
-     *         list_id: "list_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         listId: "list_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public deleteMember(
@@ -2295,7 +2553,7 @@ export class ListsClient {
         request: Mailchimp.DeleteMemberListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { list_id: listId, subscriber_hash: subscriberHash } = request;
+        const { listId, subscriberHash } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -2349,8 +2607,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.updateMember({
-     *         list_id: "list_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         listId: "list_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public updateMember(
@@ -2364,12 +2622,7 @@ export class ListsClient {
         request: Mailchimp.UpdateMemberListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListMembers>> {
-        const {
-            list_id: listId,
-            subscriber_hash: subscriberHash,
-            skip_merge_validation: skipMergeValidation,
-            ..._body
-        } = request;
+        const { listId, subscriberHash, skipMergeValidation, ..._body } = request;
         const _queryParams: Record<string, unknown> = {
             skip_merge_validation: skipMergeValidation,
         };
@@ -2395,7 +2648,13 @@ export class ListsClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateMemberListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -2403,7 +2662,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListMembers, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ListMembers.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -2433,8 +2701,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.createMemberActionDeletePermanent({
-     *         list_id: "list_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         listId: "list_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public createMemberActionDeletePermanent(
@@ -2448,7 +2716,7 @@ export class ListsClient {
         request: Mailchimp.CreateMemberActionDeletePermanentListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { list_id: listId, subscriber_hash: subscriberHash } = request;
+        const { listId, subscriberHash } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -2502,8 +2770,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listMemberActivity({
-     *         list_id: "list_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         listId: "list_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public listMemberActivity(
@@ -2517,17 +2785,23 @@ export class ListsClient {
         request: Mailchimp.ListMemberActivityListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListMemberActivityListsResponse>> {
-        const {
-            list_id: listId,
-            subscriber_hash: subscriberHash,
-            fields,
-            exclude_fields: excludeFields,
-            action,
-        } = request;
+        const { listId, subscriberHash, fields, excludeFields, action } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
-            action: Array.isArray(action) ? action.map((item) => item) : action != null ? action : undefined,
+            action: Array.isArray(action)
+                ? action.map((item) =>
+                      serializers.ListMemberActivityListsRequestActionItem.jsonOrThrow(item, {
+                          unrecognizedObjectKeys: "strip",
+                          omitUndefined: true,
+                      }),
+                  )
+                : action != null
+                  ? serializers.ListMemberActivityListsRequestActionItem.jsonOrThrow(action, {
+                        unrecognizedObjectKeys: "strip",
+                        omitUndefined: true,
+                    })
+                  : undefined,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -2560,7 +2834,13 @@ export class ListsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListMemberActivityListsResponse,
+                data: serializers.ListMemberActivityListsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -2592,8 +2872,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listMemberActivityFeed({
-     *         list_id: "list_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         listId: "list_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public async listMemberActivityFeed(
@@ -2604,24 +2884,24 @@ export class ListsClient {
             async (
                 request: Mailchimp.ListMemberActivityFeedListsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListMemberActivityFeedListsResponse>> => {
-                const {
-                    list_id: listId,
-                    subscriber_hash: subscriberHash,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                    activity_filters: activityFilters,
-                } = request;
+                const { listId, subscriberHash, fields, excludeFields, count, offset, activityFilters } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
                     count,
                     offset,
                     activity_filters: Array.isArray(activityFilters)
-                        ? activityFilters.map((item) => item)
+                        ? activityFilters.map((item) =>
+                              serializers.ListMemberActivityFeedListsRequestActivityFiltersItem.jsonOrThrow(item, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              }),
+                          )
                         : activityFilters != null
-                          ? activityFilters
+                          ? serializers.ListMemberActivityFeedListsRequestActivityFiltersItem.jsonOrThrow(
+                                activityFilters,
+                                { unrecognizedObjectKeys: "strip", omitUndefined: true },
+                            )
                           : undefined,
                 };
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
@@ -2655,7 +2935,13 @@ export class ListsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListMemberActivityFeedListsResponse,
+                        data: serializers.ListMemberActivityFeedListsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -2699,28 +2985,19 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listMemberEvents({
-     *         list_id: "list_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         listId: "list_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public async listMemberEvents(
         request: Mailchimp.ListMemberEventsListsRequest,
         requestOptions?: ListsClient.RequestOptions,
-    ): Promise<
-        core.Page<Mailchimp.ListMemberEventsListsResponse.Events.Item, Mailchimp.ListMemberEventsListsResponse>
-    > {
+    ): Promise<core.Page<Mailchimp.ListMemberEventsListsResponseEventsItem, Mailchimp.ListMemberEventsListsResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
                 request: Mailchimp.ListMemberEventsListsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListMemberEventsListsResponse>> => {
-                const {
-                    list_id: listId,
-                    subscriber_hash: subscriberHash,
-                    count,
-                    offset,
-                    fields,
-                    exclude_fields: excludeFields,
-                } = request;
+                const { listId, subscriberHash, count, offset, fields, excludeFields } = request;
                 const _queryParams: Record<string, unknown> = {
                     count,
                     offset,
@@ -2757,7 +3034,13 @@ export class ListsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListMemberEventsListsResponse,
+                        data: serializers.ListMemberEventsListsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -2779,7 +3062,7 @@ export class ListsClient {
         let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
         return new core.Page<
-            Mailchimp.ListMemberEventsListsResponse.Events.Item,
+            Mailchimp.ListMemberEventsListsResponseEventsItem,
             Mailchimp.ListMemberEventsListsResponse
         >({
             response: dataWithRawResponse.data,
@@ -2804,8 +3087,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.createMemberEvent({
-     *         list_id: "list_id",
-     *         subscriber_hash: "subscriber_hash",
+     *         listId: "list_id",
+     *         subscriberHash: "subscriber_hash",
      *         name: "name"
      *     })
      */
@@ -2820,7 +3103,7 @@ export class ListsClient {
         request: Mailchimp.CreateMemberEventListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { list_id: listId, subscriber_hash: subscriberHash, ..._body } = request;
+        const { listId, subscriberHash, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -2839,7 +3122,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateMemberEventListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -2877,8 +3166,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listMemberGoals({
-     *         list_id: "list_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         listId: "list_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public listMemberGoals(
@@ -2892,7 +3181,7 @@ export class ListsClient {
         request: Mailchimp.ListMemberGoalsListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListMemberGoalsListsResponse>> {
-        const { list_id: listId, subscriber_hash: subscriberHash, fields, exclude_fields: excludeFields } = request;
+        const { listId, subscriberHash, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -2927,7 +3216,13 @@ export class ListsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListMemberGoalsListsResponse,
+                data: serializers.ListMemberGoalsListsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -2959,8 +3254,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listMemberNotes({
-     *         list_id: "list_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         listId: "list_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public async listMemberNotes(
@@ -2971,19 +3266,22 @@ export class ListsClient {
             async (
                 request: Mailchimp.ListMemberNotesListsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListMemberNotesListsResponse>> => {
-                const {
-                    list_id: listId,
-                    subscriber_hash: subscriberHash,
-                    sort_field: sortField,
-                    sort_dir: sortDir,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                } = request;
+                const { listId, subscriberHash, sortField, sortDir, fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
-                    sort_field: sortField != null ? sortField : undefined,
-                    sort_dir: sortDir != null ? sortDir : undefined,
+                    sort_field:
+                        sortField != null
+                            ? serializers.ListMemberNotesListsRequestSortField.jsonOrThrow(sortField, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
+                    sort_dir:
+                        sortDir != null
+                            ? serializers.ListMemberNotesListsRequestSortDir.jsonOrThrow(sortDir, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
                     fields,
                     exclude_fields: excludeFields,
                     count,
@@ -3019,7 +3317,13 @@ export class ListsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListMemberNotesListsResponse,
+                        data: serializers.ListMemberNotesListsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -3063,8 +3367,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.createMemberNote({
-     *         list_id: "list_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         listId: "list_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public createMemberNote(
@@ -3078,7 +3382,7 @@ export class ListsClient {
         request: Mailchimp.CreateMemberNoteListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.MemberNotes>> {
-        const { list_id: listId, subscriber_hash: subscriberHash, ..._body } = request;
+        const { listId, subscriberHash, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -3097,7 +3401,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateMemberNoteListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -3105,7 +3415,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.MemberNotes, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.MemberNotes.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -3135,9 +3454,9 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.getMemberNote({
-     *         list_id: "list_id",
-     *         subscriber_hash: "subscriber_hash",
-     *         note_id: "note_id"
+     *         listId: "list_id",
+     *         subscriberHash: "subscriber_hash",
+     *         noteId: "note_id"
      *     })
      */
     public getMemberNote(
@@ -3151,13 +3470,7 @@ export class ListsClient {
         request: Mailchimp.GetMemberNoteListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.MemberNotes>> {
-        const {
-            list_id: listId,
-            subscriber_hash: subscriberHash,
-            note_id: noteId,
-            fields,
-            exclude_fields: excludeFields,
-        } = request;
+        const { listId, subscriberHash, noteId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -3191,7 +3504,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.MemberNotes, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.MemberNotes.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -3221,9 +3543,9 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.deleteMemberNote({
-     *         list_id: "list_id",
-     *         subscriber_hash: "subscriber_hash",
-     *         note_id: "note_id"
+     *         listId: "list_id",
+     *         subscriberHash: "subscriber_hash",
+     *         noteId: "note_id"
      *     })
      */
     public deleteMemberNote(
@@ -3237,7 +3559,7 @@ export class ListsClient {
         request: Mailchimp.DeleteMemberNoteListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { list_id: listId, subscriber_hash: subscriberHash, note_id: noteId } = request;
+        const { listId, subscriberHash, noteId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -3291,9 +3613,9 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.updateMemberNote({
-     *         list_id: "list_id",
-     *         subscriber_hash: "subscriber_hash",
-     *         note_id: "note_id"
+     *         listId: "list_id",
+     *         subscriberHash: "subscriber_hash",
+     *         noteId: "note_id"
      *     })
      */
     public updateMemberNote(
@@ -3307,7 +3629,7 @@ export class ListsClient {
         request: Mailchimp.UpdateMemberNoteListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.MemberNotes>> {
-        const { list_id: listId, subscriber_hash: subscriberHash, note_id: noteId, ..._body } = request;
+        const { listId, subscriberHash, noteId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -3326,7 +3648,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateMemberNoteListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -3334,7 +3662,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.MemberNotes, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.MemberNotes.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -3364,26 +3701,19 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listMemberTags({
-     *         list_id: "list_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         listId: "list_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public async listMemberTags(
         request: Mailchimp.ListMemberTagsListsRequest,
         requestOptions?: ListsClient.RequestOptions,
-    ): Promise<core.Page<Mailchimp.ListMemberTagsListsResponse.Tags.Item, Mailchimp.ListMemberTagsListsResponse>> {
+    ): Promise<core.Page<Mailchimp.ListMemberTagsListsResponseTagsItem, Mailchimp.ListMemberTagsListsResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
                 request: Mailchimp.ListMemberTagsListsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListMemberTagsListsResponse>> => {
-                const {
-                    list_id: listId,
-                    subscriber_hash: subscriberHash,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                } = request;
+                const { listId, subscriberHash, fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -3420,7 +3750,13 @@ export class ListsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListMemberTagsListsResponse,
+                        data: serializers.ListMemberTagsListsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -3441,7 +3777,7 @@ export class ListsClient {
         );
         let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<Mailchimp.ListMemberTagsListsResponse.Tags.Item, Mailchimp.ListMemberTagsListsResponse>({
+        return new core.Page<Mailchimp.ListMemberTagsListsResponseTagsItem, Mailchimp.ListMemberTagsListsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) => (response?.tags ?? []).length > 0,
@@ -3464,8 +3800,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.createMemberTag({
-     *         list_id: "list_id",
-     *         subscriber_hash: "subscriber_hash",
+     *         listId: "list_id",
+     *         subscriberHash: "subscriber_hash",
      *         tags: [{
      *                 name: "name",
      *                 status: "inactive"
@@ -3483,7 +3819,7 @@ export class ListsClient {
         request: Mailchimp.CreateMemberTagListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { list_id: listId, subscriber_hash: subscriberHash, ..._body } = request;
+        const { listId, subscriberHash, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -3502,7 +3838,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateMemberTagListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -3540,7 +3882,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listMergeFields({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public async listMergeFields(
@@ -3551,15 +3893,7 @@ export class ListsClient {
             async (
                 request: Mailchimp.ListMergeFieldsListsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListMergeFieldsListsResponse>> => {
-                const {
-                    list_id: listId,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                    type: type_,
-                    required,
-                } = request;
+                const { listId, fields, excludeFields, count, offset, type: type_, required } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -3598,7 +3932,13 @@ export class ListsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListMergeFieldsListsResponse,
+                        data: serializers.ListMergeFieldsListsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -3622,8 +3962,8 @@ export class ListsClient {
         return new core.Page<Mailchimp.MergeField, Mailchimp.ListMergeFieldsListsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
-            hasNextPage: (response) => (response?.merge_fields ?? []).length > 0,
-            getItems: (response) => response?.merge_fields ?? [],
+            hasNextPage: (response) => (response?.mergeFields ?? []).length > 0,
+            getItems: (response) => response?.mergeFields ?? [],
             loadPage: (_response) => {
                 _offset += 1;
                 return list(core.setObjectProperty(request, "offset", _offset));
@@ -3642,7 +3982,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.createMergeField({
-     *         list_id: "list_id",
+     *         listId: "list_id",
      *         name: "name",
      *         type: "text"
      *     })
@@ -3658,7 +3998,7 @@ export class ListsClient {
         request: Mailchimp.CreateMergeFieldListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.MergeField>> {
-        const { list_id: listId, ..._body } = request;
+        const { listId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -3677,7 +4017,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateMergeFieldListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -3685,7 +4031,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.MergeField, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.MergeField.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -3715,8 +4070,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.getMergeField({
-     *         list_id: "list_id",
-     *         merge_id: "merge_id"
+     *         listId: "list_id",
+     *         mergeId: "merge_id"
      *     })
      */
     public getMergeField(
@@ -3730,7 +4085,7 @@ export class ListsClient {
         request: Mailchimp.GetMergeFieldListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.MergeField>> {
-        const { list_id: listId, merge_id: mergeId, exclude_fields: excludeFields, fields } = request;
+        const { listId, mergeId, excludeFields, fields } = request;
         const _queryParams: Record<string, unknown> = {
             exclude_fields: excludeFields,
             fields,
@@ -3764,7 +4119,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.MergeField, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.MergeField.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -3794,8 +4158,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.deleteMergeField({
-     *         list_id: "list_id",
-     *         merge_id: "merge_id"
+     *         listId: "list_id",
+     *         mergeId: "merge_id"
      *     })
      */
     public deleteMergeField(
@@ -3809,7 +4173,7 @@ export class ListsClient {
         request: Mailchimp.DeleteMergeFieldListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { list_id: listId, merge_id: mergeId } = request;
+        const { listId, mergeId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -3863,8 +4227,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.updateMergeField({
-     *         list_id: "list_id",
-     *         merge_id: "merge_id"
+     *         listId: "list_id",
+     *         mergeId: "merge_id"
      *     })
      */
     public updateMergeField(
@@ -3878,7 +4242,7 @@ export class ListsClient {
         request: Mailchimp.UpdateMergeFieldListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.MergeField>> {
-        const { list_id: listId, merge_id: mergeId, ..._body } = request;
+        const { listId, mergeId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -3897,7 +4261,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateMergeFieldListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -3905,7 +4275,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.MergeField, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.MergeField.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -3935,7 +4314,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listSegments({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public async listSegments(
@@ -3947,20 +4326,20 @@ export class ListsClient {
                 request: Mailchimp.ListSegmentsListsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListSegmentsListsResponse>> => {
                 const {
-                    list_id: listId,
+                    listId,
                     fields,
-                    exclude_fields: excludeFields,
+                    excludeFields,
                     count,
                     offset,
                     type: type_,
-                    since_created_at: sinceCreatedAt,
-                    before_created_at: beforeCreatedAt,
-                    include_cleaned: includeCleaned,
-                    include_transactional: includeTransactional,
-                    include_unsubscribed: includeUnsubscribed,
-                    since_updated_at: sinceUpdatedAt,
-                    before_updated_at: beforeUpdatedAt,
-                    exclude_type: excludeType,
+                    sinceCreatedAt,
+                    beforeCreatedAt,
+                    includeCleaned,
+                    includeTransactional,
+                    includeUnsubscribed,
+                    sinceUpdatedAt,
+                    beforeUpdatedAt,
+                    excludeType,
                 } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
@@ -3975,7 +4354,13 @@ export class ListsClient {
                     include_unsubscribed: includeUnsubscribed,
                     since_updated_at: sinceUpdatedAt,
                     before_updated_at: beforeUpdatedAt,
-                    exclude_type: excludeType != null ? excludeType : undefined,
+                    exclude_type:
+                        excludeType != null
+                            ? serializers.ListSegmentsListsRequestExcludeType.jsonOrThrow(excludeType, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
                 };
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -4007,7 +4392,13 @@ export class ListsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListSegmentsListsResponse,
+                        data: serializers.ListSegmentsListsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -4051,7 +4442,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.createSegment({
-     *         list_id: "list_id",
+     *         listId: "list_id",
      *         name: "name"
      *     })
      */
@@ -4066,7 +4457,7 @@ export class ListsClient {
         request: Mailchimp.CreateSegmentListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.List>> {
-        const { list_id: listId, ..._body } = request;
+        const { listId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -4085,7 +4476,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateSegmentListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -4093,7 +4490,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.List, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.List.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -4123,8 +4529,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.getSegment({
-     *         list_id: "list_id",
-     *         segment_id: "segment_id"
+     *         listId: "list_id",
+     *         segmentId: "segment_id"
      *     })
      */
     public getSegment(
@@ -4138,15 +4544,8 @@ export class ListsClient {
         request: Mailchimp.GetSegmentListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.List>> {
-        const {
-            list_id: listId,
-            segment_id: segmentId,
-            fields,
-            exclude_fields: excludeFields,
-            include_cleaned: includeCleaned,
-            include_transactional: includeTransactional,
-            include_unsubscribed: includeUnsubscribed,
-        } = request;
+        const { listId, segmentId, fields, excludeFields, includeCleaned, includeTransactional, includeUnsubscribed } =
+            request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -4183,7 +4582,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.List, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.List.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -4213,8 +4621,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.batchAddOrRemoveMembers({
-     *         list_id: "list_id",
-     *         segment_id: "segment_id"
+     *         listId: "list_id",
+     *         segmentId: "segment_id"
      *     })
      */
     public batchAddOrRemoveMembers(
@@ -4228,7 +4636,7 @@ export class ListsClient {
         request: Mailchimp.BatchAddOrRemoveMembersListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.BatchAddOrRemoveMembersListsResponse>> {
-        const { list_id: listId, segment_id: segmentId, ..._body } = request;
+        const { listId, segmentId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -4247,7 +4655,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.BatchAddOrRemoveMembersListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -4256,7 +4670,13 @@ export class ListsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.BatchAddOrRemoveMembersListsResponse,
+                data: serializers.BatchAddOrRemoveMembersListsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -4288,8 +4708,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.deleteSegment({
-     *         list_id: "list_id",
-     *         segment_id: "segment_id"
+     *         listId: "list_id",
+     *         segmentId: "segment_id"
      *     })
      */
     public deleteSegment(
@@ -4303,7 +4723,7 @@ export class ListsClient {
         request: Mailchimp.DeleteSegmentListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { list_id: listId, segment_id: segmentId } = request;
+        const { listId, segmentId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -4357,8 +4777,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.updateSegment({
-     *         list_id: "list_id",
-     *         segment_id: "segment_id"
+     *         listId: "list_id",
+     *         segmentId: "segment_id"
      *     })
      */
     public updateSegment(
@@ -4372,7 +4792,7 @@ export class ListsClient {
         request: Mailchimp.UpdateSegmentListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.List>> {
-        const { list_id: listId, segment_id: segmentId, ..._body } = request;
+        const { listId, segmentId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -4391,7 +4811,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateSegmentListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -4399,7 +4825,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.List, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.List.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -4429,8 +4864,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listSegmentMembers({
-     *         list_id: "list_id",
-     *         segment_id: "segment_id"
+     *         listId: "list_id",
+     *         segmentId: "segment_id"
      *     })
      */
     public async listSegmentMembers(
@@ -4442,15 +4877,15 @@ export class ListsClient {
                 request: Mailchimp.ListSegmentMembersListsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListSegmentMembersListsResponse>> => {
                 const {
-                    list_id: listId,
-                    segment_id: segmentId,
+                    listId,
+                    segmentId,
                     fields,
-                    exclude_fields: excludeFields,
+                    excludeFields,
                     count,
                     offset,
-                    include_cleaned: includeCleaned,
-                    include_transactional: includeTransactional,
-                    include_unsubscribed: includeUnsubscribed,
+                    includeCleaned,
+                    includeTransactional,
+                    includeUnsubscribed,
                 } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
@@ -4491,7 +4926,13 @@ export class ListsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListSegmentMembersListsResponse,
+                        data: serializers.ListSegmentMembersListsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -4535,9 +4976,9 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.createSegmentMember({
-     *         list_id: "list_id",
-     *         segment_id: "segment_id",
-     *         email_address: "email_address"
+     *         listId: "list_id",
+     *         segmentId: "segment_id",
+     *         emailAddress: "email_address"
      *     })
      */
     public createSegmentMember(
@@ -4551,7 +4992,7 @@ export class ListsClient {
         request: Mailchimp.CreateSegmentMemberListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListsSegmentsMembers>> {
-        const { list_id: listId, segment_id: segmentId, ..._body } = request;
+        const { listId, segmentId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -4570,7 +5011,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateSegmentMemberListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -4578,7 +5025,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListsSegmentsMembers, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ListsSegmentsMembers.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -4608,9 +5064,9 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.deleteSegmentMember({
-     *         list_id: "list_id",
-     *         segment_id: "segment_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         listId: "list_id",
+     *         segmentId: "segment_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public deleteSegmentMember(
@@ -4624,7 +5080,7 @@ export class ListsClient {
         request: Mailchimp.DeleteSegmentMemberListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { list_id: listId, segment_id: segmentId, subscriber_hash: subscriberHash } = request;
+        const { listId, segmentId, subscriberHash } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -4678,7 +5134,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listSignupForms({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public listSignupForms(
@@ -4692,7 +5148,7 @@ export class ListsClient {
         request: Mailchimp.ListSignupFormsListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListSignupFormsListsResponse>> {
-        const { list_id: listId } = request;
+        const { listId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -4717,7 +5173,13 @@ export class ListsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListSignupFormsListsResponse,
+                data: serializers.ListSignupFormsListsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -4749,7 +5211,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.createSignupForm({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public createSignupForm(
@@ -4763,7 +5225,7 @@ export class ListsClient {
         request: Mailchimp.CreateSignupFormListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.SignupForm>> {
-        const { list_id: listId, ..._body } = request;
+        const { listId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -4782,7 +5244,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateSignupFormListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -4790,7 +5258,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.SignupForm, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.SignupForm.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -4820,7 +5297,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listSurveys({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public listSurveys(
@@ -4834,7 +5311,7 @@ export class ListsClient {
         request: Mailchimp.ListSurveysListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<unknown>> {
-        const { list_id: listId } = request;
+        const { listId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -4883,7 +5360,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.createSurvey({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public createSurvey(
@@ -4897,7 +5374,7 @@ export class ListsClient {
         request: Mailchimp.CreateSurveyListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<unknown>> {
-        const { list_id: listId, ..._body } = request;
+        const { listId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -4916,7 +5393,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateSurveyListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -4949,8 +5432,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.getSurvey({
-     *         list_id: "list_id",
-     *         survey_id: "survey_id"
+     *         listId: "list_id",
+     *         surveyId: "survey_id"
      *     })
      */
     public getSurvey(
@@ -4964,7 +5447,7 @@ export class ListsClient {
         request: Mailchimp.GetSurveyListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<unknown>> {
-        const { list_id: listId, survey_id: surveyId } = request;
+        const { listId, surveyId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -5018,8 +5501,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.deleteSurvey({
-     *         list_id: "list_id",
-     *         survey_id: "survey_id"
+     *         listId: "list_id",
+     *         surveyId: "survey_id"
      *     })
      */
     public deleteSurvey(
@@ -5033,7 +5516,7 @@ export class ListsClient {
         request: Mailchimp.DeleteSurveyListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { list_id: listId, survey_id: surveyId } = request;
+        const { listId, surveyId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -5087,8 +5570,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.updateSurvey({
-     *         list_id: "list_id",
-     *         survey_id: "survey_id"
+     *         listId: "list_id",
+     *         surveyId: "survey_id"
      *     })
      */
     public updateSurvey(
@@ -5102,7 +5585,7 @@ export class ListsClient {
         request: Mailchimp.UpdateSurveyListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<unknown>> {
-        const { list_id: listId, survey_id: surveyId, ..._body } = request;
+        const { listId, surveyId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -5121,7 +5604,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateSurveyListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -5159,8 +5648,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.createListSurveyActionReplicate({
-     *         list_idPathParam: "list_id",
-     *         survey_id: "survey_id"
+     *         listIdPathParam: "list_id",
+     *         surveyId: "survey_id"
      *     })
      */
     public createListSurveyActionReplicate(
@@ -5174,7 +5663,7 @@ export class ListsClient {
         request: Mailchimp.CreateListSurveyActionReplicateListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<unknown>> {
-        const { list_idPathParam: listIdPathParam, survey_id: surveyId, ..._body } = request;
+        const { listIdPathParam, surveyId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -5193,7 +5682,13 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateListSurveyActionReplicateListsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -5231,7 +5726,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listTagSearch({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public listTagSearch(
@@ -5245,7 +5740,7 @@ export class ListsClient {
         request: Mailchimp.ListTagSearchListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListTagSearchListsResponse>> {
-        const { list_id: listId, name } = request;
+        const { listId, name } = request;
         const _queryParams: Record<string, unknown> = {
             name,
         };
@@ -5276,7 +5771,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListTagSearchListsResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ListTagSearchListsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -5306,7 +5810,7 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.listWebhooks({
-     *         list_id: "list_id"
+     *         listId: "list_id"
      *     })
      */
     public listWebhooks(
@@ -5320,7 +5824,7 @@ export class ListsClient {
         request: Mailchimp.ListWebhooksListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListWebhooksListsResponse>> {
-        const { list_id: listId } = request;
+        const { listId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -5344,7 +5848,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListWebhooksListsResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ListWebhooksListsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -5369,22 +5882,22 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.createWebhook({
-     *         list_id: "list_id",
+     *         listId: "list_id",
      *         body: {}
      *     })
      */
     public createWebhook(
         request: Mailchimp.CreateWebhookListsRequest,
         requestOptions?: ListsClient.RequestOptions,
-    ): core.HttpResponsePromise<Mailchimp.ListWebhooks> {
+    ): core.HttpResponsePromise<Mailchimp.CreateWebhookListsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__createWebhook(request, requestOptions));
     }
 
     private async __createWebhook(
         request: Mailchimp.CreateWebhookListsRequest,
         requestOptions?: ListsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Mailchimp.ListWebhooks>> {
-        const { list_id: listId, body: _body } = request;
+    ): Promise<core.WithRawResponse<Mailchimp.CreateWebhookListsResponse>> {
+        const { listId, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -5403,7 +5916,10 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.AddWebhook.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip", omitUndefined: true }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -5411,7 +5927,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListWebhooks, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.CreateWebhookListsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -5441,8 +5966,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.getWebhook({
-     *         list_id: "list_id",
-     *         webhook_id: "webhook_id"
+     *         listId: "list_id",
+     *         webhookId: "webhook_id"
      *     })
      */
     public getWebhook(
@@ -5456,7 +5981,7 @@ export class ListsClient {
         request: Mailchimp.GetWebhookListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListWebhooks>> {
-        const { list_id: listId, webhook_id: webhookId } = request;
+        const { listId, webhookId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -5480,7 +6005,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListWebhooks, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ListWebhooks.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -5510,8 +6044,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.deleteWebhook({
-     *         list_id: "list_id",
-     *         webhook_id: "webhook_id"
+     *         listId: "list_id",
+     *         webhookId: "webhook_id"
      *     })
      */
     public deleteWebhook(
@@ -5525,7 +6059,7 @@ export class ListsClient {
         request: Mailchimp.DeleteWebhookListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { list_id: listId, webhook_id: webhookId } = request;
+        const { listId, webhookId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -5579,8 +6113,8 @@ export class ListsClient {
      *
      * @example
      *     await client.lists.updateWebhook({
-     *         list_id: "list_id",
-     *         webhook_id: "webhook_id",
+     *         listId: "list_id",
+     *         webhookId: "webhook_id",
      *         body: {}
      *     })
      */
@@ -5595,7 +6129,7 @@ export class ListsClient {
         request: Mailchimp.UpdateWebhookListsRequest,
         requestOptions?: ListsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListWebhooks>> {
-        const { list_id: listId, webhook_id: webhookId, body: _body } = request;
+        const { listId, webhookId, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -5614,7 +6148,10 @@ export class ListsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.AddWebhook.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip", omitUndefined: true }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -5622,7 +6159,16 @@ export class ListsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListWebhooks, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ListWebhooks.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {

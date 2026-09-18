@@ -1,6 +1,6 @@
 {
     "name": "@mailchimp/mailchimp-marketing",
-    "version": "0.0.155",
+    "version": "0.0.214",
     "private": false,
     "repository": {
         "type": "git",
@@ -21,6 +21,17 @@
                 "default": "./dist/cjs/index.js"
             },
             "default": "./dist/cjs/index.js"
+        },
+        "./serialization": {
+            "import": {
+                "types": "./dist/esm/serialization/index.d.mts",
+                "default": "./dist/esm/serialization/index.mjs"
+            },
+            "require": {
+                "types": "./dist/cjs/serialization/index.d.ts",
+                "default": "./dist/cjs/serialization/index.js"
+            },
+            "default": "./dist/cjs/serialization/index.js"
         },
         "./root": {
             "import": {
@@ -54,6 +65,17 @@
                 "default": "./dist/cjs/api/resources/activityFeed/exports.js"
             },
             "default": "./dist/cjs/api/resources/activityFeed/exports.js"
+        },
+        "./audiences": {
+            "import": {
+                "types": "./dist/esm/api/resources/audiences/exports.d.mts",
+                "default": "./dist/esm/api/resources/audiences/exports.mjs"
+            },
+            "require": {
+                "types": "./dist/cjs/api/resources/audiences/exports.d.ts",
+                "default": "./dist/cjs/api/resources/audiences/exports.js"
+            },
+            "default": "./dist/cjs/api/resources/audiences/exports.js"
         },
         "./authorizedApps": {
             "import": {
@@ -362,5 +384,6 @@
     "engines": {
         "node": ">=18.0.0"
     },
-    "sideEffects": false
+    "sideEffects": false,
+    "license": "Apache-2.0"
 }

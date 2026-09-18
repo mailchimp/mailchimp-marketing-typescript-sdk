@@ -3,14 +3,14 @@
 /**
  * @example
  *     {
- *         template_id: "template_id"
+ *         templateId: "template_id"
  *     }
  */
 export interface ListDefaultContentTemplatesRequest {
     /** The unique id for the template. */
-    template_id: string;
+    templateId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

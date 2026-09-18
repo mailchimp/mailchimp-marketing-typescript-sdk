@@ -1,74 +1,21 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../../../../index.js";
+
 /**
  * @example
  *     {
- *         workflow_id: "workflow_id",
- *         workflow_email_id: "workflow_email_id"
+ *         workflowId: "workflow_id",
+ *         workflowEmailId: "workflow_email_id"
  *     }
  */
 export interface UpdateEmailAutomationsRequest {
     /** The unique id for the Automation workflow. */
-    workflow_id: string;
+    workflowId: string;
     /** The unique id for the Automation workflow email. */
-    workflow_email_id: string;
+    workflowEmailId: string;
     /** The delay settings for an automation email. */
-    delay?: UpdateEmailAutomationsRequest.Delay;
+    delay?: Mailchimp.UpdateEmailAutomationsRequestDelay;
     /** Settings for the campaign including the email subject, from name, and from email address. */
-    settings?: UpdateEmailAutomationsRequest.Settings;
-}
-
-export namespace UpdateEmailAutomationsRequest {
-    /**
-     * The delay settings for an automation email.
-     */
-    export interface Delay {
-        /** The action that triggers the delay of an automation emails. */
-        action: Delay.Action;
-        /** The delay amount for an automation email. */
-        amount?: number | undefined;
-        /** Whether the delay settings describe before or after the delay action of an automation email. */
-        direction?: Delay.Direction | undefined;
-        /** The type of delay for an automation email. */
-        type?: Delay.Type | undefined;
-    }
-
-    export namespace Delay {
-        /** The action that triggers the delay of an automation emails. */
-        export const Action = {
-            Signup: "signup",
-            EcommAbandonedBrowse: "ecomm_abandoned_browse",
-            EcommAbandonedCart: "ecomm_abandoned_cart",
-        } as const;
-        export type Action = (typeof Action)[keyof typeof Action];
-        /** Whether the delay settings describe before or after the delay action of an automation email. */
-        export const Direction = {
-            After: "after",
-        } as const;
-        export type Direction = (typeof Direction)[keyof typeof Direction];
-        /** The type of delay for an automation email. */
-        export const Type = {
-            Now: "now",
-            Day: "day",
-            Hour: "hour",
-            Week: "week",
-        } as const;
-        export type Type = (typeof Type)[keyof typeof Type];
-    }
-
-    /**
-     * Settings for the campaign including the email subject, from name, and from email address.
-     */
-    export interface Settings {
-        /** The 'from' name for the Automation (not an email address). */
-        from_name?: string | undefined;
-        /** The preview text for the campaign. */
-        preview_text?: string | undefined;
-        /** The reply-to email address for the Automation. */
-        reply_to?: string | undefined;
-        /** The subject line for the campaign. */
-        subject_line?: string | undefined;
-        /** The title of the Automation. */
-        title?: string | undefined;
-    }
+    settings?: Mailchimp.UpdateEmailAutomationsRequestSettings;
 }

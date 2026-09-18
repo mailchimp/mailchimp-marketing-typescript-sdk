@@ -42,6 +42,47 @@ describe("RootClient", () => {
         server.mockEndpoint().get("/3.0/").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.root.list();
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            accountId: "account_id",
+            accountIndustry: "account_industry",
+            accountName: "account_name",
+            accountTimezone: "account_timezone",
+            avatarUrl: "avatar_url",
+            contact: {
+                addr1: "addr1",
+                addr2: "addr2",
+                city: "city",
+                company: "company",
+                country: "country",
+                state: "state",
+                zip: "zip",
+            },
+            email: "email",
+            firstName: "first_name",
+            firstPayment: "",
+            industryStats: {
+                bounceRate: 1.1,
+                clickRate: 1.1,
+                openRate: 1.1,
+            },
+            lastLogin: new Date("2024-01-15T09:30:00.000Z"),
+            lastName: "last_name",
+            loginId: "login_id",
+            memberSince: new Date("2010-01-01T23:59:59.000Z"),
+            pricingPlanType: "monthly",
+            proEnabled: true,
+            role: "role",
+            totalSubscribers: 1,
+            username: "freddie2000",
+        });
     });
 });

@@ -3,19 +3,19 @@
 /**
  * @example
  *     {
- *         campaign_id: "campaign_id",
- *         link_id: "link_id"
+ *         campaignId: "campaign_id",
+ *         linkId: "link_id"
  *     }
  */
 export interface GetClickDetailReportsRequest {
     /** The unique id for the campaign. */
-    campaign_id: string;
+    campaignId: string;
     /** The id for the link. */
-    link_id: string;
+    linkId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
     /** When true, exclude automated bot clicks so the returned click counts reflect human clicks only, matching the in-app Recipient Activity view. Filtering changes a link's counts, but never removes a link from the response. Defaults to false (all clicks). */
-    filter_bots?: boolean;
+    filterBots?: boolean;
 }

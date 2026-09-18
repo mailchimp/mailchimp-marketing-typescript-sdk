@@ -1,7 +1,7 @@
 export type { CreateActionArchiveAutomationsRequest } from "./CreateActionArchiveAutomationsRequest.js";
 export type { CreateActionPauseAllEmailAutomationsRequest } from "./CreateActionPauseAllEmailAutomationsRequest.js";
 export type { CreateActionStartAllEmailAutomationsRequest } from "./CreateActionStartAllEmailAutomationsRequest.js";
-export { CreateAutomationsRequest } from "./CreateAutomationsRequest.js";
+export type { CreateAutomationsRequest } from "./CreateAutomationsRequest.js";
 export type { CreateEmailActionPauseAutomationsRequest } from "./CreateEmailActionPauseAutomationsRequest.js";
 export type { CreateEmailActionStartAutomationsRequest } from "./CreateEmailActionStartAutomationsRequest.js";
 export type { CreateEmailQueueAutomationsRequest } from "./CreateEmailQueueAutomationsRequest.js";
@@ -15,4 +15,4 @@ export type { ListAutomationsRequest } from "./ListAutomationsRequest.js";
 export type { ListEmailQueueAutomationsRequest } from "./ListEmailQueueAutomationsRequest.js";
 export type { ListEmailsAutomationsRequest } from "./ListEmailsAutomationsRequest.js";
 export type { ListRemovedSubscribersAutomationsRequest } from "./ListRemovedSubscribersAutomationsRequest.js";
-export { UpdateEmailAutomationsRequest } from "./UpdateEmailAutomationsRequest.js";
+export type { UpdateEmailAutomationsRequest } from "./UpdateEmailAutomationsRequest.js";

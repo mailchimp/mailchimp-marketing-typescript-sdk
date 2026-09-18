@@ -3,14 +3,14 @@
 /**
  * @example
  *     {
- *         file_id: "file_id"
+ *         fileId: "file_id"
  *     }
  */
 export interface UpdateFileFileManagerRequest {
     /** The unique id for the File Manager file. */
-    file_id: string;
+    fileId: string;
     /** The id of the folder. Setting `folder_id` to `0` will remove a file from its current folder. */
-    folder_id?: number;
+    folderId?: number;
     /** The name of the file. */
     name?: string;
 }

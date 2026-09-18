@@ -8,6 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace CampaignsClient {
@@ -16,6 +17,9 @@ export declare namespace CampaignsClient {
     export interface RequestOptions extends BaseRequestOptions {}
 }
 
+/**
+ * Create, send, schedule, test, and act on campaigns.
+ */
 export class CampaignsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<CampaignsClient.Options>;
 
@@ -45,39 +49,63 @@ export class CampaignsClient {
             ): Promise<core.WithRawResponse<Mailchimp.ListCampaignsResponse>> => {
                 const {
                     fields,
-                    exclude_fields: excludeFields,
+                    excludeFields,
                     count,
                     offset,
                     type: type_,
                     status,
-                    before_send_time: beforeSendTime,
-                    since_send_time: sinceSendTime,
-                    before_create_time: beforeCreateTime,
-                    since_create_time: sinceCreateTime,
-                    list_id: listId,
-                    folder_id: folderId,
-                    member_id: memberId,
-                    sort_field: sortField,
-                    sort_dir: sortDir,
-                    include_resend_shortcut_eligibility: includeResendShortcutEligibility,
-                    include_resend_shortcut_usage: includeResendShortcutUsage,
+                    beforeSendTime,
+                    sinceSendTime,
+                    beforeCreateTime,
+                    sinceCreateTime,
+                    listId,
+                    folderId,
+                    memberId,
+                    sortField,
+                    sortDir,
+                    includeResendShortcutEligibility,
+                    includeResendShortcutUsage,
                 } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
                     count,
                     offset,
-                    type: type_ != null ? type_ : undefined,
-                    status: status != null ? status : undefined,
-                    before_send_time: beforeSendTime != null ? beforeSendTime : undefined,
-                    since_send_time: sinceSendTime != null ? sinceSendTime : undefined,
-                    before_create_time: beforeCreateTime != null ? beforeCreateTime : undefined,
-                    since_create_time: sinceCreateTime != null ? sinceCreateTime : undefined,
+                    type:
+                        type_ != null
+                            ? serializers.ListCampaignsRequestType.jsonOrThrow(type_, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
+                    status:
+                        status != null
+                            ? serializers.ListCampaignsRequestStatus.jsonOrThrow(status, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
+                    before_send_time: beforeSendTime != null ? beforeSendTime?.toISOString() : undefined,
+                    since_send_time: sinceSendTime != null ? sinceSendTime?.toISOString() : undefined,
+                    before_create_time: beforeCreateTime != null ? beforeCreateTime?.toISOString() : undefined,
+                    since_create_time: sinceCreateTime != null ? sinceCreateTime?.toISOString() : undefined,
                     list_id: listId,
                     folder_id: folderId,
                     member_id: memberId,
-                    sort_field: sortField != null ? sortField : undefined,
-                    sort_dir: sortDir != null ? sortDir : undefined,
+                    sort_field:
+                        sortField != null
+                            ? serializers.ListCampaignsRequestSortField.jsonOrThrow(sortField, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
+                    sort_dir:
+                        sortDir != null
+                            ? serializers.ListCampaignsRequestSortDir.jsonOrThrow(sortDir, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
                     include_resend_shortcut_eligibility: includeResendShortcutEligibility,
                     include_resend_shortcut_usage: includeResendShortcutUsage,
                 };
@@ -111,7 +139,13 @@ export class CampaignsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListCampaignsResponse,
+                        data: serializers.ListCampaignsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -182,7 +216,13 @@ export class CampaignsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateCampaignsRequest.jsonOrThrow(request, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -190,7 +230,16 @@ export class CampaignsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.Campaign, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.Campaign.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -215,7 +264,7 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.get({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public get(
@@ -229,13 +278,8 @@ export class CampaignsClient {
         request: Mailchimp.GetCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.Campaign>> {
-        const {
-            campaign_id: campaignId,
-            fields,
-            exclude_fields: excludeFields,
-            include_resend_shortcut_eligibility: includeResendShortcutEligibility,
-            include_resend_shortcut_usage: includeResendShortcutUsage,
-        } = request;
+        const { campaignId, fields, excludeFields, includeResendShortcutEligibility, includeResendShortcutUsage } =
+            request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -271,7 +315,16 @@ export class CampaignsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.Campaign, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.Campaign.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -296,7 +349,7 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.delete({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public delete(
@@ -310,7 +363,7 @@ export class CampaignsClient {
         request: Mailchimp.DeleteCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { campaign_id: campaignId } = request;
+        const { campaignId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -364,7 +417,7 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.update({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public update(
@@ -378,7 +431,7 @@ export class CampaignsClient {
         request: Mailchimp.UpdateCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.Campaign>> {
-        const { campaign_id: campaignId, ..._body } = request;
+        const { campaignId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -397,7 +450,13 @@ export class CampaignsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateCampaignsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -405,7 +464,16 @@ export class CampaignsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.Campaign, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.Campaign.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -435,7 +503,7 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.createActionCancelSend({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public createActionCancelSend(
@@ -449,7 +517,7 @@ export class CampaignsClient {
         request: Mailchimp.CreateActionCancelSendCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { campaign_id: campaignId } = request;
+        const { campaignId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -503,7 +571,7 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.createActionCreateResend({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public createActionCreateResend(
@@ -517,7 +585,7 @@ export class CampaignsClient {
         request: Mailchimp.CreateActionCreateResendCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.Campaign>> {
-        const { campaign_id: campaignId, ..._body } = request;
+        const { campaignId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -536,7 +604,13 @@ export class CampaignsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateActionCreateResendCampaignsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -544,7 +618,16 @@ export class CampaignsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.Campaign, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.Campaign.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -574,7 +657,7 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.createActionPause({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public createActionPause(
@@ -588,7 +671,7 @@ export class CampaignsClient {
         request: Mailchimp.CreateActionPauseCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { campaign_id: campaignId } = request;
+        const { campaignId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -642,7 +725,7 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.createActionReplicate({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public createActionReplicate(
@@ -656,7 +739,7 @@ export class CampaignsClient {
         request: Mailchimp.CreateActionReplicateCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.Campaign>> {
-        const { campaign_id: campaignId } = request;
+        const { campaignId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -680,7 +763,16 @@ export class CampaignsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.Campaign, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.Campaign.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -710,7 +802,7 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.createActionResume({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public createActionResume(
@@ -724,7 +816,7 @@ export class CampaignsClient {
         request: Mailchimp.CreateActionResumeCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { campaign_id: campaignId } = request;
+        const { campaignId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -778,8 +870,8 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.createActionSchedule({
-     *         campaign_id: "campaign_id",
-     *         schedule_time: "2024-01-15T09:30:00Z"
+     *         campaignId: "campaign_id",
+     *         scheduleTime: new Date("2024-01-15T09:30:00.000Z")
      *     })
      */
     public createActionSchedule(
@@ -793,7 +885,7 @@ export class CampaignsClient {
         request: Mailchimp.CreateActionScheduleCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { campaign_id: campaignId, ..._body } = request;
+        const { campaignId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -812,7 +904,13 @@ export class CampaignsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateActionScheduleCampaignsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -850,7 +948,7 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.createActionSend({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public createActionSend(
@@ -864,7 +962,7 @@ export class CampaignsClient {
         request: Mailchimp.CreateActionSendCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { campaign_id: campaignId } = request;
+        const { campaignId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -918,9 +1016,9 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.createActionTest({
-     *         campaign_id: "campaign_id",
-     *         send_type: "html",
-     *         test_emails: ["test_emails"]
+     *         campaignId: "campaign_id",
+     *         sendType: "html",
+     *         testEmails: ["test_emails"]
      *     })
      */
     public createActionTest(
@@ -934,7 +1032,7 @@ export class CampaignsClient {
         request: Mailchimp.CreateActionTestCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { campaign_id: campaignId, ..._body } = request;
+        const { campaignId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -953,7 +1051,13 @@ export class CampaignsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateActionTestCampaignsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -991,7 +1095,7 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.createActionUnschedule({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public createActionUnschedule(
@@ -1005,7 +1109,7 @@ export class CampaignsClient {
         request: Mailchimp.CreateActionUnscheduleCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { campaign_id: campaignId } = request;
+        const { campaignId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1059,7 +1163,7 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.getContent({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public getContent(
@@ -1073,7 +1177,7 @@ export class CampaignsClient {
         request: Mailchimp.GetContentCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.CampaignContent>> {
-        const { campaign_id: campaignId, fields, exclude_fields: excludeFields } = request;
+        const { campaignId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -1107,7 +1211,16 @@ export class CampaignsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.CampaignContent, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.CampaignContent.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1137,7 +1250,7 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.upsertContent({
-     *         campaign_id: "campaign_id",
+     *         campaignId: "campaign_id",
      *         body: {}
      *     })
      */
@@ -1152,7 +1265,7 @@ export class CampaignsClient {
         request: Mailchimp.UpsertContentCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.CampaignContent>> {
-        const { campaign_id: campaignId, body: _body } = request;
+        const { campaignId, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1171,7 +1284,13 @@ export class CampaignsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CampaignContent.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1179,7 +1298,16 @@ export class CampaignsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.CampaignContent, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.CampaignContent.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1209,7 +1337,7 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.listFeedback({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public listFeedback(
@@ -1223,7 +1351,7 @@ export class CampaignsClient {
         request: Mailchimp.ListFeedbackCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListFeedbackCampaignsResponse>> {
-        const { campaign_id: campaignId, fields, exclude_fields: excludeFields } = request;
+        const { campaignId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -1258,7 +1386,13 @@ export class CampaignsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListFeedbackCampaignsResponse,
+                data: serializers.ListFeedbackCampaignsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -1290,7 +1424,7 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.createFeedback({
-     *         campaign_id: "campaign_id",
+     *         campaignId: "campaign_id",
      *         message: "message"
      *     })
      */
@@ -1305,7 +1439,7 @@ export class CampaignsClient {
         request: Mailchimp.CreateFeedbackCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.CreateFeedbackCampaignsResponse>> {
-        const { campaign_id: campaignId, ..._body } = request;
+        const { campaignId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1324,7 +1458,13 @@ export class CampaignsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateFeedbackCampaignsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1333,7 +1473,13 @@ export class CampaignsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.CreateFeedbackCampaignsResponse,
+                data: serializers.CreateFeedbackCampaignsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -1365,8 +1511,8 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.getFeedback({
-     *         campaign_id: "campaign_id",
-     *         feedback_id: "feedback_id"
+     *         campaignId: "campaign_id",
+     *         feedbackId: "feedback_id"
      *     })
      */
     public getFeedback(
@@ -1380,7 +1526,7 @@ export class CampaignsClient {
         request: Mailchimp.GetFeedbackCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.CampaignFeedback>> {
-        const { campaign_id: campaignId, feedback_id: feedbackId, fields, exclude_fields: excludeFields } = request;
+        const { campaignId, feedbackId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -1414,7 +1560,16 @@ export class CampaignsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.CampaignFeedback, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.CampaignFeedback.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1444,8 +1599,8 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.deleteFeedback({
-     *         campaign_id: "campaign_id",
-     *         feedback_id: "feedback_id"
+     *         campaignId: "campaign_id",
+     *         feedbackId: "feedback_id"
      *     })
      */
     public deleteFeedback(
@@ -1459,7 +1614,7 @@ export class CampaignsClient {
         request: Mailchimp.DeleteFeedbackCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { campaign_id: campaignId, feedback_id: feedbackId } = request;
+        const { campaignId, feedbackId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1513,8 +1668,8 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.updateFeedback({
-     *         campaign_id: "campaign_id",
-     *         feedback_id: "feedback_id"
+     *         campaignId: "campaign_id",
+     *         feedbackId: "feedback_id"
      *     })
      */
     public updateFeedback(
@@ -1528,7 +1683,7 @@ export class CampaignsClient {
         request: Mailchimp.UpdateFeedbackCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.CampaignFeedback>> {
-        const { campaign_id: campaignId, feedback_id: feedbackId, ..._body } = request;
+        const { campaignId, feedbackId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1547,7 +1702,13 @@ export class CampaignsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateFeedbackCampaignsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1555,7 +1716,16 @@ export class CampaignsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.CampaignFeedback, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.CampaignFeedback.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1585,7 +1755,7 @@ export class CampaignsClient {
      *
      * @example
      *     await client.campaigns.listSendChecklist({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public listSendChecklist(
@@ -1599,7 +1769,7 @@ export class CampaignsClient {
         request: Mailchimp.ListSendChecklistCampaignsRequest,
         requestOptions?: CampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListSendChecklistCampaignsResponse>> {
-        const { campaign_id: campaignId, fields, exclude_fields: excludeFields } = request;
+        const { campaignId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -1634,7 +1804,13 @@ export class CampaignsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListSendChecklistCampaignsResponse,
+                data: serializers.ListSendChecklistCampaignsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }

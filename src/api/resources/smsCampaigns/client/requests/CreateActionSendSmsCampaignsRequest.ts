@@ -3,10 +3,10 @@
 /**
  * @example
  *     {
- *         sms_campaign_id: "sms_campaign_id"
+ *         smsCampaignId: "sms_campaign_id"
  *     }
  */
 export interface CreateActionSendSmsCampaignsRequest {
     /** The unique id for the SMS campaign. */
-    sms_campaign_id: string;
+    smsCampaignId: string;
 }

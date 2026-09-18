@@ -26,11 +26,6 @@ export const ListMemberActivityFeedListsRequestActivityFiltersItem = {
     VideoCallTranscripts: "video_call_transcripts",
     WhatsappBulkSent: "whatsapp_bulk_sent",
     WhatsappDelivered: "whatsapp_delivered",
-    WhatsappLinkClick: "whatsapp_link_click",
-    WhatsappSubscribe: "whatsapp_subscribe",
-    WhatsappSubscriptionPhoneUpdated: "whatsapp_subscription_phone_updated",
-    WhatsappUnsubscribe: "whatsapp_unsubscribe",
-    WhatsappUsedKeyword: "whatsapp_used_keyword",
 } as const;
 export type ListMemberActivityFeedListsRequestActivityFiltersItem =
     (typeof ListMemberActivityFeedListsRequestActivityFiltersItem)[keyof typeof ListMemberActivityFeedListsRequestActivityFiltersItem];

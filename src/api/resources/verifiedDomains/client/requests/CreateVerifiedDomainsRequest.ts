@@ -3,10 +3,10 @@
 /**
  * @example
  *     {
- *         verification_email: "verification_email"
+ *         verificationEmail: "verification_email"
  *     }
  */
 export interface CreateVerifiedDomainsRequest {
     /** The e-mail address at the domain you want to verify. This will receive a two-factor challenge to be used in the verify action. */
-    verification_email: string;
+    verificationEmail: string;
 }

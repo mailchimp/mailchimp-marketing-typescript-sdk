@@ -3,14 +3,14 @@
 /**
  * @example
  *     {
- *         folder_id: "folder_id"
+ *         folderId: "folder_id"
  *     }
  */
 export interface GetFolderFileManagerRequest {
     /** The unique id for the File Manager folder. */
-    folder_id: string;
+    folderId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

@@ -4,12 +4,12 @@
  * @example
  *     {
  *         domain: "example.com",
- *         foreign_id: "MC001"
+ *         foreignId: "MC001"
  *     }
  */
 export interface CreateConnectedSitesRequest {
     /** The connected site domain. */
     domain: string;
     /** The unique identifier for the site. */
-    foreign_id: string;
+    foreignId: string;
 }

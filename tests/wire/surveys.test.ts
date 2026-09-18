@@ -129,10 +129,150 @@ describe("SurveysClient", () => {
             .build();
 
         const response = await client.surveys.createListSurveyActionCreateEmail({
-            list_id: "list_id",
-            survey_id: "survey_id",
+            listId: "list_id",
+            surveyId: "survey_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            abSplitOpts: {
+                fromNameA: "from_name_a",
+                fromNameB: "from_name_b",
+                pickWinner: "opens",
+                replyEmailA: "reply_email_a",
+                replyEmailB: "reply_email_b",
+                sendTimeA: new Date("2024-01-15T09:30:00.000Z"),
+                sendTimeB: new Date("2024-01-15T09:30:00.000Z"),
+                sendTimeWinner: "send_time_winner",
+                splitSize: 1,
+                splitTest: "subject",
+                subjectA: "subject_a",
+                subjectB: "subject_b",
+                waitTime: 1,
+                waitUnits: "hours",
+            },
+            archiveUrl: "archive_url",
+            contentType: "content_type",
+            createTime: new Date("2024-01-15T09:30:00.000Z"),
+            deliveryStatus: {
+                canCancel: true,
+                emailsCanceled: 1,
+                emailsSent: 1,
+                enabled: true,
+                status: "delivering",
+            },
+            emailsSent: 1,
+            id: "id",
+            longArchiveUrl: "long_archive_url",
+            needsBlockRefresh: true,
+            parentCampaignId: "parent_campaign_id",
+            recipients: {
+                listId: "list_id",
+                listName: "list_name",
+                recipientCount: 1,
+                segmentOpts: {
+                    conditions: [
+                        {
+                            conditionType: "Aim",
+                            value: "any",
+                        },
+                    ],
+                    match: "any",
+                    prebuiltSegmentId: "subscribers-female",
+                    savedSegmentId: 1,
+                },
+                segmentText: "segment_text",
+            },
+            reportSummary: {
+                clickRate: 1.1,
+                clicks: 1,
+                ecommerce: {
+                    totalOrders: 1,
+                    totalRevenue: 1.1,
+                    totalSpent: 1.1,
+                },
+                openRate: 1.1,
+                opens: 1,
+                subscriberClicks: 1,
+                uniqueOpens: 1,
+            },
+            resendable: true,
+            rssOpts: {
+                constrainRssImg: true,
+                feedUrl: "feed_url",
+                frequency: "daily",
+                lastSent: new Date("2024-01-15T09:30:00.000Z"),
+                schedule: {
+                    hour: 1,
+                    monthlySendDate: 1.1,
+                    weeklySendDay: "sunday",
+                },
+            },
+            sendTime: new Date("2024-01-15T09:30:00.000Z"),
+            settings: {
+                authenticate: true,
+                autoFbPost: ["auto_fb_post"],
+                autoFooter: true,
+                autoTweet: true,
+                dragAndDrop: true,
+                fbComments: true,
+                folderId: "folder_id",
+                fromName: "from_name",
+                inlineCss: true,
+                previewText: "preview_text",
+                replyTo: "reply_to",
+                subjectLine: "subject_line",
+                templateId: 1,
+                timewarp: true,
+                title: "title",
+                toName: "to_name",
+                useConversation: true,
+            },
+            socialCard: {
+                description: "description",
+                imageUrl: "image_url",
+                title: "title",
+            },
+            status: "save",
+            tracking: {
+                capsule: {
+                    notes: true,
+                },
+                clicktale: "clicktale",
+                ecomm360: true,
+                goalTracking: true,
+                googleAnalytics: "google_analytics",
+                htmlClicks: true,
+                opens: true,
+                salesforce: {
+                    campaign: true,
+                    notes: true,
+                },
+                textClicks: true,
+            },
+            type: "regular",
+            variateSettings: {
+                combinations: [{}],
+                contents: ["contents"],
+                fromNames: ["from_names"],
+                replyToAddresses: ["reply_to_addresses"],
+                sendTimes: [new Date("2024-01-15T09:30:00.000Z")],
+                subjectLines: ["subject_lines"],
+                testSize: 1,
+                waitTime: 1,
+                winnerCriteria: "opens",
+                winningCampaignId: "winning_campaign_id",
+                winningCombinationId: "winning_combination_id",
+            },
+            webId: 1,
+        });
     });
 
     test("create-list-survey-action-publish", async () => {
@@ -150,10 +290,12 @@ describe("SurveysClient", () => {
             .build();
 
         const response = await client.surveys.createListSurveyActionPublish({
-            list_id: "list_id",
-            survey_id: "survey_id",
+            listId: "list_id",
+            surveyId: "survey_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            key: "value",
+        });
     });
 
     test("create-list-survey-action-unpublish", async () => {
@@ -171,9 +313,11 @@ describe("SurveysClient", () => {
             .build();
 
         const response = await client.surveys.createListSurveyActionUnpublish({
-            list_id: "list_id",
-            survey_id: "survey_id",
+            listId: "list_id",
+            surveyId: "survey_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            key: "value",
+        });
     });
 });

@@ -3,13 +3,13 @@
 /**
  * @example
  *     {
- *         list_id: "list_id",
- *         survey_id: "survey_id"
+ *         listId: "list_id",
+ *         surveyId: "survey_id"
  *     }
  */
 export interface CreateListSurveyActionUnpublishSurveysRequest {
     /** The unique ID for the list. */
-    list_id: string;
+    listId: string;
     /** The ID of the survey. */
-    survey_id: string;
+    surveyId: string;
 }

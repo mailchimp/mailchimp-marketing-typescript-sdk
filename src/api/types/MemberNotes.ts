@@ -1,61 +1,27 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../index.js";
+
 /**
  * A specific note for a specific member.
  */
 export interface MemberNotes {
     /** A list of link types and descriptions for the API schema documents. */
-    _links?: MemberNotes.Links.Item[] | undefined;
+    links?: Mailchimp.MemberNotesLinksItem[];
     /** As Mailchimp evolves beyond email, you may eventually have contacts without email addresses. While the `email_id` is the MD5 hash of their email address, this `contact_id` is agnostic of contact’s inclusion of an email address. */
-    contact_id?: string | undefined;
+    contactId?: string;
     /** The date and time the note was created in ISO 8601 format. */
-    created_at?: string | undefined;
+    createdAt?: Date;
     /** The author of the note. */
-    created_by?: string | undefined;
+    createdBy?: string;
     /** The MD5 hash of the lowercase version of the list member's email address. */
-    email_id?: string | undefined;
+    emailId?: string;
     /** The note id. */
-    id?: number | undefined;
+    id?: number;
     /** The unique id for the list. */
-    list_id?: string | undefined;
+    listId?: string;
     /** The content of the note. */
-    note?: string | undefined;
+    note?: string;
     /** The date and time the note was last updated in ISO 8601 format. */
-    updated_at?: string | undefined;
-}
-
-export namespace MemberNotes {
-    export type Links = Links.Item[];
-
-    export namespace Links {
-        /**
-         * This object represents a link from the resource where it is found to another resource or action that may be performed.
-         */
-        export interface Item {
-            /** This property contains a fully-qualified URL that can be called to retrieve the linked resource or perform the linked action. */
-            href?: string | undefined;
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            method?: Item.Method | undefined;
-            /** As with an HTML 'rel' attribute, this describes the type of link. */
-            rel?: string | undefined;
-            /** For HTTP methods that can receive bodies (POST and PUT), this is a URL representing the schema that the body should conform to. */
-            schema?: string | undefined;
-            /** For GETs, this is a URL representing the schema that the response should conform to. */
-            targetSchema?: string | undefined;
-        }
-
-        export namespace Item {
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            export const Method = {
-                Get: "GET",
-                Post: "POST",
-                Put: "PUT",
-                Patch: "PATCH",
-                Delete: "DELETE",
-                Options: "OPTIONS",
-                Head: "HEAD",
-            } as const;
-            export type Method = (typeof Method)[keyof typeof Method];
-        }
-    }
+    updatedAt?: Date;
 }

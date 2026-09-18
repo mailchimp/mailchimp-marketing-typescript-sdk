@@ -15,7 +15,15 @@ describe("FileManagerClient", () => {
         server.mockEndpoint().get("/3.0/file-manager").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.fileManager.list();
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual([
+            {
+                href: "href",
+                method: "GET",
+                rel: "rel",
+                schema: "schema",
+                targetSchema: "targetSchema",
+            },
+        ]);
     });
 
     test("list-files", async () => {
@@ -52,7 +60,35 @@ describe("FileManagerClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            files: [
+                {
+                    links: [{}],
+                    createdAt: new Date("2024-01-15T09:30:00.000Z"),
+                    createdBy: "created_by",
+                    folderId: 1,
+                    fullSizeUrl: "full_size_url",
+                    height: 1,
+                    id: 1,
+                    name: "name",
+                    size: 1,
+                    thumbnailUrl: "thumbnail_url",
+                    type: "image",
+                    width: 1,
+                },
+            ],
+            totalFileSize: 1.1,
+            totalItems: 1,
+        };
         const page = await client.fileManager.listFiles();
 
         expect(expected.files).toEqual(page.data);
@@ -90,10 +126,31 @@ describe("FileManagerClient", () => {
             .build();
 
         const response = await client.fileManager.createFile({
-            file_data: "file_data",
+            fileData: "file_data",
             name: "name",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            createdAt: new Date("2024-01-15T09:30:00.000Z"),
+            createdBy: "created_by",
+            folderId: 1,
+            fullSizeUrl: "full_size_url",
+            height: 1,
+            id: 1,
+            name: "name",
+            size: 1,
+            thumbnailUrl: "thumbnail_url",
+            type: "image",
+            width: 1,
+        });
     });
 
     test("get-file", async () => {
@@ -124,9 +181,30 @@ describe("FileManagerClient", () => {
             .build();
 
         const response = await client.fileManager.getFile({
-            file_id: "file_id",
+            fileId: "file_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            createdAt: new Date("2024-01-15T09:30:00.000Z"),
+            createdBy: "created_by",
+            folderId: 1,
+            fullSizeUrl: "full_size_url",
+            height: 1,
+            id: 1,
+            name: "name",
+            size: 1,
+            thumbnailUrl: "thumbnail_url",
+            type: "image",
+            width: 1,
+        });
     });
 
     test("delete-file", async () => {
@@ -136,7 +214,7 @@ describe("FileManagerClient", () => {
         server.mockEndpoint().delete("/3.0/file-manager/files/file_id").respondWith().statusCode(200).build();
 
         const response = await client.fileManager.deleteFile({
-            file_id: "file_id",
+            fileId: "file_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -170,9 +248,30 @@ describe("FileManagerClient", () => {
             .build();
 
         const response = await client.fileManager.updateFile({
-            file_id: "file_id",
+            fileId: "file_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            createdAt: new Date("2024-01-15T09:30:00.000Z"),
+            createdBy: "created_by",
+            folderId: 1,
+            fullSizeUrl: "full_size_url",
+            height: 1,
+            id: 1,
+            name: "name",
+            size: 1,
+            thumbnailUrl: "thumbnail_url",
+            type: "image",
+            width: 1,
+        });
     });
 
     test("list-folders", async () => {
@@ -202,7 +301,28 @@ describe("FileManagerClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            folders: [
+                {
+                    links: [{}],
+                    createdAt: new Date("2024-01-15T09:30:00.000Z"),
+                    createdBy: "created_by",
+                    fileCount: 1,
+                    id: 1,
+                    name: "name",
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.fileManager.listFolders();
 
         expect(expected.folders).toEqual(page.data);
@@ -236,7 +356,22 @@ describe("FileManagerClient", () => {
         const response = await client.fileManager.createFolder({
             name: "name",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            createdAt: new Date("2024-01-15T09:30:00.000Z"),
+            createdBy: "created_by",
+            fileCount: 1,
+            id: 1,
+            name: "name",
+        });
     });
 
     test("get-folder", async () => {
@@ -261,9 +396,24 @@ describe("FileManagerClient", () => {
             .build();
 
         const response = await client.fileManager.getFolder({
-            folder_id: "folder_id",
+            folderId: "folder_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            createdAt: new Date("2024-01-15T09:30:00.000Z"),
+            createdBy: "created_by",
+            fileCount: 1,
+            id: 1,
+            name: "name",
+        });
     });
 
     test("delete-folder", async () => {
@@ -273,7 +423,7 @@ describe("FileManagerClient", () => {
         server.mockEndpoint().delete("/3.0/file-manager/folders/folder_id").respondWith().statusCode(200).build();
 
         const response = await client.fileManager.deleteFolder({
-            folder_id: "folder_id",
+            folderId: "folder_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -301,10 +451,25 @@ describe("FileManagerClient", () => {
             .build();
 
         const response = await client.fileManager.updateFolder({
-            folder_id: "folder_id",
+            folderId: "folder_id",
             name: "name",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            createdAt: new Date("2024-01-15T09:30:00.000Z"),
+            createdBy: "created_by",
+            fileCount: 1,
+            id: 1,
+            name: "name",
+        });
     });
 
     test("list-folder-files", async () => {
@@ -341,9 +506,37 @@ describe("FileManagerClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            files: [
+                {
+                    links: [{}],
+                    createdAt: new Date("2024-01-15T09:30:00.000Z"),
+                    createdBy: "created_by",
+                    folderId: 1,
+                    fullSizeUrl: "full_size_url",
+                    height: 1,
+                    id: 1,
+                    name: "name",
+                    size: 1,
+                    thumbnailUrl: "thumbnail_url",
+                    type: "image",
+                    width: 1,
+                },
+            ],
+            totalFileSize: 1.1,
+            totalItems: 1,
+        };
         const page = await client.fileManager.listFolderFiles({
-            folder_id: "folder_id",
+            folderId: "folder_id",
         });
 
         expect(expected.files).toEqual(page.data);

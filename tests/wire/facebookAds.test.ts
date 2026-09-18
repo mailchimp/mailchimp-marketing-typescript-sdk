@@ -56,13 +56,76 @@ describe("FacebookAdsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            facebookAds: [
+                {
+                    canceledAt: new Date("2024-01-15T09:30:00.000Z"),
+                    createTime: new Date("2024-01-15T09:30:00.000Z"),
+                    hasSegment: true,
+                    id: "id",
+                    name: "name",
+                    publishedTime: new Date("2024-01-15T09:30:00.000Z"),
+                    recipients: {
+                        segmentOpts: {
+                            conditions: [
+                                {
+                                    conditionType: "Aim",
+                                    value: "any",
+                                },
+                            ],
+                            prebuiltSegmentId: "subscribers-female",
+                        },
+                    },
+                    showReport: true,
+                    startTime: new Date("2024-01-15T09:30:00.000Z"),
+                    status: "save",
+                    type: "regular",
+                    updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+                    webId: 1,
+                    emailSourceName: "email_source_name",
+                    endTime: new Date("2024-01-15T09:30:00.000Z"),
+                    needsAttention: true,
+                    pausedAt: new Date("2024-01-15T09:30:00.000Z"),
+                    thumbnail: "thumbnail",
+                    wasCanceledByFacebook: true,
+                    budget: {
+                        currencyCode: "USD",
+                        duration: 86400,
+                        totalAmount: 500,
+                    },
+                    channel: {
+                        fbPlacementAudience: false,
+                        fbPlacementFeed: true,
+                        igPlacementFeed: false,
+                    },
+                    hasAudience: true,
+                    hasContent: true,
+                    isConnected: true,
+                    site: {
+                        id: 43,
+                        name: "My Connected Site",
+                        url: "www.example.com",
+                    },
+                    links: [{}],
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.facebookAds.list();
 
-        expect(expected.facebook_ads).toEqual(page.data);
+        expect(expected.facebookAds).toEqual(page.data);
         expect(page.hasNextPage()).toBe(true);
         const nextPage = await page.getNextPage();
-        expect(expected.facebook_ads).toEqual(nextPage.data);
+        expect(expected.facebookAds).toEqual(nextPage.data);
     });
 
     test("get", async () => {
@@ -163,8 +226,130 @@ describe("FacebookAdsClient", () => {
             .build();
 
         const response = await client.facebookAds.get({
-            outreach_id: "outreach_id",
+            outreachId: "outreach_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            canceledAt: new Date("2024-01-15T09:30:00.000Z"),
+            createTime: new Date("2024-01-15T09:30:00.000Z"),
+            hasSegment: true,
+            id: "id",
+            name: "name",
+            publishedTime: new Date("2024-01-15T09:30:00.000Z"),
+            recipients: {
+                listId: "list_id",
+                listIsActive: true,
+                listName: "list_name",
+                recipientCount: 1,
+                segmentOpts: {
+                    conditions: [
+                        {
+                            conditionType: "Aim",
+                            value: "any",
+                        },
+                    ],
+                    match: "any",
+                    prebuiltSegmentId: "subscribers-female",
+                    savedSegmentId: 1,
+                },
+                segmentText: "segment_text",
+            },
+            reportSummary: {
+                clickRate: 1.1,
+                clicks: 1,
+                conversionRate: 1.1,
+                ecommerce: {
+                    averageOrderRevenue: 1.1,
+                    currencyCode: "currency_code",
+                    totalRevenue: 1.1,
+                },
+                engagements: 1,
+                impressions: 1.1,
+                openRate: 1.1,
+                opens: 1,
+                proxyExcludedOpenRate: 1.1,
+                proxyExcludedOpens: 1,
+                proxyExcludedUniqueOpens: 1,
+                reach: 1,
+                subscriberClicks: 1,
+                subscribes: 1,
+                totalSent: 1,
+                uniqueOpens: 1,
+                uniqueVisits: 1,
+                visits: 1,
+            },
+            showReport: true,
+            startTime: new Date("2024-01-15T09:30:00.000Z"),
+            status: "save",
+            type: "regular",
+            updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+            webId: 1,
+            emailSourceName: "email_source_name",
+            endTime: new Date("2024-01-15T09:30:00.000Z"),
+            needsAttention: true,
+            pausedAt: new Date("2024-01-15T09:30:00.000Z"),
+            thumbnail: "thumbnail",
+            wasCanceledByFacebook: true,
+            audience: {
+                emailSource: {
+                    isSegment: true,
+                    listName: "list_name",
+                    name: "name",
+                    segmentType: "segment_type",
+                    type: "type",
+                },
+                includeSourceInTarget: true,
+                lookalikeCountryCode: "lookalike_country_code",
+                sourceType: "facebook",
+                targetingSpecs: {
+                    gender: 1,
+                    interests: [{}],
+                    maxAge: 1,
+                    minAge: 1,
+                },
+                type: "Custom Audience",
+            },
+            budget: {
+                currencyCode: "USD",
+                duration: 86400,
+                totalAmount: 500,
+            },
+            channel: {
+                fbPlacementAudience: false,
+                fbPlacementFeed: true,
+                igPlacementFeed: false,
+            },
+            content: {
+                attachments: [{}],
+                callToAction: "call_to_action",
+                description: "description",
+                imageUrl: "image_url",
+                linkUrl: "link_url",
+                message: "message",
+                title: "title",
+            },
+            feedback: {
+                audience: "audience",
+                budget: "budget",
+                compliance: "compliance",
+                content: "content",
+            },
+            hasAudience: true,
+            hasContent: true,
+            isConnected: true,
+            site: {
+                id: 43,
+                name: "My Connected Site",
+                url: "www.example.com",
+            },
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+        });
     });
 });

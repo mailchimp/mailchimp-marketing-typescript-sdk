@@ -3,19 +3,19 @@
 /**
  * @example
  *     {
- *         store_id: "store_id",
- *         order_id: "order_id"
+ *         storeId: "store_id",
+ *         orderId: "order_id"
  *     }
  */
 export interface ListStoreOrderLinesEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     /** The id for the order in a store. */
-    order_id: string;
+    orderId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
     /** The number of records to return. Default value is 10. Maximum value is 1000 */
     count?: number;
     /** Used for [pagination](https://mailchimp.com/developer/marketing/docs/methods-parameters/#pagination), this is the number of records from a collection to skip. Default value is 0. */

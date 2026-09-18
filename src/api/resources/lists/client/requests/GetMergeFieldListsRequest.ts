@@ -3,17 +3,17 @@
 /**
  * @example
  *     {
- *         list_id: "list_id",
- *         merge_id: "merge_id"
+ *         listId: "list_id",
+ *         mergeId: "merge_id"
  *     }
  */
 export interface GetMergeFieldListsRequest {
     /** The unique ID for the list. */
-    list_id: string;
+    listId: string;
     /** The id for the merge field. */
-    merge_id: string;
+    mergeId: string;
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
 }

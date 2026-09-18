@@ -3,18 +3,18 @@
 /**
  * @example
  *     {
- *         campaign_id: "campaign_id"
+ *         campaignId: "campaign_id"
  *     }
  */
 export interface GetCampaignsRequest {
     /** The unique id for the campaign. */
-    campaign_id: string;
+    campaignId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
     /** Return the `resend_shortcut_eligibility` field in the response, which tells you if the campaign is eligible for the various Campaign Resend Shortcuts offered. */
-    include_resend_shortcut_eligibility?: boolean;
+    includeResendShortcutEligibility?: boolean;
     /** Return the `resend_shortcut_usage` field in the response.  This includes information about campaigns related by a shortcut. */
-    include_resend_shortcut_usage?: boolean;
+    includeResendShortcutUsage?: boolean;
 }

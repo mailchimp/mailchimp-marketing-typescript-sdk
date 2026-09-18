@@ -3,10 +3,10 @@
 /**
  * @example
  *     {
- *         folder_id: "folder_id"
+ *         folderId: "folder_id"
  *     }
  */
 export interface DeleteTemplateFoldersRequest {
     /** The unique id for the template folder. */
-    folder_id: string;
+    folderId: string;
 }

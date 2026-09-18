@@ -3,14 +3,14 @@
 /**
  * @example
  *     {
- *         store_id: "store_id"
+ *         storeId: "store_id"
  *     }
  */
 export interface GetStoreEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

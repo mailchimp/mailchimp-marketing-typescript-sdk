@@ -5,7 +5,7 @@ import type * as Mailchimp from "../../../../index.js";
 /**
  * @example
  *     {
- *         store_id: "store_id",
+ *         storeId: "store_id",
  *         body: {
  *             id: "id",
  *             title: "Cat Hat",
@@ -18,6 +18,6 @@ import type * as Mailchimp from "../../../../index.js";
  */
 export interface CreateStoreProductEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     body: Mailchimp.EcommerceStoresOrdersPost;
 }

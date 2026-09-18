@@ -8,6 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace ConnectedSitesClient {
@@ -43,7 +44,7 @@ export class ConnectedSitesClient {
             async (
                 request: Mailchimp.ListConnectedSitesRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListConnectedSitesResponse>> => {
-                const { fields, exclude_fields: excludeFields, count, offset } = request;
+                const { fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -80,7 +81,13 @@ export class ConnectedSitesClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListConnectedSitesResponse,
+                        data: serializers.ListConnectedSitesResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -120,7 +127,7 @@ export class ConnectedSitesClient {
      * @example
      *     await client.connectedSites.create({
      *         domain: "example.com",
-     *         foreign_id: "MC001"
+     *         foreignId: "MC001"
      *     })
      */
     public create(
@@ -152,7 +159,13 @@ export class ConnectedSitesClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateConnectedSitesRequest.jsonOrThrow(request, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -160,7 +173,16 @@ export class ConnectedSitesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ConnectedSite, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ConnectedSite.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -185,7 +207,7 @@ export class ConnectedSitesClient {
      *
      * @example
      *     await client.connectedSites.get({
-     *         connected_site_id: "connected_site_id"
+     *         connectedSiteId: "connected_site_id"
      *     })
      */
     public get(
@@ -199,7 +221,7 @@ export class ConnectedSitesClient {
         request: Mailchimp.GetConnectedSitesRequest,
         requestOptions?: ConnectedSitesClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ConnectedSite>> {
-        const { connected_site_id: connectedSiteId, fields, exclude_fields: excludeFields } = request;
+        const { connectedSiteId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -233,7 +255,16 @@ export class ConnectedSitesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ConnectedSite, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ConnectedSite.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -263,7 +294,7 @@ export class ConnectedSitesClient {
      *
      * @example
      *     await client.connectedSites.delete({
-     *         connected_site_id: "connected_site_id"
+     *         connectedSiteId: "connected_site_id"
      *     })
      */
     public delete(
@@ -277,7 +308,7 @@ export class ConnectedSitesClient {
         request: Mailchimp.DeleteConnectedSitesRequest,
         requestOptions?: ConnectedSitesClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { connected_site_id: connectedSiteId } = request;
+        const { connectedSiteId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -331,7 +362,7 @@ export class ConnectedSitesClient {
      *
      * @example
      *     await client.connectedSites.createActionVerifyScriptInstallation({
-     *         connected_site_id: "connected_site_id"
+     *         connectedSiteId: "connected_site_id"
      *     })
      */
     public createActionVerifyScriptInstallation(
@@ -347,7 +378,7 @@ export class ConnectedSitesClient {
         request: Mailchimp.CreateActionVerifyScriptInstallationConnectedSitesRequest,
         requestOptions?: ConnectedSitesClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { connected_site_id: connectedSiteId } = request;
+        const { connectedSiteId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,

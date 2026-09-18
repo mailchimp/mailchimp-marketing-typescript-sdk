@@ -8,6 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace AccountExportsClient {
@@ -38,12 +39,12 @@ export class AccountExportsClient {
     public async list(
         request: Mailchimp.ListAccountExportsRequest = {},
         requestOptions?: AccountExportsClient.RequestOptions,
-    ): Promise<core.Page<Mailchimp.ListAccountExportsResponse.Exports.Item, Mailchimp.ListAccountExportsResponse>> {
+    ): Promise<core.Page<Mailchimp.ListAccountExportsResponseExportsItem, Mailchimp.ListAccountExportsResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
                 request: Mailchimp.ListAccountExportsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListAccountExportsResponse>> => {
-                const { fields, exclude_fields: excludeFields, count, offset } = request;
+                const { fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -80,7 +81,13 @@ export class AccountExportsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListAccountExportsResponse,
+                        data: serializers.ListAccountExportsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -96,7 +103,7 @@ export class AccountExportsClient {
         );
         let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<Mailchimp.ListAccountExportsResponse.Exports.Item, Mailchimp.ListAccountExportsResponse>({
+        return new core.Page<Mailchimp.ListAccountExportsResponseExportsItem, Mailchimp.ListAccountExportsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) => (response?.exports ?? []).length > 0,
@@ -119,7 +126,7 @@ export class AccountExportsClient {
      *
      * @example
      *     await client.accountExports.create({
-     *         include_stages: ["audiences", "gallery_files"]
+     *         includeStages: ["audiences", "gallery_files"]
      *     })
      */
     public create(
@@ -151,7 +158,13 @@ export class AccountExportsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateAccountExportsRequest.jsonOrThrow(request, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -160,7 +173,13 @@ export class AccountExportsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.CreateAccountExportsResponse,
+                data: serializers.CreateAccountExportsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -187,7 +206,7 @@ export class AccountExportsClient {
      *
      * @example
      *     await client.accountExports.get({
-     *         export_id: "export_id"
+     *         exportId: "export_id"
      *     })
      */
     public get(
@@ -201,7 +220,7 @@ export class AccountExportsClient {
         request: Mailchimp.GetAccountExportsRequest,
         requestOptions?: AccountExportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.GetAccountExportsResponse>> {
-        const { export_id: exportId, fields, exclude_fields: excludeFields } = request;
+        const { exportId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -235,7 +254,16 @@ export class AccountExportsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.GetAccountExportsResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.GetAccountExportsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {

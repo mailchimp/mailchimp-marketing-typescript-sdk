@@ -8,6 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace CampaignFoldersClient {
@@ -38,12 +39,12 @@ export class CampaignFoldersClient {
     public async list(
         request: Mailchimp.ListCampaignFoldersRequest = {},
         requestOptions?: CampaignFoldersClient.RequestOptions,
-    ): Promise<core.Page<Mailchimp.CampaignFolders.Folders.Item, Mailchimp.CampaignFolders>> {
+    ): Promise<core.Page<Mailchimp.CampaignFoldersFoldersItem, Mailchimp.CampaignFolders>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
                 request: Mailchimp.ListCampaignFoldersRequest,
             ): Promise<core.WithRawResponse<Mailchimp.CampaignFolders>> => {
-                const { fields, exclude_fields: excludeFields, count, offset } = request;
+                const { fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -79,7 +80,16 @@ export class CampaignFoldersClient {
                     logging: this._options.logging,
                 });
                 if (_response.ok) {
-                    return { data: _response.body as Mailchimp.CampaignFolders, rawResponse: _response.rawResponse };
+                    return {
+                        data: serializers.CampaignFolders.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        rawResponse: _response.rawResponse,
+                    };
                 }
                 if (_response.error.reason === "status-code") {
                     throw new errors.MailchimpError({
@@ -93,7 +103,7 @@ export class CampaignFoldersClient {
         );
         let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<Mailchimp.CampaignFolders.Folders.Item, Mailchimp.CampaignFolders>({
+        return new core.Page<Mailchimp.CampaignFoldersFoldersItem, Mailchimp.CampaignFolders>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) => (response?.folders ?? []).length > 0,
@@ -148,7 +158,13 @@ export class CampaignFoldersClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateCampaignFoldersRequest.jsonOrThrow(request, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -156,7 +172,16 @@ export class CampaignFoldersClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.CampaignFolders, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.CampaignFolders.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -181,7 +206,7 @@ export class CampaignFoldersClient {
      *
      * @example
      *     await client.campaignFolders.get({
-     *         folder_id: "folder_id"
+     *         folderId: "folder_id"
      *     })
      */
     public get(
@@ -195,7 +220,7 @@ export class CampaignFoldersClient {
         request: Mailchimp.GetCampaignFoldersRequest,
         requestOptions?: CampaignFoldersClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.GetCampaignFoldersResponse>> {
-        const { folder_id: folderId, fields, exclude_fields: excludeFields } = request;
+        const { folderId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -229,7 +254,16 @@ export class CampaignFoldersClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.GetCampaignFoldersResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.GetCampaignFoldersResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -259,7 +293,7 @@ export class CampaignFoldersClient {
      *
      * @example
      *     await client.campaignFolders.delete({
-     *         folder_id: "folder_id"
+     *         folderId: "folder_id"
      *     })
      */
     public delete(
@@ -273,7 +307,7 @@ export class CampaignFoldersClient {
         request: Mailchimp.DeleteCampaignFoldersRequest,
         requestOptions?: CampaignFoldersClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { folder_id: folderId } = request;
+        const { folderId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -327,7 +361,7 @@ export class CampaignFoldersClient {
      *
      * @example
      *     await client.campaignFolders.update({
-     *         folder_id: "folder_id",
+     *         folderId: "folder_id",
      *         name: "name"
      *     })
      */
@@ -342,7 +376,7 @@ export class CampaignFoldersClient {
         request: Mailchimp.UpdateCampaignFoldersRequest,
         requestOptions?: CampaignFoldersClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.UpdateCampaignFoldersResponse>> {
-        const { folder_id: folderId, ..._body } = request;
+        const { folderId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -361,7 +395,13 @@ export class CampaignFoldersClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateCampaignFoldersRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -370,7 +410,13 @@ export class CampaignFoldersClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.UpdateCampaignFoldersResponse,
+                data: serializers.UpdateCampaignFoldersResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }

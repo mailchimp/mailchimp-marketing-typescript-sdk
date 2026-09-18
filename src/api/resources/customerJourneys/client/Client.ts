@@ -8,6 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace CustomerJourneysClient {
@@ -34,9 +35,9 @@ export class CustomerJourneysClient {
      *
      * @example
      *     await client.customerJourneys.createJourneyStepActionTrigger({
-     *         journey_id: 1,
-     *         step_id: 1,
-     *         email_address: "email_address"
+     *         journeyId: 1,
+     *         stepId: 1,
+     *         emailAddress: "email_address"
      *     })
      */
     public createJourneyStepActionTrigger(
@@ -50,7 +51,7 @@ export class CustomerJourneysClient {
         request: Mailchimp.CreateJourneyStepActionTriggerCustomerJourneysRequest,
         requestOptions?: CustomerJourneysClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { journey_id: journeyId, step_id: stepId, ..._body } = request;
+        const { journeyId, stepId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -69,7 +70,13 @@ export class CustomerJourneysClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateJourneyStepActionTriggerCustomerJourneysRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

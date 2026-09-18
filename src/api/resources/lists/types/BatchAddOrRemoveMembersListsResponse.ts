@@ -7,64 +7,17 @@ import type * as Mailchimp from "../../../index.js";
  */
 export interface BatchAddOrRemoveMembersListsResponse {
     /** A list of link types and descriptions for the API schema documents. */
-    _links?: BatchAddOrRemoveMembersListsResponse.Links.Item[] | undefined;
+    links?: Mailchimp.BatchAddOrRemoveMembersListsResponseLinksItem[];
     /** The total number of items matching the query, irrespective of pagination. */
-    error_count?: number | undefined;
+    errorCount?: number;
     /** An array of objects, each representing an array of email addresses that could not be added to the segment or removed and an error message providing more details. */
-    errors?: BatchAddOrRemoveMembersListsResponse.Errors.Item[] | undefined;
+    errors?: Mailchimp.BatchAddOrRemoveMembersListsResponseErrorsItem[];
     /** An array of objects, each representing a new member that was added to the static segment. */
-    members_added?: Mailchimp.ListsPost[] | undefined;
+    membersAdded?: Mailchimp.ListsPost[];
     /** An array of objects, each representing an existing list member that got deleted from the static segment. */
-    members_removed?: Mailchimp.ListsPost[] | undefined;
+    membersRemoved?: Mailchimp.ListsPost[];
     /** The total number of items matching the query, irrespective of pagination. */
-    total_added?: number | undefined;
+    totalAdded?: number;
     /** The total number of items matching the query, irrespective of pagination. */
-    total_removed?: number | undefined;
-}
-
-export namespace BatchAddOrRemoveMembersListsResponse {
-    export type Links = Links.Item[];
-
-    export namespace Links {
-        /**
-         * This object represents a link from the resource where it is found to another resource or action that may be performed.
-         */
-        export interface Item {
-            /** This property contains a fully-qualified URL that can be called to retrieve the linked resource or perform the linked action. */
-            href?: string | undefined;
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            method?: Item.Method | undefined;
-            /** As with an HTML 'rel' attribute, this describes the type of link. */
-            rel?: string | undefined;
-            /** For HTTP methods that can receive bodies (POST and PUT), this is a URL representing the schema that the body should conform to. */
-            schema?: string | undefined;
-            /** For GETs, this is a URL representing the schema that the response should conform to. */
-            targetSchema?: string | undefined;
-        }
-
-        export namespace Item {
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            export const Method = {
-                Get: "GET",
-                Post: "POST",
-                Put: "PUT",
-                Patch: "PATCH",
-                Delete: "DELETE",
-                Options: "OPTIONS",
-                Head: "HEAD",
-            } as const;
-            export type Method = (typeof Method)[keyof typeof Method];
-        }
-    }
-
-    export type Errors = Errors.Item[];
-
-    export namespace Errors {
-        export interface Item {
-            /** Email addresses added to the static segment or removed */
-            email_addresses?: string[] | undefined;
-            /** The error message indicating why the email addresses could not be added or updated. */
-            error?: string | undefined;
-        }
-    }
+    totalRemoved?: number;
 }

@@ -3,13 +3,13 @@
 /**
  * @example
  *     {
- *         sms_campaign_id: "sms_campaign_id",
- *         schedule_time: "2024-01-15T09:30:00Z"
+ *         smsCampaignId: "sms_campaign_id",
+ *         scheduleTime: new Date("2024-01-15T09:30:00.000Z")
  *     }
  */
 export interface CreateActionScheduleSmsCampaignsRequest {
     /** The unique id for the SMS campaign. */
-    sms_campaign_id: string;
+    smsCampaignId: string;
     /** The UTC date and time to schedule the campaign. */
-    schedule_time: string;
+    scheduleTime: Date;
 }
