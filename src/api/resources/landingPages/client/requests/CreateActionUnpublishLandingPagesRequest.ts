@@ -3,10 +3,10 @@
 /**
  * @example
  *     {
- *         page_id: "page_id"
+ *         pageId: "page_id"
  *     }
  */
 export interface CreateActionUnpublishLandingPagesRequest {
     /** The unique id for the page. */
-    page_id: string;
+    pageId: string;
 }

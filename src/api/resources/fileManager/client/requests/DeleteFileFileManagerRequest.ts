@@ -3,10 +3,10 @@
 /**
  * @example
  *     {
- *         file_id: "file_id"
+ *         fileId: "file_id"
  *     }
  */
 export interface DeleteFileFileManagerRequest {
     /** The unique id for the File Manager file. */
-    file_id: string;
+    fileId: string;
 }

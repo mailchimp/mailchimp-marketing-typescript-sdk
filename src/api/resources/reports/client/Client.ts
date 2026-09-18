@@ -7,6 +7,7 @@ import * as core from "../../../../core/index.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace ReportsClient {
@@ -15,6 +16,9 @@ export declare namespace ReportsClient {
     export interface RequestOptions extends BaseRequestOptions {}
 }
 
+/**
+ * Campaign reports: opens, clicks, bounces, ecommerce, and domain performance.
+ */
 export class ReportsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ReportsClient.Options>;
 
@@ -42,23 +46,21 @@ export class ReportsClient {
             async (
                 request: Mailchimp.ListReportsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListReportsResponse>> => {
-                const {
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                    type: type_,
-                    before_send_time: beforeSendTime,
-                    since_send_time: sinceSendTime,
-                } = request;
+                const { fields, excludeFields, count, offset, type: type_, beforeSendTime, sinceSendTime } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
                     count,
                     offset,
-                    type: type_ != null ? type_ : undefined,
-                    before_send_time: beforeSendTime != null ? beforeSendTime : undefined,
-                    since_send_time: sinceSendTime != null ? sinceSendTime : undefined,
+                    type:
+                        type_ != null
+                            ? serializers.ListReportsRequestType.jsonOrThrow(type_, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
+                    before_send_time: beforeSendTime != null ? beforeSendTime?.toISOString() : undefined,
+                    since_send_time: sinceSendTime != null ? sinceSendTime?.toISOString() : undefined,
                 };
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -90,7 +92,13 @@ export class ReportsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListReportsResponse,
+                        data: serializers.ListReportsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -129,7 +137,7 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.get({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public get(
@@ -143,7 +151,7 @@ export class ReportsClient {
         request: Mailchimp.GetReportsRequest,
         requestOptions?: ReportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.CampaignReport>> {
-        const { campaign_id: campaignId, fields, exclude_fields: excludeFields } = request;
+        const { campaignId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -177,7 +185,16 @@ export class ReportsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.CampaignReport, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.CampaignReport.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -202,7 +219,7 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.listAbuseReports({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public listAbuseReports(
@@ -216,7 +233,7 @@ export class ReportsClient {
         request: Mailchimp.ListAbuseReportsReportsRequest,
         requestOptions?: ReportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListAbuseReportsReportsResponse>> {
-        const { campaign_id: campaignId, fields, exclude_fields: excludeFields } = request;
+        const { campaignId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -251,7 +268,13 @@ export class ReportsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListAbuseReportsReportsResponse,
+                data: serializers.ListAbuseReportsReportsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -283,8 +306,8 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.getAbuseReport({
-     *         campaign_id: "campaign_id",
-     *         report_id: "report_id"
+     *         campaignId: "campaign_id",
+     *         reportId: "report_id"
      *     })
      */
     public getAbuseReport(
@@ -298,7 +321,7 @@ export class ReportsClient {
         request: Mailchimp.GetAbuseReportReportsRequest,
         requestOptions?: ReportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.AbuseComplaint>> {
-        const { campaign_id: campaignId, report_id: reportId, fields, exclude_fields: excludeFields } = request;
+        const { campaignId, reportId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -332,7 +355,16 @@ export class ReportsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.AbuseComplaint, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.AbuseComplaint.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -362,7 +394,7 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.listAdvice({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public listAdvice(
@@ -376,7 +408,7 @@ export class ReportsClient {
         request: Mailchimp.ListAdviceReportsRequest,
         requestOptions?: ReportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListAdviceReportsResponse>> {
-        const { campaign_id: campaignId, fields, exclude_fields: excludeFields } = request;
+        const { campaignId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -410,7 +442,16 @@ export class ReportsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListAdviceReportsResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ListAdviceReportsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -440,7 +481,7 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.listClickDetails({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public async listClickDetails(
@@ -451,23 +492,26 @@ export class ReportsClient {
             async (
                 request: Mailchimp.ListClickDetailsReportsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListClickDetailsReportsResponse>> => {
-                const {
-                    campaign_id: campaignId,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                    sort_field: sortField,
-                    sort_dir: sortDir,
-                    filter_bots: filterBots,
-                } = request;
+                const { campaignId, fields, excludeFields, count, offset, sortField, sortDir, filterBots } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
                     count,
                     offset,
-                    sort_field: sortField != null ? sortField : undefined,
-                    sort_dir: sortDir != null ? sortDir : undefined,
+                    sort_field:
+                        sortField != null
+                            ? serializers.ListClickDetailsReportsRequestSortField.jsonOrThrow(sortField, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
+                    sort_dir:
+                        sortDir != null
+                            ? serializers.ListClickDetailsReportsRequestSortDir.jsonOrThrow(sortDir, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
                     filter_bots: filterBots,
                 };
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
@@ -500,7 +544,13 @@ export class ReportsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListClickDetailsReportsResponse,
+                        data: serializers.ListClickDetailsReportsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -524,8 +574,8 @@ export class ReportsClient {
         return new core.Page<Mailchimp.ClickDetailReport, Mailchimp.ListClickDetailsReportsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
-            hasNextPage: (response) => (response?.urls_clicked ?? []).length > 0,
-            getItems: (response) => response?.urls_clicked ?? [],
+            hasNextPage: (response) => (response?.urlsClicked ?? []).length > 0,
+            getItems: (response) => response?.urlsClicked ?? [],
             loadPage: (_response) => {
                 _offset += 1;
                 return list(core.setObjectProperty(request, "offset", _offset));
@@ -544,8 +594,8 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.getClickDetail({
-     *         campaign_id: "campaign_id",
-     *         link_id: "link_id"
+     *         campaignId: "campaign_id",
+     *         linkId: "link_id"
      *     })
      */
     public getClickDetail(
@@ -559,13 +609,7 @@ export class ReportsClient {
         request: Mailchimp.GetClickDetailReportsRequest,
         requestOptions?: ReportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ClickDetailReport>> {
-        const {
-            campaign_id: campaignId,
-            link_id: linkId,
-            fields,
-            exclude_fields: excludeFields,
-            filter_bots: filterBots,
-        } = request;
+        const { campaignId, linkId, fields, excludeFields, filterBots } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -600,7 +644,16 @@ export class ReportsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ClickDetailReport, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ClickDetailReport.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -630,8 +683,8 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.listClickDetailMembers({
-     *         campaign_id: "campaign_id",
-     *         link_id: "link_id"
+     *         campaignId: "campaign_id",
+     *         linkId: "link_id"
      *     })
      */
     public async listClickDetailMembers(
@@ -642,14 +695,7 @@ export class ReportsClient {
             async (
                 request: Mailchimp.ListClickDetailMembersReportsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListClickDetailMembersReportsResponse>> => {
-                const {
-                    campaign_id: campaignId,
-                    link_id: linkId,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                } = request;
+                const { campaignId, linkId, fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -686,7 +732,13 @@ export class ReportsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListClickDetailMembersReportsResponse,
+                        data: serializers.ListClickDetailMembersReportsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -730,9 +782,9 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.getClickDetailMember({
-     *         campaign_id: "campaign_id",
-     *         link_id: "link_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         campaignId: "campaign_id",
+     *         linkId: "link_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public getClickDetailMember(
@@ -746,13 +798,7 @@ export class ReportsClient {
         request: Mailchimp.GetClickDetailMemberReportsRequest,
         requestOptions?: ReportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ClickDetailMember>> {
-        const {
-            campaign_id: campaignId,
-            link_id: linkId,
-            subscriber_hash: subscriberHash,
-            fields,
-            exclude_fields: excludeFields,
-        } = request;
+        const { campaignId, linkId, subscriberHash, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -786,7 +832,16 @@ export class ReportsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ClickDetailMember, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ClickDetailMember.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -816,7 +871,7 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.listDomainPerformance({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public listDomainPerformance(
@@ -830,7 +885,7 @@ export class ReportsClient {
         request: Mailchimp.ListDomainPerformanceReportsRequest,
         requestOptions?: ReportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListDomainPerformanceReportsResponse>> {
-        const { campaign_id: campaignId, fields, exclude_fields: excludeFields } = request;
+        const { campaignId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -865,7 +920,13 @@ export class ReportsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListDomainPerformanceReportsResponse,
+                data: serializers.ListDomainPerformanceReportsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -897,7 +958,7 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.listEcommerceProductActivity({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public async listEcommerceProductActivity(
@@ -905,7 +966,7 @@ export class ReportsClient {
         requestOptions?: ReportsClient.RequestOptions,
     ): Promise<
         core.Page<
-            Mailchimp.ListEcommerceProductActivityReportsResponse.Products.Item,
+            Mailchimp.ListEcommerceProductActivityReportsResponseProductsItem,
             Mailchimp.ListEcommerceProductActivityReportsResponse
         >
     > {
@@ -913,20 +974,19 @@ export class ReportsClient {
             async (
                 request: Mailchimp.ListEcommerceProductActivityReportsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListEcommerceProductActivityReportsResponse>> => {
-                const {
-                    campaign_id: campaignId,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                    sort_field: sortField,
-                } = request;
+                const { campaignId, fields, excludeFields, count, offset, sortField } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
                     count,
                     offset,
-                    sort_field: sortField != null ? sortField : undefined,
+                    sort_field:
+                        sortField != null
+                            ? serializers.ListEcommerceProductActivityReportsRequestSortField.jsonOrThrow(sortField, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
                 };
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -958,7 +1018,13 @@ export class ReportsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListEcommerceProductActivityReportsResponse,
+                        data: serializers.ListEcommerceProductActivityReportsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -980,7 +1046,7 @@ export class ReportsClient {
         let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
         return new core.Page<
-            Mailchimp.ListEcommerceProductActivityReportsResponse.Products.Item,
+            Mailchimp.ListEcommerceProductActivityReportsResponseProductsItem,
             Mailchimp.ListEcommerceProductActivityReportsResponse
         >({
             response: dataWithRawResponse.data,
@@ -1005,7 +1071,7 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.listEepurl({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public listEepurl(
@@ -1019,7 +1085,7 @@ export class ReportsClient {
         request: Mailchimp.ListEepurlReportsRequest,
         requestOptions?: ReportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListEepurlReportsResponse>> {
-        const { campaign_id: campaignId, fields, exclude_fields: excludeFields } = request;
+        const { campaignId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -1053,7 +1119,16 @@ export class ReportsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListEepurlReportsResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ListEepurlReportsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1083,7 +1158,7 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.listEmailActivity({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public async listEmailActivity(
@@ -1094,15 +1169,7 @@ export class ReportsClient {
             async (
                 request: Mailchimp.ListEmailActivityReportsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListEmailActivityReportsResponse>> => {
-                const {
-                    campaign_id: campaignId,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                    since,
-                    filter_bots: filterBots,
-                } = request;
+                const { campaignId, fields, excludeFields, count, offset, since, filterBots } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -1141,7 +1208,13 @@ export class ReportsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListEmailActivityReportsResponse,
+                        data: serializers.ListEmailActivityReportsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -1185,8 +1258,8 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.getEmailActivity({
-     *         campaign_id: "campaign_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         campaignId: "campaign_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public getEmailActivity(
@@ -1200,14 +1273,7 @@ export class ReportsClient {
         request: Mailchimp.GetEmailActivityReportsRequest,
         requestOptions?: ReportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.EmailActivity>> {
-        const {
-            campaign_id: campaignId,
-            subscriber_hash: subscriberHash,
-            fields,
-            exclude_fields: excludeFields,
-            since,
-            filter_bots: filterBots,
-        } = request;
+        const { campaignId, subscriberHash, fields, excludeFields, since, filterBots } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -1243,7 +1309,16 @@ export class ReportsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.EmailActivity, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.EmailActivity.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1273,20 +1348,18 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.listLocations({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public async listLocations(
         request: Mailchimp.ListLocationsReportsRequest,
         requestOptions?: ReportsClient.RequestOptions,
-    ): Promise<
-        core.Page<Mailchimp.ListLocationsReportsResponse.Locations.Item, Mailchimp.ListLocationsReportsResponse>
-    > {
+    ): Promise<core.Page<Mailchimp.ListLocationsReportsResponseLocationsItem, Mailchimp.ListLocationsReportsResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
                 request: Mailchimp.ListLocationsReportsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListLocationsReportsResponse>> => {
-                const { campaign_id: campaignId, fields, exclude_fields: excludeFields, count, offset } = request;
+                const { campaignId, fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -1323,7 +1396,13 @@ export class ReportsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListLocationsReportsResponse,
+                        data: serializers.ListLocationsReportsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -1345,7 +1424,7 @@ export class ReportsClient {
         let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
         return new core.Page<
-            Mailchimp.ListLocationsReportsResponse.Locations.Item,
+            Mailchimp.ListLocationsReportsResponseLocationsItem,
             Mailchimp.ListLocationsReportsResponse
         >({
             response: dataWithRawResponse.data,
@@ -1370,7 +1449,7 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.listOpenDetails({
-     *         campaign_id: "campaign_id",
+     *         campaignId: "campaign_id",
      *         since: "2016-04-12 12:00:00"
      *     })
      */
@@ -1382,25 +1461,28 @@ export class ReportsClient {
             async (
                 request: Mailchimp.ListOpenDetailsReportsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListOpenDetailsReportsResponse>> => {
-                const {
-                    campaign_id: campaignId,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                    since,
-                    sort_field: sortField,
-                    sort_dir: sortDir,
-                    filter_bots: filterBots,
-                } = request;
+                const { campaignId, fields, excludeFields, count, offset, since, sortField, sortDir, filterBots } =
+                    request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
                     count,
                     offset,
                     since,
-                    sort_field: sortField != null ? sortField : undefined,
-                    sort_dir: sortDir != null ? sortDir : undefined,
+                    sort_field:
+                        sortField != null
+                            ? serializers.ListOpenDetailsReportsRequestSortField.jsonOrThrow(sortField, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
+                    sort_dir:
+                        sortDir != null
+                            ? serializers.ListOpenDetailsReportsRequestSortDir.jsonOrThrow(sortDir, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
                     filter_bots: filterBots,
                 };
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
@@ -1433,7 +1515,13 @@ export class ReportsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListOpenDetailsReportsResponse,
+                        data: serializers.ListOpenDetailsReportsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -1477,8 +1565,8 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.getOpenDetail({
-     *         campaign_id: "campaign_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         campaignId: "campaign_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public getOpenDetail(
@@ -1492,13 +1580,7 @@ export class ReportsClient {
         request: Mailchimp.GetOpenDetailReportsRequest,
         requestOptions?: ReportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.OpenActivity>> {
-        const {
-            campaign_id: campaignId,
-            subscriber_hash: subscriberHash,
-            fields,
-            exclude_fields: excludeFields,
-            filter_bots: filterBots,
-        } = request;
+        const { campaignId, subscriberHash, fields, excludeFields, filterBots } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -1533,7 +1615,16 @@ export class ReportsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.OpenActivity, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.OpenActivity.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1563,7 +1654,7 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.listSentTo({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public async listSentTo(
@@ -1574,7 +1665,7 @@ export class ReportsClient {
             async (
                 request: Mailchimp.ListSentToReportsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListSentToReportsResponse>> => {
-                const { campaign_id: campaignId, fields, exclude_fields: excludeFields, count, offset } = request;
+                const { campaignId, fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -1611,7 +1702,13 @@ export class ReportsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListSentToReportsResponse,
+                        data: serializers.ListSentToReportsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -1635,8 +1732,8 @@ export class ReportsClient {
         return new core.Page<Mailchimp.SentTo, Mailchimp.ListSentToReportsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
-            hasNextPage: (response) => (response?.sent_to ?? []).length > 0,
-            getItems: (response) => response?.sent_to ?? [],
+            hasNextPage: (response) => (response?.sentTo ?? []).length > 0,
+            getItems: (response) => response?.sentTo ?? [],
             loadPage: (_response) => {
                 _offset += 1;
                 return list(core.setObjectProperty(request, "offset", _offset));
@@ -1655,8 +1752,8 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.getSentTo({
-     *         campaign_id: "campaign_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         campaignId: "campaign_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public getSentTo(
@@ -1670,12 +1767,7 @@ export class ReportsClient {
         request: Mailchimp.GetSentToReportsRequest,
         requestOptions?: ReportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.SentTo>> {
-        const {
-            campaign_id: campaignId,
-            subscriber_hash: subscriberHash,
-            fields,
-            exclude_fields: excludeFields,
-        } = request;
+        const { campaignId, subscriberHash, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -1709,7 +1801,16 @@ export class ReportsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.SentTo, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.SentTo.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1739,7 +1840,7 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.listSubReports({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public listSubReports(
@@ -1753,7 +1854,7 @@ export class ReportsClient {
         request: Mailchimp.ListSubReportsReportsRequest,
         requestOptions?: ReportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListSubReportsReportsResponse>> {
-        const { campaign_id: campaignId, fields, exclude_fields: excludeFields } = request;
+        const { campaignId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -1788,7 +1889,13 @@ export class ReportsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListSubReportsReportsResponse,
+                data: serializers.ListSubReportsReportsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -1820,7 +1927,7 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.listUnsubscribed({
-     *         campaign_id: "campaign_id"
+     *         campaignId: "campaign_id"
      *     })
      */
     public async listUnsubscribed(
@@ -1831,7 +1938,7 @@ export class ReportsClient {
             async (
                 request: Mailchimp.ListUnsubscribedReportsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListUnsubscribedReportsResponse>> => {
-                const { campaign_id: campaignId, fields, exclude_fields: excludeFields, count, offset } = request;
+                const { campaignId, fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -1868,7 +1975,13 @@ export class ReportsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListUnsubscribedReportsResponse,
+                        data: serializers.ListUnsubscribedReportsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -1912,8 +2025,8 @@ export class ReportsClient {
      *
      * @example
      *     await client.reports.getUnsubscribed({
-     *         campaign_id: "campaign_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         campaignId: "campaign_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public getUnsubscribed(
@@ -1927,12 +2040,7 @@ export class ReportsClient {
         request: Mailchimp.GetUnsubscribedReportsRequest,
         requestOptions?: ReportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.Unsubscribes>> {
-        const {
-            campaign_id: campaignId,
-            subscriber_hash: subscriberHash,
-            fields,
-            exclude_fields: excludeFields,
-        } = request;
+        const { campaignId, subscriberHash, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -1966,7 +2074,16 @@ export class ReportsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.Unsubscribes, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.Unsubscribes.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {

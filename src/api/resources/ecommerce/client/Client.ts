@@ -8,6 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace EcommerceClient {
@@ -16,6 +17,9 @@ export declare namespace EcommerceClient {
     export interface RequestOptions extends BaseRequestOptions {}
 }
 
+/**
+ * Stores and their carts, orders, products, customers, and promo rules.
+ */
 export class EcommerceClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<EcommerceClient.Options>;
 
@@ -66,7 +70,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListEcommerceResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ListEcommerceResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -100,16 +113,8 @@ export class EcommerceClient {
             async (
                 request: Mailchimp.ListOrdersEcommerceRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListOrdersEcommerceResponse>> => {
-                const {
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                    campaign_id: campaignId,
-                    outreach_id: outreachId,
-                    customer_id: customerId,
-                    has_outreach: hasOutreach,
-                } = request;
+                const { fields, excludeFields, count, offset, campaignId, outreachId, customerId, hasOutreach } =
+                    request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -150,7 +155,13 @@ export class EcommerceClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListOrdersEcommerceResponse,
+                        data: serializers.ListOrdersEcommerceResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -198,7 +209,7 @@ export class EcommerceClient {
             async (
                 request: Mailchimp.ListStoresEcommerceRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListStoresEcommerceResponse>> => {
-                const { fields, exclude_fields: excludeFields, count, offset } = request;
+                const { fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -235,7 +246,13 @@ export class EcommerceClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListStoresEcommerceResponse,
+                        data: serializers.ListStoresEcommerceResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -274,9 +291,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.createStore({
-     *         currency_code: "USD",
+     *         currencyCode: "USD",
      *         id: "example_store",
-     *         list_id: "1a2df69511",
+     *         listId: "1a2df69511",
      *         name: "Freddie's Cat Hat Emporium"
      *     })
      */
@@ -309,7 +326,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateStoreEcommerceRequest.jsonOrThrow(request, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -317,7 +340,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceStore, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceStore.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -342,7 +374,7 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.getStore({
-     *         store_id: "store_id"
+     *         storeId: "store_id"
      *     })
      */
     public getStore(
@@ -356,7 +388,7 @@ export class EcommerceClient {
         request: Mailchimp.GetStoreEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceStore>> {
-        const { store_id: storeId, fields, exclude_fields: excludeFields } = request;
+        const { storeId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -390,7 +422,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceStore, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceStore.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -420,7 +461,7 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.deleteStore({
-     *         store_id: "store_id"
+     *         storeId: "store_id"
      *     })
      */
     public deleteStore(
@@ -434,7 +475,7 @@ export class EcommerceClient {
         request: Mailchimp.DeleteStoreEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { store_id: storeId } = request;
+        const { storeId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -488,7 +529,7 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.updateStore({
-     *         store_id: "store_id"
+     *         storeId: "store_id"
      *     })
      */
     public updateStore(
@@ -502,7 +543,7 @@ export class EcommerceClient {
         request: Mailchimp.UpdateStoreEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceStore>> {
-        const { store_id: storeId, ..._body } = request;
+        const { storeId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -521,7 +562,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateStoreEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -529,7 +576,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceStore, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceStore.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -559,7 +615,7 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.listStoreCarts({
-     *         store_id: "store_id"
+     *         storeId: "store_id"
      *     })
      */
     public async listStoreCarts(
@@ -570,7 +626,7 @@ export class EcommerceClient {
             async (
                 request: Mailchimp.ListStoreCartsEcommerceRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListStoreCartsEcommerceResponse>> => {
-                const { store_id: storeId, fields, exclude_fields: excludeFields, count, offset } = request;
+                const { storeId, fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -607,7 +663,13 @@ export class EcommerceClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListStoreCartsEcommerceResponse,
+                        data: serializers.ListStoreCartsEcommerceResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -651,8 +713,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.createStoreCart({
-     *         store_id: "store_id",
-     *         currency_code: "currency_code",
+     *         storeId: "store_id",
+     *         currencyCode: "currency_code",
      *         customer: {
      *             id: "id"
      *         },
@@ -660,11 +722,11 @@ export class EcommerceClient {
      *         lines: [{
      *                 id: "id",
      *                 price: 1.1,
-     *                 product_id: "product_id",
-     *                 product_variant_id: "product_variant_id",
+     *                 productId: "product_id",
+     *                 productVariantId: "product_variant_id",
      *                 quantity: 1
      *             }],
-     *         order_total: 1.1
+     *         orderTotal: 1.1
      *     })
      */
     public createStoreCart(
@@ -678,7 +740,7 @@ export class EcommerceClient {
         request: Mailchimp.CreateStoreCartEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceCart>> {
-        const { store_id: storeId, ..._body } = request;
+        const { storeId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -697,7 +759,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateStoreCartEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -705,7 +773,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceCart, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceCart.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -735,8 +812,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.getStoreCart({
-     *         store_id: "store_id",
-     *         cart_id: "cart_id"
+     *         storeId: "store_id",
+     *         cartId: "cart_id"
      *     })
      */
     public getStoreCart(
@@ -750,7 +827,7 @@ export class EcommerceClient {
         request: Mailchimp.GetStoreCartEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceCart>> {
-        const { store_id: storeId, cart_id: cartId, fields, exclude_fields: excludeFields } = request;
+        const { storeId, cartId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -784,7 +861,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceCart, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceCart.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -814,8 +900,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.deleteStoreCart({
-     *         store_id: "store_id",
-     *         cart_id: "cart_id"
+     *         storeId: "store_id",
+     *         cartId: "cart_id"
      *     })
      */
     public deleteStoreCart(
@@ -829,7 +915,7 @@ export class EcommerceClient {
         request: Mailchimp.DeleteStoreCartEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { store_id: storeId, cart_id: cartId } = request;
+        const { storeId, cartId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -883,8 +969,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.updateStoreCart({
-     *         store_id: "store_id",
-     *         cart_id: "cart_id"
+     *         storeId: "store_id",
+     *         cartId: "cart_id"
      *     })
      */
     public updateStoreCart(
@@ -898,7 +984,7 @@ export class EcommerceClient {
         request: Mailchimp.UpdateStoreCartEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceCart>> {
-        const { store_id: storeId, cart_id: cartId, ..._body } = request;
+        const { storeId, cartId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -917,7 +1003,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateStoreCartEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -925,7 +1017,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceCart, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceCart.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -955,8 +1056,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.listStoreCartLines({
-     *         store_id: "store_id",
-     *         cart_id: "cart_id"
+     *         storeId: "store_id",
+     *         cartId: "cart_id"
      *     })
      */
     public async listStoreCartLines(
@@ -967,14 +1068,7 @@ export class EcommerceClient {
             async (
                 request: Mailchimp.ListStoreCartLinesEcommerceRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListStoreCartLinesEcommerceResponse>> => {
-                const {
-                    store_id: storeId,
-                    cart_id: cartId,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                } = request;
+                const { storeId, cartId, fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -1011,7 +1105,13 @@ export class EcommerceClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListStoreCartLinesEcommerceResponse,
+                        data: serializers.ListStoreCartLinesEcommerceResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -1055,12 +1155,12 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.createStoreCartLine({
-     *         store_id: "store_id",
-     *         cart_id: "cart_id",
+     *         storeId: "store_id",
+     *         cartId: "cart_id",
      *         id: "id",
      *         price: 1.1,
-     *         product_id: "product_id",
-     *         product_variant_id: "product_variant_id",
+     *         productId: "product_id",
+     *         productVariantId: "product_variant_id",
      *         quantity: 1
      *     })
      */
@@ -1075,7 +1175,7 @@ export class EcommerceClient {
         request: Mailchimp.CreateStoreCartLineEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceCartLineItem>> {
-        const { store_id: storeId, cart_id: cartId, ..._body } = request;
+        const { storeId, cartId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1094,7 +1194,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateStoreCartLineEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1102,7 +1208,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceCartLineItem, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceCartLineItem.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1132,9 +1247,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.getStoreCartLine({
-     *         store_id: "store_id",
-     *         cart_id: "cart_id",
-     *         line_id: "line_id"
+     *         storeId: "store_id",
+     *         cartId: "cart_id",
+     *         lineId: "line_id"
      *     })
      */
     public getStoreCartLine(
@@ -1148,7 +1263,7 @@ export class EcommerceClient {
         request: Mailchimp.GetStoreCartLineEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceCartLineItem>> {
-        const { store_id: storeId, cart_id: cartId, line_id: lineId, fields, exclude_fields: excludeFields } = request;
+        const { storeId, cartId, lineId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -1182,7 +1297,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceCartLineItem, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceCartLineItem.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1212,9 +1336,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.deleteStoreCartLine({
-     *         store_id: "store_id",
-     *         cart_id: "cart_id",
-     *         line_id: "line_id"
+     *         storeId: "store_id",
+     *         cartId: "cart_id",
+     *         lineId: "line_id"
      *     })
      */
     public deleteStoreCartLine(
@@ -1228,7 +1352,7 @@ export class EcommerceClient {
         request: Mailchimp.DeleteStoreCartLineEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { store_id: storeId, cart_id: cartId, line_id: lineId } = request;
+        const { storeId, cartId, lineId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1282,9 +1406,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.updateStoreCartLine({
-     *         store_id: "store_id",
-     *         cart_id: "cart_id",
-     *         line_id: "line_id"
+     *         storeId: "store_id",
+     *         cartId: "cart_id",
+     *         lineId: "line_id"
      *     })
      */
     public updateStoreCartLine(
@@ -1298,7 +1422,7 @@ export class EcommerceClient {
         request: Mailchimp.UpdateStoreCartLineEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceCartLineItem>> {
-        const { store_id: storeId, cart_id: cartId, line_id: lineId, ..._body } = request;
+        const { storeId, cartId, lineId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1317,7 +1441,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateStoreCartLineEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1325,7 +1455,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceCartLineItem, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceCartLineItem.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1355,7 +1494,7 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.listStoreCustomers({
-     *         store_id: "store_id"
+     *         storeId: "store_id"
      *     })
      */
     public async listStoreCustomers(
@@ -1366,14 +1505,7 @@ export class EcommerceClient {
             async (
                 request: Mailchimp.ListStoreCustomersEcommerceRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListStoreCustomersEcommerceResponse>> => {
-                const {
-                    store_id: storeId,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                    email_address: emailAddress,
-                } = request;
+                const { storeId, fields, excludeFields, count, offset, emailAddress } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -1411,7 +1543,13 @@ export class EcommerceClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListStoreCustomersEcommerceResponse,
+                        data: serializers.ListStoreCustomersEcommerceResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -1455,9 +1593,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.createStoreCustomer({
-     *         store_id: "store_id",
+     *         storeId: "store_id",
      *         id: "id",
-     *         opt_in_status: true
+     *         optInStatus: true
      *     })
      */
     public createStoreCustomer(
@@ -1471,7 +1609,7 @@ export class EcommerceClient {
         request: Mailchimp.CreateStoreCustomerEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceCustomer>> {
-        const { store_id: storeId, ..._body } = request;
+        const { storeId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1490,7 +1628,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateStoreCustomerEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1498,7 +1642,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceCustomer, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceCustomer.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1528,8 +1681,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.getStoreCustomer({
-     *         store_id: "store_id",
-     *         customer_id: "customer_id"
+     *         storeId: "store_id",
+     *         customerId: "customer_id"
      *     })
      */
     public getStoreCustomer(
@@ -1543,7 +1696,7 @@ export class EcommerceClient {
         request: Mailchimp.GetStoreCustomerEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceCustomer>> {
-        const { store_id: storeId, customer_id: customerId, fields, exclude_fields: excludeFields } = request;
+        const { storeId, customerId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -1577,7 +1730,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceCustomer, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceCustomer.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1607,8 +1769,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.upsertStoreCustomer({
-     *         store_id: "store_id",
-     *         customer_id: "customer_id"
+     *         storeId: "store_id",
+     *         customerId: "customer_id"
      *     })
      */
     public upsertStoreCustomer(
@@ -1622,7 +1784,7 @@ export class EcommerceClient {
         request: Mailchimp.UpsertStoreCustomerEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceCustomer>> {
-        const { store_id: storeId, customer_id: customerId, ..._body } = request;
+        const { storeId, customerId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1641,7 +1803,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpsertStoreCustomerEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1649,7 +1817,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceCustomer, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceCustomer.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1679,8 +1856,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.deleteStoreCustomer({
-     *         store_id: "store_id",
-     *         customer_id: "customer_id"
+     *         storeId: "store_id",
+     *         customerId: "customer_id"
      *     })
      */
     public deleteStoreCustomer(
@@ -1694,7 +1871,7 @@ export class EcommerceClient {
         request: Mailchimp.DeleteStoreCustomerEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { store_id: storeId, customer_id: customerId } = request;
+        const { storeId, customerId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1748,8 +1925,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.updateStoreCustomer({
-     *         store_id: "store_id",
-     *         customer_id: "customer_id",
+     *         storeId: "store_id",
+     *         customerId: "customer_id",
      *         body: {}
      *     })
      */
@@ -1764,7 +1941,7 @@ export class EcommerceClient {
         request: Mailchimp.UpdateStoreCustomerEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceCustomer>> {
-        const { store_id: storeId, customer_id: customerId, body: _body } = request;
+        const { storeId, customerId, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1783,7 +1960,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.EcommerceStoresCartsPatch.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1791,7 +1974,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceCustomer, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceCustomer.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -1821,7 +2013,7 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.listStoreOrders({
-     *         store_id: "store_id"
+     *         storeId: "store_id"
      *     })
      */
     public async listStoreOrders(
@@ -1833,15 +2025,15 @@ export class EcommerceClient {
                 request: Mailchimp.ListStoreOrdersEcommerceRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListStoreOrdersEcommerceResponse>> => {
                 const {
-                    store_id: storeId,
+                    storeId,
                     fields,
-                    exclude_fields: excludeFields,
+                    excludeFields,
                     count,
                     offset,
-                    customer_id: customerId,
-                    has_outreach: hasOutreach,
-                    campaign_id: campaignId,
-                    outreach_id: outreachId,
+                    customerId,
+                    hasOutreach,
+                    campaignId,
+                    outreachId,
                 } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
@@ -1883,7 +2075,13 @@ export class EcommerceClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListStoreOrdersEcommerceResponse,
+                        data: serializers.ListStoreOrdersEcommerceResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -1927,8 +2125,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.createStoreOrder({
-     *         store_id: "store_id",
-     *         currency_code: "currency_code",
+     *         storeId: "store_id",
+     *         currencyCode: "currency_code",
      *         customer: {
      *             id: "id"
      *         },
@@ -1936,11 +2134,11 @@ export class EcommerceClient {
      *         lines: [{
      *                 id: "id",
      *                 price: 1.1,
-     *                 product_id: "product_id",
-     *                 product_variant_id: "product_variant_id",
+     *                 productId: "product_id",
+     *                 productVariantId: "product_variant_id",
      *                 quantity: 1
      *             }],
-     *         order_total: 1.1
+     *         orderTotal: 1.1
      *     })
      */
     public createStoreOrder(
@@ -1954,7 +2152,7 @@ export class EcommerceClient {
         request: Mailchimp.CreateStoreOrderEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceOrder>> {
-        const { store_id: storeId, ..._body } = request;
+        const { storeId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1973,7 +2171,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateStoreOrderEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1981,7 +2185,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceOrder, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceOrder.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -2011,8 +2224,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.getStoreOrder({
-     *         store_id: "store_id",
-     *         order_id: "order_id"
+     *         storeId: "store_id",
+     *         orderId: "order_id"
      *     })
      */
     public getStoreOrder(
@@ -2026,7 +2239,7 @@ export class EcommerceClient {
         request: Mailchimp.GetStoreOrderEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceOrder>> {
-        const { store_id: storeId, order_id: orderId, fields, exclude_fields: excludeFields } = request;
+        const { storeId, orderId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -2060,7 +2273,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceOrder, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceOrder.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -2090,8 +2312,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.deleteStoreOrder({
-     *         store_id: "store_id",
-     *         order_id: "order_id"
+     *         storeId: "store_id",
+     *         orderId: "order_id"
      *     })
      */
     public deleteStoreOrder(
@@ -2105,7 +2327,7 @@ export class EcommerceClient {
         request: Mailchimp.DeleteStoreOrderEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { store_id: storeId, order_id: orderId } = request;
+        const { storeId, orderId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -2159,8 +2381,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.updateStoreOrder({
-     *         store_id: "store_id",
-     *         order_id: "order_id"
+     *         storeId: "store_id",
+     *         orderId: "order_id"
      *     })
      */
     public updateStoreOrder(
@@ -2174,7 +2396,7 @@ export class EcommerceClient {
         request: Mailchimp.UpdateStoreOrderEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceOrder>> {
-        const { store_id: storeId, order_id: orderId, ..._body } = request;
+        const { storeId, orderId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -2193,7 +2415,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateStoreOrderEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -2201,7 +2429,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceOrder, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceOrder.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -2231,8 +2468,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.listStoreOrderLines({
-     *         store_id: "store_id",
-     *         order_id: "order_id"
+     *         storeId: "store_id",
+     *         orderId: "order_id"
      *     })
      */
     public async listStoreOrderLines(
@@ -2243,14 +2480,7 @@ export class EcommerceClient {
             async (
                 request: Mailchimp.ListStoreOrderLinesEcommerceRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListStoreOrderLinesEcommerceResponse>> => {
-                const {
-                    store_id: storeId,
-                    order_id: orderId,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                } = request;
+                const { storeId, orderId, fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -2287,7 +2517,13 @@ export class EcommerceClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListStoreOrderLinesEcommerceResponse,
+                        data: serializers.ListStoreOrderLinesEcommerceResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -2331,12 +2567,12 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.createStoreOrderLine({
-     *         store_id: "store_id",
-     *         order_id: "order_id",
+     *         storeId: "store_id",
+     *         orderId: "order_id",
      *         id: "id",
      *         price: 1.1,
-     *         product_id: "product_id",
-     *         product_variant_id: "product_variant_id",
+     *         productId: "product_id",
+     *         productVariantId: "product_variant_id",
      *         quantity: 1
      *     })
      */
@@ -2351,7 +2587,7 @@ export class EcommerceClient {
         request: Mailchimp.CreateStoreOrderLineEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceOrderLineItem>> {
-        const { store_id: storeId, order_id: orderId, ..._body } = request;
+        const { storeId, orderId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -2370,7 +2606,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateStoreOrderLineEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -2378,7 +2620,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceOrderLineItem, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceOrderLineItem.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -2408,9 +2659,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.getStoreOrderLine({
-     *         store_id: "store_id",
-     *         order_id: "order_id",
-     *         line_id: "line_id"
+     *         storeId: "store_id",
+     *         orderId: "order_id",
+     *         lineId: "line_id"
      *     })
      */
     public getStoreOrderLine(
@@ -2424,13 +2675,7 @@ export class EcommerceClient {
         request: Mailchimp.GetStoreOrderLineEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceOrderLineItem>> {
-        const {
-            store_id: storeId,
-            order_id: orderId,
-            line_id: lineId,
-            fields,
-            exclude_fields: excludeFields,
-        } = request;
+        const { storeId, orderId, lineId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -2464,7 +2709,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceOrderLineItem, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceOrderLineItem.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -2494,9 +2748,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.deleteStoreOrderLine({
-     *         store_id: "store_id",
-     *         order_id: "order_id",
-     *         line_id: "line_id"
+     *         storeId: "store_id",
+     *         orderId: "order_id",
+     *         lineId: "line_id"
      *     })
      */
     public deleteStoreOrderLine(
@@ -2510,7 +2764,7 @@ export class EcommerceClient {
         request: Mailchimp.DeleteStoreOrderLineEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { store_id: storeId, order_id: orderId, line_id: lineId } = request;
+        const { storeId, orderId, lineId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -2564,9 +2818,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.updateStoreOrderLine({
-     *         store_id: "store_id",
-     *         order_id: "order_id",
-     *         line_id: "line_id"
+     *         storeId: "store_id",
+     *         orderId: "order_id",
+     *         lineId: "line_id"
      *     })
      */
     public updateStoreOrderLine(
@@ -2580,7 +2834,7 @@ export class EcommerceClient {
         request: Mailchimp.UpdateStoreOrderLineEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceOrderLineItem>> {
-        const { store_id: storeId, order_id: orderId, line_id: lineId, ..._body } = request;
+        const { storeId, orderId, lineId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -2599,7 +2853,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateStoreOrderLineEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -2607,7 +2867,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceOrderLineItem, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceOrderLineItem.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -2637,7 +2906,7 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.listStoreProducts({
-     *         store_id: "store_id"
+     *         storeId: "store_id"
      *     })
      */
     public async listStoreProducts(
@@ -2648,7 +2917,7 @@ export class EcommerceClient {
             async (
                 request: Mailchimp.ListStoreProductsEcommerceRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListStoreProductsEcommerceResponse>> => {
-                const { store_id: storeId, fields, exclude_fields: excludeFields, count, offset } = request;
+                const { storeId, fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -2685,7 +2954,13 @@ export class EcommerceClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListStoreProductsEcommerceResponse,
+                        data: serializers.ListStoreProductsEcommerceResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -2729,7 +3004,7 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.createStoreProduct({
-     *         store_id: "store_id",
+     *         storeId: "store_id",
      *         body: {
      *             id: "id",
      *             title: "Cat Hat",
@@ -2751,7 +3026,7 @@ export class EcommerceClient {
         request: Mailchimp.CreateStoreProductEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceProduct>> {
-        const { store_id: storeId, body: _body } = request;
+        const { storeId, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -2770,7 +3045,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.EcommerceStoresOrdersPost.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -2778,7 +3059,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceProduct, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceProduct.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -2808,8 +3098,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.getStoreProduct({
-     *         store_id: "store_id",
-     *         product_id: "product_id"
+     *         storeId: "store_id",
+     *         productId: "product_id"
      *     })
      */
     public getStoreProduct(
@@ -2823,7 +3113,7 @@ export class EcommerceClient {
         request: Mailchimp.GetStoreProductEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceProduct>> {
-        const { store_id: storeId, product_id: productId, fields, exclude_fields: excludeFields } = request;
+        const { storeId, productId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -2857,7 +3147,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceProduct, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceProduct.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -2887,8 +3186,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.upsertStoreProduct({
-     *         store_id: "store_id",
-     *         product_id: "product_id",
+     *         storeId: "store_id",
+     *         productId: "product_id",
      *         id: "id"
      *     })
      */
@@ -2903,7 +3202,7 @@ export class EcommerceClient {
         request: Mailchimp.UpsertStoreProductEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceProduct>> {
-        const { store_id: storeId, product_id: productId, ..._body } = request;
+        const { storeId, productId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -2922,7 +3221,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpsertStoreProductEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -2930,7 +3235,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceProduct, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceProduct.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -2960,8 +3274,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.deleteStoreProduct({
-     *         store_id: "store_id",
-     *         product_id: "product_id"
+     *         storeId: "store_id",
+     *         productId: "product_id"
      *     })
      */
     public deleteStoreProduct(
@@ -2975,7 +3289,7 @@ export class EcommerceClient {
         request: Mailchimp.DeleteStoreProductEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { store_id: storeId, product_id: productId } = request;
+        const { storeId, productId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -3029,8 +3343,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.updateStoreProduct({
-     *         store_id: "store_id",
-     *         product_id: "product_id"
+     *         storeId: "store_id",
+     *         productId: "product_id"
      *     })
      */
     public updateStoreProduct(
@@ -3044,7 +3358,7 @@ export class EcommerceClient {
         request: Mailchimp.UpdateStoreProductEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceProduct>> {
-        const { store_id: storeId, product_id: productId, ..._body } = request;
+        const { storeId, productId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -3063,7 +3377,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateStoreProductEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -3071,7 +3391,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceProduct, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceProduct.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -3101,8 +3430,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.listStoreProductImages({
-     *         store_id: "store_id",
-     *         product_id: "product_id"
+     *         storeId: "store_id",
+     *         productId: "product_id"
      *     })
      */
     public async listStoreProductImages(
@@ -3110,7 +3439,7 @@ export class EcommerceClient {
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<
         core.Page<
-            Mailchimp.ListStoreProductImagesEcommerceResponse.Images.Item,
+            Mailchimp.ListStoreProductImagesEcommerceResponseImagesItem,
             Mailchimp.ListStoreProductImagesEcommerceResponse
         >
     > {
@@ -3118,14 +3447,7 @@ export class EcommerceClient {
             async (
                 request: Mailchimp.ListStoreProductImagesEcommerceRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListStoreProductImagesEcommerceResponse>> => {
-                const {
-                    store_id: storeId,
-                    product_id: productId,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                } = request;
+                const { storeId, productId, fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -3162,7 +3484,13 @@ export class EcommerceClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListStoreProductImagesEcommerceResponse,
+                        data: serializers.ListStoreProductImagesEcommerceResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -3184,7 +3512,7 @@ export class EcommerceClient {
         let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
         return new core.Page<
-            Mailchimp.ListStoreProductImagesEcommerceResponse.Images.Item,
+            Mailchimp.ListStoreProductImagesEcommerceResponseImagesItem,
             Mailchimp.ListStoreProductImagesEcommerceResponse
         >({
             response: dataWithRawResponse.data,
@@ -3209,8 +3537,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.createStoreProductImage({
-     *         store_id: "store_id",
-     *         product_id: "product_id",
+     *         storeId: "store_id",
+     *         productId: "product_id",
      *         id: "id",
      *         url: "url"
      *     })
@@ -3226,7 +3554,7 @@ export class EcommerceClient {
         request: Mailchimp.CreateStoreProductImageEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.CreateStoreProductImageEcommerceResponse>> {
-        const { store_id: storeId, product_id: productId, ..._body } = request;
+        const { storeId, productId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -3245,7 +3573,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateStoreProductImageEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -3254,7 +3588,13 @@ export class EcommerceClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.CreateStoreProductImageEcommerceResponse,
+                data: serializers.CreateStoreProductImageEcommerceResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -3286,9 +3626,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.getStoreProductImage({
-     *         store_id: "store_id",
-     *         product_id: "product_id",
-     *         image_id: "image_id"
+     *         storeId: "store_id",
+     *         productId: "product_id",
+     *         imageId: "image_id"
      *     })
      */
     public getStoreProductImage(
@@ -3302,13 +3642,7 @@ export class EcommerceClient {
         request: Mailchimp.GetStoreProductImageEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.GetStoreProductImageEcommerceResponse>> {
-        const {
-            store_id: storeId,
-            product_id: productId,
-            image_id: imageId,
-            fields,
-            exclude_fields: excludeFields,
-        } = request;
+        const { storeId, productId, imageId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -3343,7 +3677,13 @@ export class EcommerceClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.GetStoreProductImageEcommerceResponse,
+                data: serializers.GetStoreProductImageEcommerceResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -3375,9 +3715,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.deleteStoreProductImage({
-     *         store_id: "store_id",
-     *         product_id: "product_id",
-     *         image_id: "image_id"
+     *         storeId: "store_id",
+     *         productId: "product_id",
+     *         imageId: "image_id"
      *     })
      */
     public deleteStoreProductImage(
@@ -3391,7 +3731,7 @@ export class EcommerceClient {
         request: Mailchimp.DeleteStoreProductImageEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { store_id: storeId, product_id: productId, image_id: imageId } = request;
+        const { storeId, productId, imageId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -3445,9 +3785,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.updateStoreProductImage({
-     *         store_id: "store_id",
-     *         product_id: "product_id",
-     *         image_id: "image_id"
+     *         storeId: "store_id",
+     *         productId: "product_id",
+     *         imageId: "image_id"
      *     })
      */
     public updateStoreProductImage(
@@ -3461,7 +3801,7 @@ export class EcommerceClient {
         request: Mailchimp.UpdateStoreProductImageEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.UpdateStoreProductImageEcommerceResponse>> {
-        const { store_id: storeId, product_id: productId, image_id: imageId, ..._body } = request;
+        const { storeId, productId, imageId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -3480,7 +3820,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateStoreProductImageEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -3489,7 +3835,13 @@ export class EcommerceClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.UpdateStoreProductImageEcommerceResponse,
+                data: serializers.UpdateStoreProductImageEcommerceResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -3521,8 +3873,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.listStoreProductVariants({
-     *         store_id: "store_id",
-     *         product_id: "product_id"
+     *         storeId: "store_id",
+     *         productId: "product_id"
      *     })
      */
     public async listStoreProductVariants(
@@ -3533,14 +3885,7 @@ export class EcommerceClient {
             async (
                 request: Mailchimp.ListStoreProductVariantsEcommerceRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListStoreProductVariantsEcommerceResponse>> => {
-                const {
-                    store_id: storeId,
-                    product_id: productId,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                } = request;
+                const { storeId, productId, fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -3577,7 +3922,13 @@ export class EcommerceClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListStoreProductVariantsEcommerceResponse,
+                        data: serializers.ListStoreProductVariantsEcommerceResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -3621,8 +3972,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.createStoreProductVariant({
-     *         store_id: "store_id",
-     *         product_id: "product_id",
+     *         storeId: "store_id",
+     *         productId: "product_id",
      *         id: "id",
      *         title: "Cat Hat"
      *     })
@@ -3638,7 +3989,7 @@ export class EcommerceClient {
         request: Mailchimp.CreateStoreProductVariantEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceProductVariant>> {
-        const { store_id: storeId, product_id: productId, ..._body } = request;
+        const { storeId, productId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -3657,7 +4008,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateStoreProductVariantEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -3665,7 +4022,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceProductVariant, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceProductVariant.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -3695,9 +4061,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.getStoreProductVariant({
-     *         store_id: "store_id",
-     *         product_id: "product_id",
-     *         variant_id: "variant_id"
+     *         storeId: "store_id",
+     *         productId: "product_id",
+     *         variantId: "variant_id"
      *     })
      */
     public getStoreProductVariant(
@@ -3711,13 +4077,7 @@ export class EcommerceClient {
         request: Mailchimp.GetStoreProductVariantEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceProductVariant>> {
-        const {
-            store_id: storeId,
-            product_id: productId,
-            variant_id: variantId,
-            fields,
-            exclude_fields: excludeFields,
-        } = request;
+        const { storeId, productId, variantId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -3751,7 +4111,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceProductVariant, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceProductVariant.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -3781,9 +4150,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.upsertStoreProductVariant({
-     *         store_id: "store_id",
-     *         product_id: "product_id",
-     *         variant_id: "variant_id"
+     *         storeId: "store_id",
+     *         productId: "product_id",
+     *         variantId: "variant_id"
      *     })
      */
     public upsertStoreProductVariant(
@@ -3797,7 +4166,7 @@ export class EcommerceClient {
         request: Mailchimp.UpsertStoreProductVariantEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceProductVariant>> {
-        const { store_id: storeId, product_id: productId, variant_id: variantId, ..._body } = request;
+        const { storeId, productId, variantId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -3816,7 +4185,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpsertStoreProductVariantEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -3824,7 +4199,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceProductVariant, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceProductVariant.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -3854,9 +4238,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.deleteStoreProductVariant({
-     *         store_id: "store_id",
-     *         product_id: "product_id",
-     *         variant_id: "variant_id"
+     *         storeId: "store_id",
+     *         productId: "product_id",
+     *         variantId: "variant_id"
      *     })
      */
     public deleteStoreProductVariant(
@@ -3870,7 +4254,7 @@ export class EcommerceClient {
         request: Mailchimp.DeleteStoreProductVariantEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { store_id: storeId, product_id: productId, variant_id: variantId } = request;
+        const { storeId, productId, variantId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -3924,9 +4308,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.updateStoreProductVariant({
-     *         store_id: "store_id",
-     *         product_id: "product_id",
-     *         variant_id: "variant_id"
+     *         storeId: "store_id",
+     *         productId: "product_id",
+     *         variantId: "variant_id"
      *     })
      */
     public updateStoreProductVariant(
@@ -3940,7 +4324,7 @@ export class EcommerceClient {
         request: Mailchimp.UpdateStoreProductVariantEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommerceProductVariant>> {
-        const { store_id: storeId, product_id: productId, variant_id: variantId, ..._body } = request;
+        const { storeId, productId, variantId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -3959,7 +4343,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateStoreProductVariantEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -3967,7 +4357,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommerceProductVariant, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommerceProductVariant.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -3997,7 +4396,7 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.listStorePromoRules({
-     *         store_id: "store_id"
+     *         storeId: "store_id"
      *     })
      */
     public async listStorePromoRules(
@@ -4008,7 +4407,7 @@ export class EcommerceClient {
             async (
                 request: Mailchimp.ListStorePromoRulesEcommerceRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListStorePromoRulesEcommerceResponse>> => {
-                const { store_id: storeId, fields, exclude_fields: excludeFields, count, offset } = request;
+                const { storeId, fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -4045,7 +4444,13 @@ export class EcommerceClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListStorePromoRulesEcommerceResponse,
+                        data: serializers.ListStorePromoRulesEcommerceResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -4069,8 +4474,8 @@ export class EcommerceClient {
         return new core.Page<Mailchimp.ECommercePromoRule, Mailchimp.ListStorePromoRulesEcommerceResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
-            hasNextPage: (response) => (response?.promo_rules ?? []).length > 0,
-            getItems: (response) => response?.promo_rules ?? [],
+            hasNextPage: (response) => (response?.promoRules ?? []).length > 0,
+            getItems: (response) => response?.promoRules ?? [],
             loadPage: (_response) => {
                 _offset += 1;
                 return list(core.setObjectProperty(request, "offset", _offset));
@@ -4089,7 +4494,7 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.createStorePromoRule({
-     *         store_id: "store_id",
+     *         storeId: "store_id",
      *         amount: 1.1,
      *         description: "Save BIG during our summer sale!",
      *         id: "id",
@@ -4108,7 +4513,7 @@ export class EcommerceClient {
         request: Mailchimp.CreateStorePromoRuleEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommercePromoRule>> {
-        const { store_id: storeId, ..._body } = request;
+        const { storeId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -4127,7 +4532,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateStorePromoRuleEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -4135,7 +4546,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommercePromoRule, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommercePromoRule.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -4165,8 +4585,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.getStorePromoRule({
-     *         store_id: "store_id",
-     *         promo_rule_id: "promo_rule_id"
+     *         storeId: "store_id",
+     *         promoRuleId: "promo_rule_id"
      *     })
      */
     public getStorePromoRule(
@@ -4180,7 +4600,7 @@ export class EcommerceClient {
         request: Mailchimp.GetStorePromoRuleEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommercePromoRule>> {
-        const { store_id: storeId, promo_rule_id: promoRuleId, fields, exclude_fields: excludeFields } = request;
+        const { storeId, promoRuleId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -4214,7 +4634,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommercePromoRule, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommercePromoRule.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -4244,8 +4673,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.deleteStorePromoRule({
-     *         store_id: "store_id",
-     *         promo_rule_id: "promo_rule_id"
+     *         storeId: "store_id",
+     *         promoRuleId: "promo_rule_id"
      *     })
      */
     public deleteStorePromoRule(
@@ -4259,7 +4688,7 @@ export class EcommerceClient {
         request: Mailchimp.DeleteStorePromoRuleEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { store_id: storeId, promo_rule_id: promoRuleId } = request;
+        const { storeId, promoRuleId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -4313,8 +4742,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.updateStorePromoRule({
-     *         store_id: "store_id",
-     *         promo_rule_id: "promo_rule_id"
+     *         storeId: "store_id",
+     *         promoRuleId: "promo_rule_id"
      *     })
      */
     public updateStorePromoRule(
@@ -4328,7 +4757,7 @@ export class EcommerceClient {
         request: Mailchimp.UpdateStorePromoRuleEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommercePromoRule>> {
-        const { store_id: storeId, promo_rule_id: promoRuleId, ..._body } = request;
+        const { storeId, promoRuleId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -4347,7 +4776,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateStorePromoRuleEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -4355,7 +4790,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommercePromoRule, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommercePromoRule.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -4385,8 +4829,8 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.listStorePromoRulePromoCodes({
-     *         store_id: "store_id",
-     *         promo_rule_id: "promo_rule_id"
+     *         storeId: "store_id",
+     *         promoRuleId: "promo_rule_id"
      *     })
      */
     public async listStorePromoRulePromoCodes(
@@ -4397,14 +4841,7 @@ export class EcommerceClient {
             async (
                 request: Mailchimp.ListStorePromoRulePromoCodesEcommerceRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListStorePromoRulePromoCodesEcommerceResponse>> => {
-                const {
-                    store_id: storeId,
-                    promo_rule_id: promoRuleId,
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                } = request;
+                const { storeId, promoRuleId, fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -4441,7 +4878,13 @@ export class EcommerceClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListStorePromoRulePromoCodesEcommerceResponse,
+                        data: serializers.ListStorePromoRulePromoCodesEcommerceResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -4465,8 +4908,8 @@ export class EcommerceClient {
         return new core.Page<Mailchimp.ECommercePromoCode, Mailchimp.ListStorePromoRulePromoCodesEcommerceResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
-            hasNextPage: (response) => (response?.promo_codes ?? []).length > 0,
-            getItems: (response) => response?.promo_codes ?? [],
+            hasNextPage: (response) => (response?.promoCodes ?? []).length > 0,
+            getItems: (response) => response?.promoCodes ?? [],
             loadPage: (_response) => {
                 _offset += 1;
                 return list(core.setObjectProperty(request, "offset", _offset));
@@ -4485,11 +4928,11 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.createStorePromoRulePromoCode({
-     *         store_id: "store_id",
-     *         promo_rule_id: "promo_rule_id",
+     *         storeId: "store_id",
+     *         promoRuleId: "promo_rule_id",
      *         code: "summersale",
      *         id: "id",
-     *         redemption_url: "A url that applies promo code directly at checkout or a url that points to sale page or store url"
+     *         redemptionUrl: "A url that applies promo code directly at checkout or a url that points to sale page or store url"
      *     })
      */
     public createStorePromoRulePromoCode(
@@ -4503,7 +4946,7 @@ export class EcommerceClient {
         request: Mailchimp.CreateStorePromoRulePromoCodeEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommercePromoCode>> {
-        const { store_id: storeId, promo_rule_id: promoRuleId, ..._body } = request;
+        const { storeId, promoRuleId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -4522,7 +4965,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateStorePromoRulePromoCodeEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -4530,7 +4979,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommercePromoCode, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommercePromoCode.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -4560,9 +5018,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.getStorePromoRulePromoCode({
-     *         store_id: "store_id",
-     *         promo_rule_id: "promo_rule_id",
-     *         promo_code_id: "promo_code_id"
+     *         storeId: "store_id",
+     *         promoRuleId: "promo_rule_id",
+     *         promoCodeId: "promo_code_id"
      *     })
      */
     public getStorePromoRulePromoCode(
@@ -4576,13 +5034,7 @@ export class EcommerceClient {
         request: Mailchimp.GetStorePromoRulePromoCodeEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommercePromoCode>> {
-        const {
-            store_id: storeId,
-            promo_rule_id: promoRuleId,
-            promo_code_id: promoCodeId,
-            fields,
-            exclude_fields: excludeFields,
-        } = request;
+        const { storeId, promoRuleId, promoCodeId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -4616,7 +5068,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommercePromoCode, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommercePromoCode.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -4646,9 +5107,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.deleteStorePromoRulePromoCode({
-     *         store_id: "store_id",
-     *         promo_rule_id: "promo_rule_id",
-     *         promo_code_id: "promo_code_id"
+     *         storeId: "store_id",
+     *         promoRuleId: "promo_rule_id",
+     *         promoCodeId: "promo_code_id"
      *     })
      */
     public deleteStorePromoRulePromoCode(
@@ -4662,7 +5123,7 @@ export class EcommerceClient {
         request: Mailchimp.DeleteStorePromoRulePromoCodeEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { store_id: storeId, promo_rule_id: promoRuleId, promo_code_id: promoCodeId } = request;
+        const { storeId, promoRuleId, promoCodeId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -4716,9 +5177,9 @@ export class EcommerceClient {
      *
      * @example
      *     await client.ecommerce.updateStorePromoRulePromoCode({
-     *         store_id: "store_id",
-     *         promo_rule_id: "promo_rule_id",
-     *         promo_code_id: "promo_code_id"
+     *         storeId: "store_id",
+     *         promoRuleId: "promo_rule_id",
+     *         promoCodeId: "promo_code_id"
      *     })
      */
     public updateStorePromoRulePromoCode(
@@ -4732,7 +5193,7 @@ export class EcommerceClient {
         request: Mailchimp.UpdateStorePromoRulePromoCodeEcommerceRequest,
         requestOptions?: EcommerceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ECommercePromoCode>> {
-        const { store_id: storeId, promo_rule_id: promoRuleId, promo_code_id: promoCodeId, ..._body } = request;
+        const { storeId, promoRuleId, promoCodeId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -4751,7 +5212,13 @@ export class EcommerceClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateStorePromoRulePromoCodeEcommerceRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -4759,7 +5226,16 @@ export class EcommerceClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ECommercePromoCode, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ECommercePromoCode.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {

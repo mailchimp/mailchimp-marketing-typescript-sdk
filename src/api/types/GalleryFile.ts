@@ -1,74 +1,33 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../index.js";
+
 /**
  * An individual file listed in the File Manager.
  */
 export interface GalleryFile {
     /** A list of link types and descriptions for the API schema documents. */
-    _links?: GalleryFile.Links.Item[] | undefined;
+    links?: Mailchimp.GalleryFileLinksItem[];
     /** The date and time a file was added to the File Manager in ISO 8601 format. */
-    created_at?: string | undefined;
+    createdAt?: Date;
     /** The username of the profile that uploaded the file. */
-    created_by?: string | undefined;
+    createdBy?: string;
     /** The id of the folder. */
-    folder_id?: number | undefined;
+    folderId?: number;
     /** The url of the full-size file. */
-    full_size_url?: string | undefined;
+    fullSizeUrl?: string;
     /** The height of an image. */
-    height?: number | undefined;
+    height?: number;
     /** The unique id of the file. */
-    id?: number | undefined;
+    id?: number;
     /** The name of the file. */
-    name?: string | undefined;
+    name?: string;
     /** The size of the file in bytes. */
-    size?: number | undefined;
+    size?: number;
     /** The url of the thumbnail preview. */
-    thumbnail_url?: string | undefined;
+    thumbnailUrl?: string;
     /** The type of file in the File Manager. */
-    type?: GalleryFile.Type | undefined;
+    type?: Mailchimp.GalleryFileType;
     /** The width of the image. */
-    width?: number | undefined;
-}
-
-export namespace GalleryFile {
-    export type Links = Links.Item[];
-
-    export namespace Links {
-        /**
-         * This object represents a link from the resource where it is found to another resource or action that may be performed.
-         */
-        export interface Item {
-            /** This property contains a fully-qualified URL that can be called to retrieve the linked resource or perform the linked action. */
-            href?: string | undefined;
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            method?: Item.Method | undefined;
-            /** As with an HTML 'rel' attribute, this describes the type of link. */
-            rel?: string | undefined;
-            /** For HTTP methods that can receive bodies (POST and PUT), this is a URL representing the schema that the body should conform to. */
-            schema?: string | undefined;
-            /** For GETs, this is a URL representing the schema that the response should conform to. */
-            targetSchema?: string | undefined;
-        }
-
-        export namespace Item {
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            export const Method = {
-                Get: "GET",
-                Post: "POST",
-                Put: "PUT",
-                Patch: "PATCH",
-                Delete: "DELETE",
-                Options: "OPTIONS",
-                Head: "HEAD",
-            } as const;
-            export type Method = (typeof Method)[keyof typeof Method];
-        }
-    }
-
-    /** The type of file in the File Manager. */
-    export const Type = {
-        Image: "image",
-        File: "file",
-    } as const;
-    export type Type = (typeof Type)[keyof typeof Type];
+    width?: number;
 }

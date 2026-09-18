@@ -3,14 +3,14 @@
 /**
  * @example
  *     {
- *         conversation_id: "conversation_id"
+ *         conversationId: "conversation_id"
  *     }
  */
 export interface GetConversationsRequest {
     /** The unique id for the conversation. */
-    conversation_id: string;
+    conversationId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

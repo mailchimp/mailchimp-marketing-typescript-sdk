@@ -1,27 +1,20 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../../../../index.js";
+
 /**
  * @example
  *     {
- *         campaign_id: "campaign_id",
- *         send_type: "html",
- *         test_emails: ["test_emails"]
+ *         campaignId: "campaign_id",
+ *         sendType: "html",
+ *         testEmails: ["test_emails"]
  *     }
  */
 export interface CreateActionTestCampaignsRequest {
     /** The unique id for the campaign. */
-    campaign_id: string;
+    campaignId: string;
     /** Choose the type of test email to send. */
-    send_type: CreateActionTestCampaignsRequest.SendType;
+    sendType: Mailchimp.CreateActionTestCampaignsRequestSendType;
     /** An array of email addresses to send the test email to. */
-    test_emails: string[];
-}
-
-export namespace CreateActionTestCampaignsRequest {
-    /** Choose the type of test email to send. */
-    export const SendType = {
-        Html: "html",
-        Plaintext: "plaintext",
-    } as const;
-    export type SendType = (typeof SendType)[keyof typeof SendType];
+    testEmails: string[];
 }

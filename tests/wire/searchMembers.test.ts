@@ -25,6 +25,40 @@ describe("SearchMembersClient", () => {
         const response = await client.searchMembers.list({
             query: "query",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            exactMatches: {
+                members: [
+                    {
+                        stats: {
+                            ecommerceData: {
+                                currencyCode: "USD",
+                            },
+                        },
+                    },
+                ],
+                totalItems: 1,
+            },
+            fullSearch: {
+                members: [
+                    {
+                        stats: {
+                            ecommerceData: {
+                                currencyCode: "USD",
+                            },
+                        },
+                    },
+                ],
+                totalItems: 1,
+            },
+        });
     });
 });

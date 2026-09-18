@@ -3,13 +3,13 @@
 /**
  * @example
  *     {
- *         folder_id: "folder_id",
+ *         folderId: "folder_id",
  *         name: "name"
  *     }
  */
 export interface UpdateFolderFileManagerRequest {
     /** The unique id for the File Manager folder. */
-    folder_id: string;
+    folderId: string;
     /** The name of the folder. */
     name: string;
 }

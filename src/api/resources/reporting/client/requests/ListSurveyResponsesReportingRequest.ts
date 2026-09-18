@@ -5,20 +5,20 @@ import type * as Mailchimp from "../../../../index.js";
 /**
  * @example
  *     {
- *         survey_id: "survey_id"
+ *         surveyId: "survey_id"
  *     }
  */
 export interface ListSurveyResponsesReportingRequest {
     /** The ID of the survey. */
-    survey_id: string;
+    surveyId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
     /** The ID of the question that was answered. */
-    answered_question?: number;
+    answeredQuestion?: number;
     /** The ID of the option chosen to filter responses on. */
-    chose_answer?: string;
+    choseAnswer?: string;
     /** Filter survey responses by familiarity of the respondents. */
-    respondent_familiarity_is?: Mailchimp.ListSurveyResponsesReportingRequestRespondentFamiliarityIs;
+    respondentFamiliarityIs?: Mailchimp.ListSurveyResponsesReportingRequestRespondentFamiliarityIs;
 }

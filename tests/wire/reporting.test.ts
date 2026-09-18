@@ -15,7 +15,15 @@ describe("ReportingClient", () => {
         server.mockEndpoint().get("/3.0/reporting").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.reporting.list();
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual([
+            {
+                href: "href",
+                method: "GET",
+                rel: "rel",
+                schema: "schema",
+                targetSchema: "targetSchema",
+            },
+        ]);
     });
 
     test("list-facebook-ads", async () => {
@@ -66,13 +74,68 @@ describe("ReportingClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            facebookAds: [
+                {
+                    canceledAt: new Date("2024-01-15T09:30:00.000Z"),
+                    createTime: new Date("2024-01-15T09:30:00.000Z"),
+                    hasSegment: true,
+                    id: "id",
+                    name: "name",
+                    publishedTime: new Date("2024-01-15T09:30:00.000Z"),
+                    recipients: {
+                        segmentOpts: {
+                            conditions: [
+                                {
+                                    conditionType: "Aim",
+                                    value: "any",
+                                },
+                            ],
+                            prebuiltSegmentId: "subscribers-female",
+                        },
+                    },
+                    showReport: true,
+                    startTime: new Date("2024-01-15T09:30:00.000Z"),
+                    status: "save",
+                    type: "regular",
+                    updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+                    webId: 1,
+                    emailSourceName: "email_source_name",
+                    endTime: new Date("2024-01-15T09:30:00.000Z"),
+                    needsAttention: true,
+                    pausedAt: new Date("2024-01-15T09:30:00.000Z"),
+                    thumbnail: "thumbnail",
+                    wasCanceledByFacebook: true,
+                    budget: {
+                        currencyCode: "USD",
+                        duration: 86400,
+                        totalAmount: 500,
+                    },
+                    channel: {
+                        fbPlacementAudience: false,
+                        fbPlacementFeed: true,
+                        igPlacementFeed: false,
+                    },
+                    links: [{}],
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.reporting.listFacebookAds();
 
-        expect(expected.facebook_ads).toEqual(page.data);
+        expect(expected.facebookAds).toEqual(page.data);
         expect(page.hasNextPage()).toBe(true);
         const nextPage = await page.getNextPage();
-        expect(expected.facebook_ads).toEqual(nextPage.data);
+        expect(expected.facebookAds).toEqual(nextPage.data);
     });
 
     test("get-facebook-ad", async () => {
@@ -160,9 +223,124 @@ describe("ReportingClient", () => {
             .build();
 
         const response = await client.reporting.getFacebookAd({
-            outreach_id: "outreach_id",
+            outreachId: "outreach_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            canceledAt: new Date("2024-01-15T09:30:00.000Z"),
+            createTime: new Date("2024-01-15T09:30:00.000Z"),
+            hasSegment: true,
+            id: "id",
+            name: "name",
+            publishedTime: new Date("2024-01-15T09:30:00.000Z"),
+            recipients: {
+                listId: "list_id",
+                listIsActive: true,
+                listName: "list_name",
+                recipientCount: 1,
+                segmentOpts: {
+                    conditions: [
+                        {
+                            conditionType: "Aim",
+                            value: "any",
+                        },
+                    ],
+                    match: "any",
+                    prebuiltSegmentId: "subscribers-female",
+                    savedSegmentId: 1,
+                },
+                segmentText: "segment_text",
+            },
+            reportSummary: {
+                averageDailyBudget: {
+                    amount: 1.1,
+                    currencyCode: "currency_code",
+                },
+                averageOrderAmount: {
+                    amount: 1.1,
+                    currencyCode: "currency_code",
+                },
+                clickRate: 1.1,
+                clicks: 1,
+                comments: 1,
+                costPerClick: {
+                    amount: 1.1,
+                    currencyCode: "currency_code",
+                },
+                ecommerce: {
+                    currencyCode: "currency_code",
+                    totalRevenue: 1.1,
+                },
+                extendedAt: {
+                    datetime: "datetime",
+                    timezone: "timezone",
+                },
+                firstTimeBuyers: 1,
+                hasExtendedAdDuration: true,
+                impressions: 1,
+                likes: 1,
+                reach: 1,
+                returnOnInvestment: 1.1,
+                shares: 1,
+                totalOrders: 1,
+                totalProductsSold: 1,
+                uniqueClicks: 1,
+            },
+            showReport: true,
+            startTime: new Date("2024-01-15T09:30:00.000Z"),
+            status: "save",
+            type: "regular",
+            updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+            webId: 1,
+            emailSourceName: "email_source_name",
+            endTime: new Date("2024-01-15T09:30:00.000Z"),
+            needsAttention: true,
+            pausedAt: new Date("2024-01-15T09:30:00.000Z"),
+            thumbnail: "thumbnail",
+            wasCanceledByFacebook: true,
+            audience: {
+                emailSource: {
+                    isSegment: true,
+                    listName: "list_name",
+                    name: "name",
+                    segmentType: "segment_type",
+                    type: "type",
+                },
+                includeSourceInTarget: true,
+                lookalikeCountryCode: "lookalike_country_code",
+                sourceType: "facebook",
+                targetingSpecs: {
+                    gender: 1,
+                    interests: [{}],
+                    maxAge: 1,
+                    minAge: 1,
+                },
+                type: "Custom Audience",
+            },
+            audienceActivity: {
+                clicks: [{}],
+                impressions: [{}],
+                revenue: [{}],
+            },
+            budget: {
+                currencyCode: "USD",
+                duration: 86400,
+                totalAmount: 500,
+            },
+            channel: {
+                fbPlacementAudience: false,
+                fbPlacementFeed: true,
+                igPlacementFeed: false,
+            },
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+        });
     });
 
     test("list-facebook-ad-ecommerce-product-activity", async () => {
@@ -194,9 +372,32 @@ describe("ReportingClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            products: [
+                {
+                    currencyCode: "currency_code",
+                    imageUrl: "image_url",
+                    recommendationPurchased: 1,
+                    recommendationTotal: 1,
+                    sku: "sku",
+                    title: "title",
+                    totalPurchased: 1.1,
+                    totalRevenue: 1.1,
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.reporting.listFacebookAdEcommerceProductActivity({
-            outreach_id: "outreach_id",
+            outreachId: "outreach_id",
         });
 
         expect(expected.products).toEqual(page.data);
@@ -255,13 +456,87 @@ describe("ReportingClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            landingPages: [
+                {
+                    links: [{}],
+                    clicks: 1,
+                    conversionRate: 1.1,
+                    id: "00dfc2e1f0",
+                    listId: "list_id",
+                    listName: "Test List",
+                    name: "name",
+                    publishedAt: new Date("2024-01-15T09:30:00.000Z"),
+                    signupTags: [{}],
+                    status: "status",
+                    subscribes: 1,
+                    timeseries: {
+                        dailyStats: {
+                            clicks: [
+                                {
+                                    date: "2018-04-25",
+                                    val: 13,
+                                },
+                            ],
+                            uniqueVisits: [
+                                {
+                                    date: "2018-04-25",
+                                    val: 1,
+                                },
+                            ],
+                            visits: [
+                                {
+                                    date: "2018-04-25",
+                                    val: 11,
+                                },
+                            ],
+                        },
+                        weeklyStats: {
+                            clicks: [
+                                {
+                                    date: "2018-04-25",
+                                    val: 23,
+                                },
+                            ],
+                            uniqueVisits: [
+                                {
+                                    date: "2018-04-25",
+                                    val: 1,
+                                },
+                            ],
+                            visits: [
+                                {
+                                    date: "2018-04-25",
+                                    val: 49,
+                                },
+                            ],
+                        },
+                    },
+                    title: "title",
+                    uniqueVisits: 1,
+                    unpublishedAt: new Date("2024-01-15T09:30:00.000Z"),
+                    url: "url",
+                    visits: 1,
+                    webId: 33345484,
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.reporting.listLandingPages();
 
-        expect(expected.landing_pages).toEqual(page.data);
+        expect(expected.landingPages).toEqual(page.data);
         expect(page.hasNextPage()).toBe(true);
         const nextPage = await page.getNextPage();
-        expect(expected.landing_pages).toEqual(nextPage.data);
+        expect(expected.landingPages).toEqual(nextPage.data);
     });
 
     test("get-landing-page", async () => {
@@ -315,9 +590,88 @@ describe("ReportingClient", () => {
             .build();
 
         const response = await client.reporting.getLandingPage({
-            outreach_id: "outreach_id",
+            outreachId: "outreach_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            clicks: 1,
+            conversionRate: 1.1,
+            ecommerce: {
+                averageOrderRevenue: 1.1,
+                currencyCode: "currency_code",
+                totalOrders: 1,
+                totalRevenue: 1.1,
+            },
+            id: "00dfc2e1f0",
+            listId: "list_id",
+            listName: "Test List",
+            name: "name",
+            publishedAt: new Date("2024-01-15T09:30:00.000Z"),
+            signupTags: [
+                {
+                    tagId: 1,
+                    tagName: "tag_name",
+                },
+            ],
+            status: "status",
+            subscribes: 1,
+            timeseries: {
+                dailyStats: {
+                    clicks: [
+                        {
+                            date: "2018-04-25",
+                            val: 13,
+                        },
+                    ],
+                    uniqueVisits: [
+                        {
+                            date: "2018-04-25",
+                            val: 1,
+                        },
+                    ],
+                    visits: [
+                        {
+                            date: "2018-04-25",
+                            val: 11,
+                        },
+                    ],
+                },
+                weeklyStats: {
+                    clicks: [
+                        {
+                            date: "2018-04-25",
+                            val: 23,
+                        },
+                    ],
+                    uniqueVisits: [
+                        {
+                            date: "2018-04-25",
+                            val: 1,
+                        },
+                    ],
+                    visits: [
+                        {
+                            date: "2018-04-25",
+                            val: 49,
+                        },
+                    ],
+                },
+            },
+            title: "title",
+            uniqueVisits: 1,
+            unpublishedAt: new Date("2024-01-15T09:30:00.000Z"),
+            url: "url",
+            visits: 1,
+            webId: 33345484,
+        });
     });
 
     test("list-surveys", async () => {
@@ -352,7 +706,33 @@ describe("ReportingClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            surveys: [
+                {
+                    createdAt: new Date("2017-08-04T11:09:01.000Z"),
+                    id: "040d2c2e1f0",
+                    listId: "list_id",
+                    listName: "list_name",
+                    publishedAt: new Date("2017-08-04T11:09:01.000Z"),
+                    status: "published",
+                    title: "New product ideas",
+                    totalResponses: 810,
+                    updatedAt: new Date("2017-08-04T11:09:01.000Z"),
+                    url: "url",
+                    webId: 165,
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.reporting.listSurveys();
 
         expect(expected.surveys).toEqual(page.data);
@@ -388,9 +768,21 @@ describe("ReportingClient", () => {
             .build();
 
         const response = await client.reporting.getSurvey({
-            survey_id: "survey_id",
+            surveyId: "survey_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            createdAt: new Date("2017-08-04T11:09:01.000Z"),
+            id: "040d2c2e1f0",
+            listId: "list_id",
+            listName: "list_name",
+            publishedAt: new Date("2017-08-04T11:09:01.000Z"),
+            status: "published",
+            title: "New product ideas",
+            totalResponses: 810,
+            updatedAt: new Date("2017-08-04T11:09:01.000Z"),
+            url: "url",
+            webId: 165,
+        });
     });
 
     test("list-survey-questions", async () => {
@@ -430,9 +822,39 @@ describe("ReportingClient", () => {
             .build();
 
         const response = await client.reporting.listSurveyQuestions({
-            survey_id: "survey_id",
+            surveyId: "survey_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            questions: [
+                {
+                    averageRating: 2.5,
+                    hasOther: true,
+                    id: "id",
+                    isRequired: true,
+                    options: [{}],
+                    otherLabel: "other_label",
+                    placeholderLabel: "placeholder_label",
+                    query: "query",
+                    rangeHighLabel: "range_high_label",
+                    rangeLowLabel: "range_low_label",
+                    subscribeCheckboxEnabled: true,
+                    subscribeCheckboxLabel: "subscribe_checkbox_label",
+                    surveyId: "survey_id",
+                    totalResponses: 810,
+                    type: "pickOne",
+                },
+            ],
+            totalItems: 1,
+        });
     });
 
     test("get-survey-question", async () => {
@@ -468,10 +890,42 @@ describe("ReportingClient", () => {
             .build();
 
         const response = await client.reporting.getSurveyQuestion({
-            survey_id: "survey_id",
-            question_id: "question_id",
+            surveyId: "survey_id",
+            questionId: "question_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            averageRating: 2.5,
+            contactCounts: {
+                known: 1,
+                "new": 1,
+                unknown: 1,
+            },
+            hasOther: true,
+            id: "id",
+            isRequired: true,
+            mergeField: {
+                id: 1,
+                label: "label",
+                type: "text",
+            },
+            options: [
+                {
+                    count: 1,
+                    id: "id",
+                    label: "label",
+                },
+            ],
+            otherLabel: "other_label",
+            placeholderLabel: "placeholder_label",
+            query: "query",
+            rangeHighLabel: "range_high_label",
+            rangeLowLabel: "range_low_label",
+            subscribeCheckboxEnabled: true,
+            subscribeCheckboxLabel: "subscribe_checkbox_label",
+            surveyId: "survey_id",
+            totalResponses: 810,
+            type: "pickOne",
+        });
     });
 
     test("list-survey-question-answers", async () => {
@@ -501,10 +955,30 @@ describe("ReportingClient", () => {
             .build();
 
         const response = await client.reporting.listSurveyQuestionAnswers({
-            survey_id: "survey_id",
-            question_id: "question_id",
+            surveyId: "survey_id",
+            questionId: "question_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            answers: [
+                {
+                    id: "id",
+                    isNewContact: true,
+                    responseId: "response_id",
+                    submittedAt: new Date("2024-01-15T09:30:00.000Z"),
+                    value: "value",
+                },
+            ],
+            totalItems: 1,
+        });
     });
 
     test("list-survey-responses", async () => {
@@ -526,9 +1000,27 @@ describe("ReportingClient", () => {
             .build();
 
         const response = await client.reporting.listSurveyResponses({
-            survey_id: "survey_id",
+            surveyId: "survey_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            responses: [
+                {
+                    isNewContact: true,
+                    responseId: "response_id",
+                    submittedAt: new Date("2024-01-15T09:30:00.000Z"),
+                },
+            ],
+            totalItems: 1,
+        });
     });
 
     test("get-survey-respons", async () => {
@@ -561,9 +1053,31 @@ describe("ReportingClient", () => {
             .build();
 
         const response = await client.reporting.getSurveyRespons({
-            survey_id: "survey_id",
-            response_id: "response_id",
+            surveyId: "survey_id",
+            responseId: "response_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            contact: {
+                avatarUrl: "avatar_url",
+                consentsToOneToOneMessaging: true,
+                contactId: "contact_id",
+                email: "email",
+                emailId: "email_id",
+                fullName: "full_name",
+                phone: "phone",
+                status: "Subscribed",
+            },
+            isNewContact: true,
+            responseId: "response_id",
+            results: [
+                {
+                    answer: "answer",
+                    query: "query",
+                    questionId: "question_id",
+                    questionType: "pickOne",
+                },
+            ],
+            submittedAt: new Date("2024-01-15T09:30:00.000Z"),
+        });
     });
 });

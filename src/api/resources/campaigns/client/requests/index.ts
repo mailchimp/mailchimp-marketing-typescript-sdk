@@ -1,13 +1,13 @@
 export type { CreateActionCancelSendCampaignsRequest } from "./CreateActionCancelSendCampaignsRequest.js";
-export { CreateActionCreateResendCampaignsRequest } from "./CreateActionCreateResendCampaignsRequest.js";
+export type { CreateActionCreateResendCampaignsRequest } from "./CreateActionCreateResendCampaignsRequest.js";
 export type { CreateActionPauseCampaignsRequest } from "./CreateActionPauseCampaignsRequest.js";
 export type { CreateActionReplicateCampaignsRequest } from "./CreateActionReplicateCampaignsRequest.js";
 export type { CreateActionResumeCampaignsRequest } from "./CreateActionResumeCampaignsRequest.js";
 export type { CreateActionScheduleCampaignsRequest } from "./CreateActionScheduleCampaignsRequest.js";
 export type { CreateActionSendCampaignsRequest } from "./CreateActionSendCampaignsRequest.js";
-export { CreateActionTestCampaignsRequest } from "./CreateActionTestCampaignsRequest.js";
+export type { CreateActionTestCampaignsRequest } from "./CreateActionTestCampaignsRequest.js";
 export type { CreateActionUnscheduleCampaignsRequest } from "./CreateActionUnscheduleCampaignsRequest.js";
-export { CreateCampaignsRequest } from "./CreateCampaignsRequest.js";
+export type { CreateCampaignsRequest } from "./CreateCampaignsRequest.js";
 export type { CreateFeedbackCampaignsRequest } from "./CreateFeedbackCampaignsRequest.js";
 export type { DeleteCampaignsRequest } from "./DeleteCampaignsRequest.js";
 export type { DeleteFeedbackCampaignsRequest } from "./DeleteFeedbackCampaignsRequest.js";
@@ -17,6 +17,6 @@ export type { GetFeedbackCampaignsRequest } from "./GetFeedbackCampaignsRequest.
 export type { ListCampaignsRequest } from "./ListCampaignsRequest.js";
 export type { ListFeedbackCampaignsRequest } from "./ListFeedbackCampaignsRequest.js";
 export type { ListSendChecklistCampaignsRequest } from "./ListSendChecklistCampaignsRequest.js";
-export { UpdateCampaignsRequest } from "./UpdateCampaignsRequest.js";
+export type { UpdateCampaignsRequest } from "./UpdateCampaignsRequest.js";
 export type { UpdateFeedbackCampaignsRequest } from "./UpdateFeedbackCampaignsRequest.js";
 export type { UpsertContentCampaignsRequest } from "./UpsertContentCampaignsRequest.js";

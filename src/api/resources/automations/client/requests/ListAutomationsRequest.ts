@@ -14,15 +14,15 @@ export interface ListAutomationsRequest {
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
     /** Restrict the response to automations created before this time. Uses the ISO 8601 time format: 2015-10-21T15:41:36+00:00. */
-    before_create_time?: string;
+    beforeCreateTime?: Date;
     /** Restrict the response to automations created after this time. Uses the ISO 8601 time format: 2015-10-21T15:41:36+00:00. */
-    since_create_time?: string;
+    sinceCreateTime?: Date;
     /** Restrict the response to automations started before this time. Uses the ISO 8601 time format: 2015-10-21T15:41:36+00:00. */
-    before_start_time?: string;
+    beforeStartTime?: Date;
     /** Restrict the response to automations started after this time. Uses the ISO 8601 time format: 2015-10-21T15:41:36+00:00. */
-    since_start_time?: string;
+    sinceStartTime?: Date;
     /** Restrict the results to automations with the specified status. */
     status?: Mailchimp.ListAutomationsRequestStatus;
 }

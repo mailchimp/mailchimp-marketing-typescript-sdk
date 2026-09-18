@@ -1,78 +1,27 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../index.js";
+
 /**
  * Details of abuse complaints for a specific list. An abuse complaint occurs when your recipient clicks to 'report spam' in their email program.
  */
 export interface ListsAbuseReports {
     /** A list of link types and descriptions for the API schema documents. */
-    _links?: ListsAbuseReports.Links.Item[] | undefined;
+    links?: Mailchimp.ListsAbuseReportsLinksItem[];
     /** The campaign id for the abuse report */
-    campaign_id?: string | undefined;
+    campaignId?: string;
     /** Date for the abuse report */
-    date?: string | undefined;
+    date?: string;
     /** Email address for a subscriber. */
-    email_address?: string | undefined;
+    emailAddress?: string;
     /** The MD5 hash of the lowercase version of the list member's email address. */
-    email_id?: string | undefined;
+    emailId?: string;
     /** The id for the abuse report */
-    id?: number | undefined;
+    id?: number;
     /** The list id for the abuse report. */
-    list_id?: string | undefined;
+    listId?: string;
     /** A dictionary of merge fields where the keys are the merge tags. See the [Merge Fields documentation](https://mailchimp.com/developer/marketing/docs/merge-fields/#structure) for more about the structure. */
-    merge_fields?: Record<string, ListsAbuseReports.MergeFields.Value> | undefined;
+    mergeFields?: Record<string, Mailchimp.ListsAbuseReportsMergeFieldsValue>;
     /** [VIP status](https://mailchimp.com/help/designate-and-send-to-vip-contacts/) for subscriber. */
-    vip?: boolean | undefined;
-}
-
-export namespace ListsAbuseReports {
-    export type Links = Links.Item[];
-
-    export namespace Links {
-        /**
-         * This object represents a link from the resource where it is found to another resource or action that may be performed.
-         */
-        export interface Item {
-            /** This property contains a fully-qualified URL that can be called to retrieve the linked resource or perform the linked action. */
-            href?: string | undefined;
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            method?: Item.Method | undefined;
-            /** As with an HTML 'rel' attribute, this describes the type of link. */
-            rel?: string | undefined;
-            /** For HTTP methods that can receive bodies (POST and PUT), this is a URL representing the schema that the body should conform to. */
-            schema?: string | undefined;
-            /** For GETs, this is a URL representing the schema that the response should conform to. */
-            targetSchema?: string | undefined;
-        }
-
-        export namespace Item {
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            export const Method = {
-                Get: "GET",
-                Post: "POST",
-                Put: "PUT",
-                Patch: "PATCH",
-                Delete: "DELETE",
-                Options: "OPTIONS",
-                Head: "HEAD",
-            } as const;
-            export type Method = (typeof Method)[keyof typeof Method];
-        }
-    }
-
-    export namespace MergeFields {
-        /**
-         * This object's keys are merge tags (like FNAME). It's values are the values to be added to the merge field.
-         */
-        export type Value =
-            | {
-                  addr1: string;
-                  addr2?: string | undefined;
-                  city: string;
-                  state: string;
-                  zip: string;
-                  country?: string | undefined;
-              }
-            | string
-            | number;
-    }
+    vip?: boolean;
 }

@@ -1,55 +1,21 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../../../index.js";
+
 /**
  * An account export.
  */
 export interface GetAccountExportsResponse {
     /** A list of link types and descriptions for the API schema documents. */
-    _links?: GetAccountExportsResponse.Links.Item[] | undefined;
+    links?: Mailchimp.GetAccountExportsResponseLinksItem[];
     /** If the export is finished, the download URL for an export. URLs are only valid for 90 days after the export completes. */
-    download_url?: string | undefined;
+    downloadUrl?: string;
     /** The ID for the export. */
-    export_id?: number | undefined;
+    exportId?: number;
     /** If finished, the finish time for the export. */
-    finished?: string | undefined;
+    finished?: Date;
     /** The size of the uncompressed export in bytes. */
-    size_in_bytes?: number | undefined;
+    sizeInBytes?: number;
     /** Start time for the export. */
-    started?: string | undefined;
-}
-
-export namespace GetAccountExportsResponse {
-    export type Links = Links.Item[];
-
-    export namespace Links {
-        /**
-         * This object represents a link from the resource where it is found to another resource or action that may be performed.
-         */
-        export interface Item {
-            /** This property contains a fully-qualified URL that can be called to retrieve the linked resource or perform the linked action. */
-            href?: string | undefined;
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            method?: Item.Method | undefined;
-            /** As with an HTML 'rel' attribute, this describes the type of link. */
-            rel?: string | undefined;
-            /** For HTTP methods that can receive bodies (POST and PUT), this is a URL representing the schema that the body should conform to. */
-            schema?: string | undefined;
-            /** For GETs, this is a URL representing the schema that the response should conform to. */
-            targetSchema?: string | undefined;
-        }
-
-        export namespace Item {
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            export const Method = {
-                Get: "GET",
-                Post: "POST",
-                Put: "PUT",
-                Patch: "PATCH",
-                Delete: "DELETE",
-                Options: "OPTIONS",
-                Head: "HEAD",
-            } as const;
-            export type Method = (typeof Method)[keyof typeof Method];
-        }
-    }
+    started?: Date;
 }

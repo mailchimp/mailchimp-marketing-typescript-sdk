@@ -8,6 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace TemplateFoldersClient {
@@ -38,12 +39,12 @@ export class TemplateFoldersClient {
     public async list(
         request: Mailchimp.ListTemplateFoldersRequest = {},
         requestOptions?: TemplateFoldersClient.RequestOptions,
-    ): Promise<core.Page<Mailchimp.ListTemplateFoldersResponse.Folders.Item, Mailchimp.ListTemplateFoldersResponse>> {
+    ): Promise<core.Page<Mailchimp.ListTemplateFoldersResponseFoldersItem, Mailchimp.ListTemplateFoldersResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
                 request: Mailchimp.ListTemplateFoldersRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListTemplateFoldersResponse>> => {
-                const { fields, exclude_fields: excludeFields, count, offset } = request;
+                const { fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -80,7 +81,13 @@ export class TemplateFoldersClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListTemplateFoldersResponse,
+                        data: serializers.ListTemplateFoldersResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -96,18 +103,16 @@ export class TemplateFoldersClient {
         );
         let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<Mailchimp.ListTemplateFoldersResponse.Folders.Item, Mailchimp.ListTemplateFoldersResponse>(
-            {
-                response: dataWithRawResponse.data,
-                rawResponse: dataWithRawResponse.rawResponse,
-                hasNextPage: (response) => (response?.folders ?? []).length > 0,
-                getItems: (response) => response?.folders ?? [],
-                loadPage: (_response) => {
-                    _offset += 1;
-                    return list(core.setObjectProperty(request, "offset", _offset));
-                },
+        return new core.Page<Mailchimp.ListTemplateFoldersResponseFoldersItem, Mailchimp.ListTemplateFoldersResponse>({
+            response: dataWithRawResponse.data,
+            rawResponse: dataWithRawResponse.rawResponse,
+            hasNextPage: (response) => (response?.folders ?? []).length > 0,
+            getItems: (response) => response?.folders ?? [],
+            loadPage: (_response) => {
+                _offset += 1;
+                return list(core.setObjectProperty(request, "offset", _offset));
             },
-        );
+        });
     }
 
     /**
@@ -153,7 +158,13 @@ export class TemplateFoldersClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateTemplateFoldersRequest.jsonOrThrow(request, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -162,7 +173,13 @@ export class TemplateFoldersClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.CreateTemplateFoldersResponse,
+                data: serializers.CreateTemplateFoldersResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -189,7 +206,7 @@ export class TemplateFoldersClient {
      *
      * @example
      *     await client.templateFolders.get({
-     *         folder_id: "folder_id"
+     *         folderId: "folder_id"
      *     })
      */
     public get(
@@ -203,7 +220,7 @@ export class TemplateFoldersClient {
         request: Mailchimp.GetTemplateFoldersRequest,
         requestOptions?: TemplateFoldersClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.GetTemplateFoldersResponse>> {
-        const { folder_id: folderId, fields, exclude_fields: excludeFields } = request;
+        const { folderId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -237,7 +254,16 @@ export class TemplateFoldersClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.GetTemplateFoldersResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.GetTemplateFoldersResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -267,7 +293,7 @@ export class TemplateFoldersClient {
      *
      * @example
      *     await client.templateFolders.delete({
-     *         folder_id: "folder_id"
+     *         folderId: "folder_id"
      *     })
      */
     public delete(
@@ -281,7 +307,7 @@ export class TemplateFoldersClient {
         request: Mailchimp.DeleteTemplateFoldersRequest,
         requestOptions?: TemplateFoldersClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { folder_id: folderId } = request;
+        const { folderId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -335,7 +361,7 @@ export class TemplateFoldersClient {
      *
      * @example
      *     await client.templateFolders.update({
-     *         folder_id: "folder_id",
+     *         folderId: "folder_id",
      *         name: "name"
      *     })
      */
@@ -350,7 +376,7 @@ export class TemplateFoldersClient {
         request: Mailchimp.UpdateTemplateFoldersRequest,
         requestOptions?: TemplateFoldersClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.UpdateTemplateFoldersResponse>> {
-        const { folder_id: folderId, ..._body } = request;
+        const { folderId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -369,7 +395,13 @@ export class TemplateFoldersClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateTemplateFoldersRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -378,7 +410,13 @@ export class TemplateFoldersClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.UpdateTemplateFoldersResponse,
+                data: serializers.UpdateTemplateFoldersResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }

@@ -5,12 +5,12 @@ import type * as Mailchimp from "../../../../index.js";
 /**
  * @example
  *     {
- *         campaign_id: "campaign_id",
+ *         campaignId: "campaign_id",
  *         body: {}
  *     }
  */
 export interface UpsertContentCampaignsRequest {
     /** The unique id for the campaign. */
-    campaign_id: string;
+    campaignId: string;
     body: Mailchimp.CampaignContent;
 }

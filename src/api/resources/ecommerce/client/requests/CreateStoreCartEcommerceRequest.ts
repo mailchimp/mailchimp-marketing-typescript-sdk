@@ -5,8 +5,8 @@ import type * as Mailchimp from "../../../../index.js";
 /**
  * @example
  *     {
- *         store_id: "store_id",
- *         currency_code: "currency_code",
+ *         storeId: "store_id",
+ *         currencyCode: "currency_code",
  *         customer: {
  *             id: "id"
  *         },
@@ -14,59 +14,27 @@ import type * as Mailchimp from "../../../../index.js";
  *         lines: [{
  *                 id: "id",
  *                 price: 1.1,
- *                 product_id: "product_id",
- *                 product_variant_id: "product_variant_id",
+ *                 productId: "product_id",
+ *                 productVariantId: "product_variant_id",
  *                 quantity: 1
  *             }],
- *         order_total: 1.1
+ *         orderTotal: 1.1
  *     }
  */
 export interface CreateStoreCartEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     /** A string that uniquely identifies the campaign for a cart. */
-    campaign_id?: string;
+    campaignId?: string;
     /** The URL for the cart. This parameter is required for [Abandoned Cart](https://mailchimp.com/help/create-a-classic-abandoned-cart-email/) automations. */
-    checkout_url?: string;
+    checkoutUrl?: string;
     /** The three-letter ISO 4217 code for the currency that the cart uses. */
-    currency_code: string;
+    currencyCode: string;
     customer: Mailchimp.EcommerceStoresCartsPost;
     /** A unique identifier for the cart. */
-    id: CreateStoreCartEcommerceRequest.Id;
+    id: Mailchimp.CreateStoreCartEcommerceRequestId;
     /** An array of the cart's line items. */
-    lines: CreateStoreCartEcommerceRequest.Lines.Item[];
-    order_total: CreateStoreCartEcommerceRequest.OrderTotal;
-    tax_total?: CreateStoreCartEcommerceRequest.TaxTotal;
-}
-
-export namespace CreateStoreCartEcommerceRequest {
-    /**
-     * A unique identifier for the cart.
-     */
-    export type Id = string | number;
-    export type Lines = Lines.Item[];
-
-    export namespace Lines {
-        /**
-         * Information about a specific cart line item.
-         */
-        export interface Item {
-            /** A unique identifier for the cart line item. */
-            id: string;
-            price: Item.Price;
-            /** A unique identifier for the product associated with the cart line item. */
-            product_id: string;
-            /** A unique identifier for the product variant associated with the cart line item. */
-            product_variant_id: string;
-            /** The quantity of a cart line item. */
-            quantity: number;
-        }
-
-        export namespace Item {
-            export type Price = number | string;
-        }
-    }
-
-    export type OrderTotal = number | string;
-    export type TaxTotal = number | string;
+    lines: Mailchimp.CreateStoreCartEcommerceRequestLinesItem[];
+    orderTotal: Mailchimp.CreateStoreCartEcommerceRequestOrderTotal;
+    taxTotal?: Mailchimp.CreateStoreCartEcommerceRequestTaxTotal;
 }

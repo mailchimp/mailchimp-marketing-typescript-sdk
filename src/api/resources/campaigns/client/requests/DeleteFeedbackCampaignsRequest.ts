@@ -3,13 +3,13 @@
 /**
  * @example
  *     {
- *         campaign_id: "campaign_id",
- *         feedback_id: "feedback_id"
+ *         campaignId: "campaign_id",
+ *         feedbackId: "feedback_id"
  *     }
  */
 export interface DeleteFeedbackCampaignsRequest {
     /** The unique id for the campaign. */
-    campaign_id: string;
+    campaignId: string;
     /** The unique id for the feedback message. */
-    feedback_id: string;
+    feedbackId: string;
 }

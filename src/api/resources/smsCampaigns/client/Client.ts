@@ -8,6 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace SmsCampaignsClient {
@@ -43,7 +44,7 @@ export class SmsCampaignsClient {
             async (
                 request: Mailchimp.ListSmsCampaignsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListSmsCampaignsResponse>> => {
-                const { fields, exclude_fields: excludeFields, count, offset } = request;
+                const { fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -80,7 +81,13 @@ export class SmsCampaignsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListSmsCampaignsResponse,
+                        data: serializers.ListSmsCampaignsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -99,8 +106,8 @@ export class SmsCampaignsClient {
         return new core.Page<Mailchimp.SmsCampaign, Mailchimp.ListSmsCampaignsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
-            hasNextPage: (response) => (response?.sms_campaigns ?? []).length > 0,
-            getItems: (response) => response?.sms_campaigns ?? [],
+            hasNextPage: (response) => (response?.smsCampaigns ?? []).length > 0,
+            getItems: (response) => response?.smsCampaigns ?? [],
             loadPage: (_response) => {
                 _offset += 1;
                 return list(core.setObjectProperty(request, "offset", _offset));
@@ -151,7 +158,13 @@ export class SmsCampaignsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateSmsCampaignsRequest.jsonOrThrow(request, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -159,7 +172,16 @@ export class SmsCampaignsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.SmsCampaign, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.SmsCampaign.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -184,7 +206,7 @@ export class SmsCampaignsClient {
      *
      * @example
      *     await client.smsCampaigns.get({
-     *         sms_campaign_id: "sms_campaign_id"
+     *         smsCampaignId: "sms_campaign_id"
      *     })
      */
     public get(
@@ -198,7 +220,7 @@ export class SmsCampaignsClient {
         request: Mailchimp.GetSmsCampaignsRequest,
         requestOptions?: SmsCampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.SmsCampaign>> {
-        const { sms_campaign_id: smsCampaignId, fields, exclude_fields: excludeFields } = request;
+        const { smsCampaignId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -232,7 +254,16 @@ export class SmsCampaignsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.SmsCampaign, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.SmsCampaign.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -262,7 +293,7 @@ export class SmsCampaignsClient {
      *
      * @example
      *     await client.smsCampaigns.delete({
-     *         sms_campaign_id: "sms_campaign_id"
+     *         smsCampaignId: "sms_campaign_id"
      *     })
      */
     public delete(
@@ -276,7 +307,7 @@ export class SmsCampaignsClient {
         request: Mailchimp.DeleteSmsCampaignsRequest,
         requestOptions?: SmsCampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { sms_campaign_id: smsCampaignId } = request;
+        const { smsCampaignId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -330,7 +361,7 @@ export class SmsCampaignsClient {
      *
      * @example
      *     await client.smsCampaigns.update({
-     *         sms_campaign_id: "sms_campaign_id"
+     *         smsCampaignId: "sms_campaign_id"
      *     })
      */
     public update(
@@ -344,7 +375,7 @@ export class SmsCampaignsClient {
         request: Mailchimp.UpdateSmsCampaignsRequest,
         requestOptions?: SmsCampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.SmsCampaign>> {
-        const { sms_campaign_id: smsCampaignId, ..._body } = request;
+        const { smsCampaignId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -363,7 +394,13 @@ export class SmsCampaignsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateSmsCampaignsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -371,7 +408,16 @@ export class SmsCampaignsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.SmsCampaign, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.SmsCampaign.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -401,7 +447,7 @@ export class SmsCampaignsClient {
      *
      * @example
      *     await client.smsCampaigns.createActionCancelSend({
-     *         sms_campaign_id: "sms_campaign_id"
+     *         smsCampaignId: "sms_campaign_id"
      *     })
      */
     public createActionCancelSend(
@@ -415,7 +461,7 @@ export class SmsCampaignsClient {
         request: Mailchimp.CreateActionCancelSendSmsCampaignsRequest,
         requestOptions?: SmsCampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { sms_campaign_id: smsCampaignId } = request;
+        const { smsCampaignId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -469,8 +515,8 @@ export class SmsCampaignsClient {
      *
      * @example
      *     await client.smsCampaigns.createActionSchedule({
-     *         sms_campaign_id: "sms_campaign_id",
-     *         schedule_time: "2024-01-15T09:30:00Z"
+     *         smsCampaignId: "sms_campaign_id",
+     *         scheduleTime: new Date("2024-01-15T09:30:00.000Z")
      *     })
      */
     public createActionSchedule(
@@ -484,7 +530,7 @@ export class SmsCampaignsClient {
         request: Mailchimp.CreateActionScheduleSmsCampaignsRequest,
         requestOptions?: SmsCampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { sms_campaign_id: smsCampaignId, ..._body } = request;
+        const { smsCampaignId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -503,7 +549,13 @@ export class SmsCampaignsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateActionScheduleSmsCampaignsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -541,7 +593,7 @@ export class SmsCampaignsClient {
      *
      * @example
      *     await client.smsCampaigns.createActionSend({
-     *         sms_campaign_id: "sms_campaign_id"
+     *         smsCampaignId: "sms_campaign_id"
      *     })
      */
     public createActionSend(
@@ -555,7 +607,7 @@ export class SmsCampaignsClient {
         request: Mailchimp.CreateActionSendSmsCampaignsRequest,
         requestOptions?: SmsCampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { sms_campaign_id: smsCampaignId } = request;
+        const { smsCampaignId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -609,7 +661,7 @@ export class SmsCampaignsClient {
      *
      * @example
      *     await client.smsCampaigns.getContent({
-     *         sms_campaign_id: "sms_campaign_id"
+     *         smsCampaignId: "sms_campaign_id"
      *     })
      */
     public getContent(
@@ -623,7 +675,7 @@ export class SmsCampaignsClient {
         request: Mailchimp.GetContentSmsCampaignsRequest,
         requestOptions?: SmsCampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.SmsCampaignContent>> {
-        const { sms_campaign_id: smsCampaignId, fields, exclude_fields: excludeFields } = request;
+        const { smsCampaignId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -657,7 +709,16 @@ export class SmsCampaignsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.SmsCampaignContent, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.SmsCampaignContent.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -687,8 +748,8 @@ export class SmsCampaignsClient {
      *
      * @example
      *     await client.smsCampaigns.upsertContent({
-     *         sms_campaign_id: "sms_campaign_id",
-     *         message_body: "message_body"
+     *         smsCampaignId: "sms_campaign_id",
+     *         messageBody: "message_body"
      *     })
      */
     public upsertContent(
@@ -702,7 +763,7 @@ export class SmsCampaignsClient {
         request: Mailchimp.UpsertContentSmsCampaignsRequest,
         requestOptions?: SmsCampaignsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.SmsCampaignContent>> {
-        const { sms_campaign_id: smsCampaignId, ..._body } = request;
+        const { smsCampaignId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -721,7 +782,13 @@ export class SmsCampaignsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpsertContentSmsCampaignsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -729,7 +796,16 @@ export class SmsCampaignsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.SmsCampaignContent, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.SmsCampaignContent.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {

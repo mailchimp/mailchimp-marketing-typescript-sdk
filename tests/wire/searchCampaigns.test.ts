@@ -37,6 +37,35 @@ describe("SearchCampaignsClient", () => {
         const response = await client.searchCampaigns.list({
             query: "query",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            results: [
+                {
+                    campaign: {
+                        recipients: {
+                            segmentOpts: {
+                                conditions: [
+                                    {
+                                        conditionType: "Aim",
+                                        value: "any",
+                                    },
+                                ],
+                                prebuiltSegmentId: "subscribers-female",
+                            },
+                        },
+                    },
+                    snippet: "snippet",
+                },
+            ],
+            totalItems: 1,
+        });
     });
 });

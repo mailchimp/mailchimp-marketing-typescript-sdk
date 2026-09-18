@@ -3,12 +3,12 @@
 /**
  * @example
  *     {
- *         batch_webhook_id: "batch_webhook_id"
+ *         batchWebhookId: "batch_webhook_id"
  *     }
  */
 export interface UpdateBatchWebhooksRequest {
     /** The unique id for the batch webhook. */
-    batch_webhook_id: string;
+    batchWebhookId: string;
     /** Whether the webhook receives requests or not. */
     enabled?: boolean;
     /** A valid URL for the Webhook. */

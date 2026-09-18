@@ -8,6 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace FileManagerClient {
@@ -67,7 +68,13 @@ export class FileManagerClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListFileManagerResponseItem[],
+                data: serializers.fileManager.list.Response.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -105,15 +112,15 @@ export class FileManagerClient {
             ): Promise<core.WithRawResponse<Mailchimp.ListFilesFileManagerResponse>> => {
                 const {
                     fields,
-                    exclude_fields: excludeFields,
+                    excludeFields,
                     count,
                     offset,
                     type: type_,
-                    created_by: createdBy,
-                    before_created_at: beforeCreatedAt,
-                    since_created_at: sinceCreatedAt,
-                    sort_field: sortField,
-                    sort_dir: sortDir,
+                    createdBy,
+                    beforeCreatedAt,
+                    sinceCreatedAt,
+                    sortField,
+                    sortDir,
                 } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
@@ -124,8 +131,20 @@ export class FileManagerClient {
                     created_by: createdBy,
                     before_created_at: beforeCreatedAt,
                     since_created_at: sinceCreatedAt,
-                    sort_field: sortField != null ? sortField : undefined,
-                    sort_dir: sortDir != null ? sortDir : undefined,
+                    sort_field:
+                        sortField != null
+                            ? serializers.ListFilesFileManagerRequestSortField.jsonOrThrow(sortField, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
+                    sort_dir:
+                        sortDir != null
+                            ? serializers.ListFilesFileManagerRequestSortDir.jsonOrThrow(sortDir, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
                 };
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -157,7 +176,13 @@ export class FileManagerClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListFilesFileManagerResponse,
+                        data: serializers.ListFilesFileManagerResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -201,7 +226,7 @@ export class FileManagerClient {
      *
      * @example
      *     await client.fileManager.createFile({
-     *         file_data: "file_data",
+     *         fileData: "file_data",
      *         name: "name"
      *     })
      */
@@ -234,7 +259,13 @@ export class FileManagerClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateFileFileManagerRequest.jsonOrThrow(request, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -242,7 +273,16 @@ export class FileManagerClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.GalleryFile, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.GalleryFile.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -267,7 +307,7 @@ export class FileManagerClient {
      *
      * @example
      *     await client.fileManager.getFile({
-     *         file_id: "file_id"
+     *         fileId: "file_id"
      *     })
      */
     public getFile(
@@ -281,7 +321,7 @@ export class FileManagerClient {
         request: Mailchimp.GetFileFileManagerRequest,
         requestOptions?: FileManagerClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.GalleryFile>> {
-        const { file_id: fileId, fields, exclude_fields: excludeFields } = request;
+        const { fileId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -315,7 +355,16 @@ export class FileManagerClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.GalleryFile, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.GalleryFile.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -345,7 +394,7 @@ export class FileManagerClient {
      *
      * @example
      *     await client.fileManager.deleteFile({
-     *         file_id: "file_id"
+     *         fileId: "file_id"
      *     })
      */
     public deleteFile(
@@ -359,7 +408,7 @@ export class FileManagerClient {
         request: Mailchimp.DeleteFileFileManagerRequest,
         requestOptions?: FileManagerClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { file_id: fileId } = request;
+        const { fileId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -413,7 +462,7 @@ export class FileManagerClient {
      *
      * @example
      *     await client.fileManager.updateFile({
-     *         file_id: "file_id"
+     *         fileId: "file_id"
      *     })
      */
     public updateFile(
@@ -427,7 +476,7 @@ export class FileManagerClient {
         request: Mailchimp.UpdateFileFileManagerRequest,
         requestOptions?: FileManagerClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.GalleryFile>> {
-        const { file_id: fileId, ..._body } = request;
+        const { fileId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -446,7 +495,13 @@ export class FileManagerClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateFileFileManagerRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -454,7 +509,16 @@ export class FileManagerClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.GalleryFile, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.GalleryFile.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -489,21 +553,13 @@ export class FileManagerClient {
         request: Mailchimp.ListFoldersFileManagerRequest = {},
         requestOptions?: FileManagerClient.RequestOptions,
     ): Promise<
-        core.Page<Mailchimp.ListFoldersFileManagerResponse.Folders.Item, Mailchimp.ListFoldersFileManagerResponse>
+        core.Page<Mailchimp.ListFoldersFileManagerResponseFoldersItem, Mailchimp.ListFoldersFileManagerResponse>
     > {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
                 request: Mailchimp.ListFoldersFileManagerRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListFoldersFileManagerResponse>> => {
-                const {
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                    created_by: createdBy,
-                    before_created_at: beforeCreatedAt,
-                    since_created_at: sinceCreatedAt,
-                } = request;
+                const { fields, excludeFields, count, offset, createdBy, beforeCreatedAt, sinceCreatedAt } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -543,7 +599,13 @@ export class FileManagerClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListFoldersFileManagerResponse,
+                        data: serializers.ListFoldersFileManagerResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -565,7 +627,7 @@ export class FileManagerClient {
         let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
         return new core.Page<
-            Mailchimp.ListFoldersFileManagerResponse.Folders.Item,
+            Mailchimp.ListFoldersFileManagerResponseFoldersItem,
             Mailchimp.ListFoldersFileManagerResponse
         >({
             response: dataWithRawResponse.data,
@@ -622,7 +684,13 @@ export class FileManagerClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateFolderFileManagerRequest.jsonOrThrow(request, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -631,7 +699,13 @@ export class FileManagerClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.CreateFolderFileManagerResponse,
+                data: serializers.CreateFolderFileManagerResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -658,7 +732,7 @@ export class FileManagerClient {
      *
      * @example
      *     await client.fileManager.getFolder({
-     *         folder_id: "folder_id"
+     *         folderId: "folder_id"
      *     })
      */
     public getFolder(
@@ -672,7 +746,7 @@ export class FileManagerClient {
         request: Mailchimp.GetFolderFileManagerRequest,
         requestOptions?: FileManagerClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.GetFolderFileManagerResponse>> {
-        const { folder_id: folderId, fields, exclude_fields: excludeFields } = request;
+        const { folderId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -707,7 +781,13 @@ export class FileManagerClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.GetFolderFileManagerResponse,
+                data: serializers.GetFolderFileManagerResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -739,7 +819,7 @@ export class FileManagerClient {
      *
      * @example
      *     await client.fileManager.deleteFolder({
-     *         folder_id: "folder_id"
+     *         folderId: "folder_id"
      *     })
      */
     public deleteFolder(
@@ -753,7 +833,7 @@ export class FileManagerClient {
         request: Mailchimp.DeleteFolderFileManagerRequest,
         requestOptions?: FileManagerClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { folder_id: folderId } = request;
+        const { folderId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -807,7 +887,7 @@ export class FileManagerClient {
      *
      * @example
      *     await client.fileManager.updateFolder({
-     *         folder_id: "folder_id",
+     *         folderId: "folder_id",
      *         name: "name"
      *     })
      */
@@ -822,7 +902,7 @@ export class FileManagerClient {
         request: Mailchimp.UpdateFolderFileManagerRequest,
         requestOptions?: FileManagerClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.UpdateFolderFileManagerResponse>> {
-        const { folder_id: folderId, ..._body } = request;
+        const { folderId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -841,7 +921,13 @@ export class FileManagerClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateFolderFileManagerRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -850,7 +936,13 @@ export class FileManagerClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.UpdateFolderFileManagerResponse,
+                data: serializers.UpdateFolderFileManagerResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -882,7 +974,7 @@ export class FileManagerClient {
      *
      * @example
      *     await client.fileManager.listFolderFiles({
-     *         folder_id: "folder_id"
+     *         folderId: "folder_id"
      *     })
      */
     public async listFolderFiles(
@@ -894,17 +986,17 @@ export class FileManagerClient {
                 request: Mailchimp.ListFolderFilesFileManagerRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListFolderFilesFileManagerResponse>> => {
                 const {
-                    folder_id: folderId,
+                    folderId,
                     fields,
-                    exclude_fields: excludeFields,
+                    excludeFields,
                     count,
                     offset,
                     type: type_,
-                    created_by: createdBy,
-                    before_created_at: beforeCreatedAt,
-                    since_created_at: sinceCreatedAt,
-                    sort_field: sortField,
-                    sort_dir: sortDir,
+                    createdBy,
+                    beforeCreatedAt,
+                    sinceCreatedAt,
+                    sortField,
+                    sortDir,
                 } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
@@ -915,8 +1007,20 @@ export class FileManagerClient {
                     created_by: createdBy,
                     before_created_at: beforeCreatedAt,
                     since_created_at: sinceCreatedAt,
-                    sort_field: sortField != null ? sortField : undefined,
-                    sort_dir: sortDir != null ? sortDir : undefined,
+                    sort_field:
+                        sortField != null
+                            ? serializers.ListFolderFilesFileManagerRequestSortField.jsonOrThrow(sortField, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
+                    sort_dir:
+                        sortDir != null
+                            ? serializers.ListFolderFilesFileManagerRequestSortDir.jsonOrThrow(sortDir, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
                 };
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -948,7 +1052,13 @@ export class FileManagerClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListFolderFilesFileManagerResponse,
+                        data: serializers.ListFolderFilesFileManagerResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }

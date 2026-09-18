@@ -5,5 +5,5 @@
  */
 export interface ListPingResponse {
     /** This will return a constant string value if the request is successful. Ex. "Everything's Chimpy!" */
-    health_status?: string | undefined;
+    healthStatus?: string;
 }

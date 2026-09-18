@@ -15,7 +15,15 @@ describe("ActivityFeedClient", () => {
         server.mockEndpoint().get("/3.0/activity-feed").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.activityFeed.list();
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual([
+            {
+                href: "href",
+                method: "GET",
+                rel: "rel",
+                schema: "schema",
+                targetSchema: "targetSchema",
+            },
+        ]);
     });
 
     test("list-chimp-chatter", async () => {
@@ -46,12 +54,34 @@ describe("ActivityFeedClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            chimpChatter: [
+                {
+                    campaignId: "2017-08-04T11:09:01+00:00",
+                    listId: "2017-08-04T11:09:01+00:00",
+                    message: "People are telling their friends about your campaign!",
+                    title: "1 new subscriber to Your New Campaign!",
+                    type: "lists:new-subscriber",
+                    updateTime: new Date("2017-08-04T11:09:01.000Z"),
+                    url: "http://dev.mailchimp.com/reports/summary?id=1",
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.activityFeed.listChimpChatter();
 
-        expect(expected.chimp_chatter).toEqual(page.data);
+        expect(expected.chimpChatter).toEqual(page.data);
         expect(page.hasNextPage()).toBe(true);
         const nextPage = await page.getNextPage();
-        expect(expected.chimp_chatter).toEqual(nextPage.data);
+        expect(expected.chimpChatter).toEqual(nextPage.data);
     });
 });

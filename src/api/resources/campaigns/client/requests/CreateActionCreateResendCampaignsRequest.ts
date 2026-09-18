@@ -1,25 +1,16 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../../../../index.js";
+
 /**
  * @example
  *     {
- *         campaign_id: "campaign_id"
+ *         campaignId: "campaign_id"
  *     }
  */
 export interface CreateActionCreateResendCampaignsRequest {
     /** The unique id for the campaign. */
-    campaign_id: string;
+    campaignId: string;
     /** Which campaign resend shortcut to use. Default is `to_non_openers`. */
-    shortcut_type?: CreateActionCreateResendCampaignsRequest.ShortcutType;
-}
-
-export namespace CreateActionCreateResendCampaignsRequest {
-    /** Which campaign resend shortcut to use. Default is `to_non_openers`. */
-    export const ShortcutType = {
-        ToNonOpeners: "to_non_openers",
-        ToNewSubscribers: "to_new_subscribers",
-        ToNonClickers: "to_non_clickers",
-        ToNonPurchasers: "to_non_purchasers",
-    } as const;
-    export type ShortcutType = (typeof ShortcutType)[keyof typeof ShortcutType];
+    shortcutType?: Mailchimp.CreateActionCreateResendCampaignsRequestShortcutType;
 }

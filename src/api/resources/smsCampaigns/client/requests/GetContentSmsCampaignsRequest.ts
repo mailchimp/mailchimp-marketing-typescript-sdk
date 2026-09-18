@@ -3,14 +3,14 @@
 /**
  * @example
  *     {
- *         sms_campaign_id: "sms_campaign_id"
+ *         smsCampaignId: "sms_campaign_id"
  *     }
  */
 export interface GetContentSmsCampaignsRequest {
     /** The unique id for the SMS campaign. */
-    sms_campaign_id: string;
+    smsCampaignId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

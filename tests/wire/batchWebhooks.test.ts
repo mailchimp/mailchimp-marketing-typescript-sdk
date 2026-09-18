@@ -17,7 +17,6 @@ describe("BatchWebhooksClient", () => {
                     enabled: true,
                     id: "id",
                     signing_enabled: true,
-                    signing_secret: "zI3tsLziqBWhlz6V4PRlGg41u0gdhu7LhYXX4wa0ARM",
                     url: "http://yourdomain.com/webhook",
                 },
             ],
@@ -31,7 +30,27 @@ describe("BatchWebhooksClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            totalItems: 1,
+            webhooks: [
+                {
+                    links: [[{}]],
+                    enabled: true,
+                    id: "id",
+                    signingEnabled: true,
+                    url: "http://yourdomain.com/webhook",
+                },
+            ],
+        };
         const page = await client.batchWebhooks.list();
 
         expect(expected.webhooks).toEqual(page.data);
@@ -49,8 +68,8 @@ describe("BatchWebhooksClient", () => {
             enabled: true,
             id: "id",
             signing_enabled: true,
-            signing_secret: "zI3tsLziqBWhlz6V4PRlGg41u0gdhu7LhYXX4wa0ARM",
             url: "http://yourdomain.com/webhook",
+            signing_secret: "zI3tsLziqBWhlz6V4PRlGg41u0gdhu7LhYXX4wa0ARM",
         };
 
         server
@@ -65,7 +84,14 @@ describe("BatchWebhooksClient", () => {
         const response = await client.batchWebhooks.create({
             url: "http://yourdomain.com/webhook",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [[{}]],
+            enabled: true,
+            id: "id",
+            signingEnabled: true,
+            url: "http://yourdomain.com/webhook",
+            signingSecret: "zI3tsLziqBWhlz6V4PRlGg41u0gdhu7LhYXX4wa0ARM",
+        });
     });
 
     test("get", async () => {
@@ -77,7 +103,6 @@ describe("BatchWebhooksClient", () => {
             enabled: true,
             id: "id",
             signing_enabled: true,
-            signing_secret: "zI3tsLziqBWhlz6V4PRlGg41u0gdhu7LhYXX4wa0ARM",
             url: "http://yourdomain.com/webhook",
         };
 
@@ -90,9 +115,15 @@ describe("BatchWebhooksClient", () => {
             .build();
 
         const response = await client.batchWebhooks.get({
-            batch_webhook_id: "batch_webhook_id",
+            batchWebhookId: "batch_webhook_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [[{}]],
+            enabled: true,
+            id: "id",
+            signingEnabled: true,
+            url: "http://yourdomain.com/webhook",
+        });
     });
 
     test("delete", async () => {
@@ -102,7 +133,7 @@ describe("BatchWebhooksClient", () => {
         server.mockEndpoint().delete("/3.0/batch-webhooks/batch_webhook_id").respondWith().statusCode(200).build();
 
         const response = await client.batchWebhooks.delete({
-            batch_webhook_id: "batch_webhook_id",
+            batchWebhookId: "batch_webhook_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -116,7 +147,6 @@ describe("BatchWebhooksClient", () => {
             enabled: true,
             id: "id",
             signing_enabled: true,
-            signing_secret: "zI3tsLziqBWhlz6V4PRlGg41u0gdhu7LhYXX4wa0ARM",
             url: "http://yourdomain.com/webhook",
         };
 
@@ -130,8 +160,14 @@ describe("BatchWebhooksClient", () => {
             .build();
 
         const response = await client.batchWebhooks.update({
-            batch_webhook_id: "batch_webhook_id",
+            batchWebhookId: "batch_webhook_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [[{}]],
+            enabled: true,
+            id: "id",
+            signingEnabled: true,
+            url: "http://yourdomain.com/webhook",
+        });
     });
 });

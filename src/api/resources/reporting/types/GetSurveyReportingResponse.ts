@@ -1,38 +1,31 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../../../index.js";
+
 /**
  * The report for a survey.
  */
 export interface GetSurveyReportingResponse {
     /** The date and time the survey was created in ISO 8601 format. */
-    created_at?: string | undefined;
+    createdAt?: Date;
     /** A string that uniquely identifies this survey. */
-    id?: string | undefined;
+    id?: string;
     /** The ID of the list connected to this survey. */
-    list_id?: string | undefined;
+    listId?: string;
     /** The name of the list connected to this survey. */
-    list_name?: string | undefined;
+    listName?: string;
     /** The date and time the survey was published in ISO 8601 format. */
-    published_at?: string | undefined;
+    publishedAt?: Date;
     /** The survey's status. */
-    status?: GetSurveyReportingResponse.Status | undefined;
+    status?: Mailchimp.GetSurveyReportingResponseStatus;
     /** The title of the survey. */
-    title?: string | undefined;
+    title?: string;
     /** The total number of responses to this survey. */
-    total_responses?: number | undefined;
+    totalResponses?: number;
     /** The date and time the survey was last updated in ISO 8601 format. */
-    updated_at?: string | undefined;
+    updatedAt?: Date;
     /** The URL for the survey. */
-    url?: string | undefined;
+    url?: string;
     /** The ID used in the Mailchimp web application. View this survey report in your Mailchimp account at `https://{dc}.admin.mailchimp.com/lists/surveys/results?survey_id={web_id}`. */
-    web_id?: number | undefined;
-}
-
-export namespace GetSurveyReportingResponse {
-    /** The survey's status. */
-    export const Status = {
-        Published: "published",
-        Unpublished: "unpublished",
-    } as const;
-    export type Status = (typeof Status)[keyof typeof Status];
+    webId?: number;
 }

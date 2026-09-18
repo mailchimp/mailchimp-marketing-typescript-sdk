@@ -3,13 +3,13 @@
 /**
  * @example
  *     {
- *         list_id: "list_id",
- *         merge_id: "merge_id"
+ *         listId: "list_id",
+ *         mergeId: "merge_id"
  *     }
  */
 export interface DeleteMergeFieldListsRequest {
     /** The unique ID for the list. */
-    list_id: string;
+    listId: string;
     /** The id for the merge field. */
-    merge_id: string;
+    mergeId: string;
 }

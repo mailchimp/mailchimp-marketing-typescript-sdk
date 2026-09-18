@@ -1,99 +1,43 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../../../../index.js";
+
 /**
  * @example
  *     {
- *         list_id: "list_id",
- *         subscriber_hash: "subscriber_hash"
+ *         listId: "list_id",
+ *         subscriberHash: "subscriber_hash"
  *     }
  */
 export interface UpdateMemberListsRequest {
     /** The unique ID for the list. */
-    list_id: string;
+    listId: string;
     /** The MD5 hash of the lowercase version of the list member's email address. This endpoint also accepts a list member's email address or contact_id. */
-    subscriber_hash: string;
+    subscriberHash: string;
     /** If skip_merge_validation is true, member data will be accepted without merge field values, even if the merge field is usually required. This defaults to false. */
-    skip_merge_validation?: boolean;
+    skipMergeValidation?: boolean;
     /** Email address for a subscriber. */
-    email_address?: string;
+    emailAddress?: string;
     /** Type of email this member asked to get ('html' or 'text'). */
-    email_type?: string;
+    emailType?: string;
     /** The key of this object's properties is the ID of the interest in question. */
     interests?: Record<string, boolean>;
     /** The IP address the subscriber used to confirm their opt-in status. */
-    ip_opt?: string;
+    ipOpt?: string;
     /** IP address the subscriber signed up from. */
-    ip_signup?: string;
+    ipSignup?: string;
     /** If set/detected, the [subscriber's language](https://mailchimp.com/help/view-and-edit-contact-languages/). */
     language?: string;
     /** Subscriber location information. */
-    location?: UpdateMemberListsRequest.Location;
+    location?: Mailchimp.UpdateMemberListsRequestLocation;
     /** The marketing permissions for the subscriber. */
-    marketing_permissions?: UpdateMemberListsRequest.MarketingPermissions.Item[];
+    marketingPermissions?: Mailchimp.UpdateMemberListsRequestMarketingPermissionsItem[];
     /** A dictionary of merge fields where the keys are the merge tags. See the [Merge Fields documentation](https://mailchimp.com/developer/marketing/docs/merge-fields/#structure) for more about the structure. */
-    merge_fields?: Record<string, UpdateMemberListsRequest.MergeFields.Value>;
+    mergeFields?: Record<string, Mailchimp.UpdateMemberListsRequestMergeFieldsValue>;
     /** Subscriber's current status. */
-    status?: UpdateMemberListsRequest.Status;
-    timestamp_opt?: UpdateMemberListsRequest.TimestampOpt;
-    timestamp_signup?: UpdateMemberListsRequest.TimestampSignup;
+    status?: Mailchimp.UpdateMemberListsRequestStatus;
+    timestampOpt?: Mailchimp.UpdateMemberListsRequestTimestampOpt;
+    timestampSignup?: Mailchimp.UpdateMemberListsRequestTimestampSignup;
     /** [VIP status](https://mailchimp.com/help/designate-and-send-to-vip-contacts/) for subscriber. */
     vip?: boolean;
-}
-
-export namespace UpdateMemberListsRequest {
-    /**
-     * Subscriber location information.
-     */
-    export interface Location {
-        latitude?: Location.Latitude | undefined;
-        longitude?: Location.Longitude | undefined;
-    }
-
-    export namespace Location {
-        export type Latitude = number | string;
-        export type Longitude = number | string;
-    }
-
-    export type MarketingPermissions = MarketingPermissions.Item[];
-
-    export namespace MarketingPermissions {
-        /**
-         * A single marketing permission a subscriber has either opted-in to or opted-out of.
-         */
-        export interface Item {
-            /** If the subscriber has opted-in to the marketing permission. */
-            enabled?: boolean | undefined;
-            /** The id for the marketing permission on the list */
-            marketing_permission_id?: string | undefined;
-        }
-    }
-
-    export namespace MergeFields {
-        /**
-         * This object's keys are merge tags (like FNAME). It's values are the values to be added to the merge field.
-         */
-        export type Value =
-            | {
-                  addr1: string;
-                  addr2?: string | undefined;
-                  city: string;
-                  state: string;
-                  zip: string;
-                  country?: string | undefined;
-              }
-            | string
-            | number;
-    }
-
-    /** Subscriber's current status. */
-    export const Status = {
-        Subscribed: "subscribed",
-        Unsubscribed: "unsubscribed",
-        Cleaned: "cleaned",
-        Pending: "pending",
-        Transactional: "transactional",
-    } as const;
-    export type Status = (typeof Status)[keyof typeof Status];
-    export type TimestampOpt = string | "";
-    export type TimestampSignup = string | "";
 }

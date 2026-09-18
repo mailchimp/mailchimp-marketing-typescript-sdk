@@ -8,6 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace BatchWebhooksClient {
@@ -43,7 +44,7 @@ export class BatchWebhooksClient {
             async (
                 request: Mailchimp.ListBatchWebhooksRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListBatchWebhooksResponse>> => {
-                const { fields, exclude_fields: excludeFields, count, offset } = request;
+                const { fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -80,7 +81,13 @@ export class BatchWebhooksClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListBatchWebhooksResponse,
+                        data: serializers.ListBatchWebhooksResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -125,14 +132,14 @@ export class BatchWebhooksClient {
     public create(
         request: Mailchimp.CreateBatchWebhooksRequest,
         requestOptions?: BatchWebhooksClient.RequestOptions,
-    ): core.HttpResponsePromise<Mailchimp.BatchWebhook> {
+    ): core.HttpResponsePromise<Mailchimp.CreateBatchWebhooksResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
         request: Mailchimp.CreateBatchWebhooksRequest,
         requestOptions?: BatchWebhooksClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Mailchimp.BatchWebhook>> {
+    ): Promise<core.WithRawResponse<Mailchimp.CreateBatchWebhooksResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -151,7 +158,13 @@ export class BatchWebhooksClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateBatchWebhooksRequest.jsonOrThrow(request, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -159,7 +172,16 @@ export class BatchWebhooksClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.BatchWebhook, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.CreateBatchWebhooksResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -184,7 +206,7 @@ export class BatchWebhooksClient {
      *
      * @example
      *     await client.batchWebhooks.get({
-     *         batch_webhook_id: "batch_webhook_id"
+     *         batchWebhookId: "batch_webhook_id"
      *     })
      */
     public get(
@@ -198,7 +220,7 @@ export class BatchWebhooksClient {
         request: Mailchimp.GetBatchWebhooksRequest,
         requestOptions?: BatchWebhooksClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.BatchWebhook>> {
-        const { batch_webhook_id: batchWebhookId, fields, exclude_fields: excludeFields } = request;
+        const { batchWebhookId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -232,7 +254,16 @@ export class BatchWebhooksClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.BatchWebhook, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.BatchWebhook.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -262,7 +293,7 @@ export class BatchWebhooksClient {
      *
      * @example
      *     await client.batchWebhooks.delete({
-     *         batch_webhook_id: "batch_webhook_id"
+     *         batchWebhookId: "batch_webhook_id"
      *     })
      */
     public delete(
@@ -276,7 +307,7 @@ export class BatchWebhooksClient {
         request: Mailchimp.DeleteBatchWebhooksRequest,
         requestOptions?: BatchWebhooksClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { batch_webhook_id: batchWebhookId } = request;
+        const { batchWebhookId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -330,7 +361,7 @@ export class BatchWebhooksClient {
      *
      * @example
      *     await client.batchWebhooks.update({
-     *         batch_webhook_id: "batch_webhook_id"
+     *         batchWebhookId: "batch_webhook_id"
      *     })
      */
     public update(
@@ -344,7 +375,7 @@ export class BatchWebhooksClient {
         request: Mailchimp.UpdateBatchWebhooksRequest,
         requestOptions?: BatchWebhooksClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.BatchWebhook>> {
-        const { batch_webhook_id: batchWebhookId, ..._body } = request;
+        const { batchWebhookId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -363,7 +394,13 @@ export class BatchWebhooksClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateBatchWebhooksRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -371,7 +408,16 @@ export class BatchWebhooksClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.BatchWebhook, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.BatchWebhook.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {

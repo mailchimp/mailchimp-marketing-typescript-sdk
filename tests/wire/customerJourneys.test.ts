@@ -18,9 +18,9 @@ describe("CustomerJourneysClient", () => {
             .build();
 
         const response = await client.customerJourneys.createJourneyStepActionTrigger({
-            journey_id: 1,
-            step_id: 1,
-            email_address: "email_address",
+            journeyId: 1,
+            stepId: 1,
+            emailAddress: "email_address",
         });
         expect(response).toEqual(undefined);
     });

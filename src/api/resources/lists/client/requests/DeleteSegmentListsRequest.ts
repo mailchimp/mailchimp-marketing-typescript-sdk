@@ -3,13 +3,13 @@
 /**
  * @example
  *     {
- *         list_id: "list_id",
- *         segment_id: "segment_id"
+ *         listId: "list_id",
+ *         segmentId: "segment_id"
  *     }
  */
 export interface DeleteSegmentListsRequest {
     /** The unique ID for the list. */
-    list_id: string;
+    listId: string;
     /** The unique id for the segment. */
-    segment_id: string;
+    segmentId: string;
 }

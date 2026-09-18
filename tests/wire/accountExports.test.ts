@@ -31,7 +31,28 @@ describe("AccountExportsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            exports: [
+                {
+                    links: [{}],
+                    downloadUrl: "download_url",
+                    exportId: 1,
+                    finished: new Date("2024-01-15T09:30:00.000Z"),
+                    sizeInBytes: 1,
+                    started: new Date("2024-01-15T09:30:00.000Z"),
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.accountExports.list();
 
         expect(expected.exports).toEqual(page.data);
@@ -63,9 +84,24 @@ describe("AccountExportsClient", () => {
             .build();
 
         const response = await client.accountExports.create({
-            include_stages: ["audiences", "gallery_files"],
+            includeStages: ["audiences", "gallery_files"],
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            downloadUrl: "download_url",
+            exportId: 1,
+            finished: new Date("2024-01-15T09:30:00.000Z"),
+            sizeInBytes: 1,
+            started: new Date("2024-01-15T09:30:00.000Z"),
+        });
     });
 
     test("get", async () => {
@@ -90,8 +126,23 @@ describe("AccountExportsClient", () => {
             .build();
 
         const response = await client.accountExports.get({
-            export_id: "export_id",
+            exportId: "export_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            downloadUrl: "download_url",
+            exportId: 1,
+            finished: new Date("2024-01-15T09:30:00.000Z"),
+            sizeInBytes: 1,
+            started: new Date("2024-01-15T09:30:00.000Z"),
+        });
     });
 });

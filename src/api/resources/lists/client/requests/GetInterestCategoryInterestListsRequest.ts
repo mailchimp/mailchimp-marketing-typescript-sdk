@@ -3,20 +3,20 @@
 /**
  * @example
  *     {
- *         list_id: "list_id",
- *         interest_category_id: "interest_category_id",
- *         interest_id: "interest_id"
+ *         listId: "list_id",
+ *         interestCategoryId: "interest_category_id",
+ *         interestId: "interest_id"
  *     }
  */
 export interface GetInterestCategoryInterestListsRequest {
     /** The unique ID for the list. */
-    list_id: string;
+    listId: string;
     /** The unique ID for the interest category. */
-    interest_category_id: string;
+    interestCategoryId: string;
     /** The specific interest or 'group name'. */
-    interest_id: string;
+    interestId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

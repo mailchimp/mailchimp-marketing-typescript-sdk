@@ -5,56 +5,26 @@ import type * as Mailchimp from "../../../../index.js";
 /**
  * @example
  *     {
- *         store_id: "store_id",
- *         cart_id: "cart_id"
+ *         storeId: "store_id",
+ *         cartId: "cart_id"
  *     }
  */
 export interface UpdateStoreCartEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     /** The id for the cart. */
-    cart_id: string;
+    cartId: string;
     /** A string that uniquely identifies the campaign associated with a cart. */
-    campaign_id?: string;
+    campaignId?: string;
     /** The URL for the cart. This parameter is required for [Abandoned Cart](https://mailchimp.com/help/create-a-classic-abandoned-cart-email/) automations. */
-    checkout_url?: string;
+    checkoutUrl?: string;
     /** The three-letter ISO 4217 code for the currency that the cart uses. */
-    currency_code?: string;
+    currencyCode?: string;
     customer?: Mailchimp.EcommerceStoresCartsPatch;
     /** A unique identifier for the cart. */
-    id?: UpdateStoreCartEcommerceRequest.Id;
+    id?: Mailchimp.UpdateStoreCartEcommerceRequestId;
     /** An array of the cart's line items. */
-    lines?: UpdateStoreCartEcommerceRequest.Lines.Item[];
-    order_total?: UpdateStoreCartEcommerceRequest.OrderTotal;
-    tax_total?: UpdateStoreCartEcommerceRequest.TaxTotal;
-}
-
-export namespace UpdateStoreCartEcommerceRequest {
-    /**
-     * A unique identifier for the cart.
-     */
-    export type Id = string | number;
-    export type Lines = Lines.Item[];
-
-    export namespace Lines {
-        /**
-         * Information about a specific cart line item.
-         */
-        export interface Item {
-            price?: Item.Price | undefined;
-            /** A unique identifier for the product associated with the cart line item. */
-            product_id?: string | undefined;
-            /** A unique identifier for the product variant associated with the cart line item. */
-            product_variant_id?: string | undefined;
-            /** The quantity of a cart line item. */
-            quantity?: number | undefined;
-        }
-
-        export namespace Item {
-            export type Price = number | string;
-        }
-    }
-
-    export type OrderTotal = number | string;
-    export type TaxTotal = number | string;
+    lines?: Mailchimp.UpdateStoreCartEcommerceRequestLinesItem[];
+    orderTotal?: Mailchimp.UpdateStoreCartEcommerceRequestOrderTotal;
+    taxTotal?: Mailchimp.UpdateStoreCartEcommerceRequestTaxTotal;
 }

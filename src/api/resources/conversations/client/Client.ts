@@ -7,6 +7,7 @@ import * as core from "../../../../core/index.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace ConversationsClient {
@@ -15,6 +16,9 @@ export declare namespace ConversationsClient {
     export interface RequestOptions extends BaseRequestOptions {}
 }
 
+/**
+ * Conversation threads and the messages within them.
+ */
 export class ConversationsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ConversationsClient.Options>;
 
@@ -42,21 +46,19 @@ export class ConversationsClient {
             async (
                 request: Mailchimp.ListConversationsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListConversationsResponse>> => {
-                const {
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                    has_unread_messages: hasUnreadMessages,
-                    list_id: listId,
-                    campaign_id: campaignId,
-                } = request;
+                const { fields, excludeFields, count, offset, hasUnreadMessages, listId, campaignId } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
                     count,
                     offset,
-                    has_unread_messages: hasUnreadMessages != null ? hasUnreadMessages : undefined,
+                    has_unread_messages:
+                        hasUnreadMessages != null
+                            ? serializers.ListConversationsRequestHasUnreadMessages.jsonOrThrow(hasUnreadMessages, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
                     list_id: listId,
                     campaign_id: campaignId,
                 };
@@ -90,7 +92,13 @@ export class ConversationsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListConversationsResponse,
+                        data: serializers.ListConversationsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -129,7 +137,7 @@ export class ConversationsClient {
      *
      * @example
      *     await client.conversations.get({
-     *         conversation_id: "conversation_id"
+     *         conversationId: "conversation_id"
      *     })
      */
     public get(
@@ -143,7 +151,7 @@ export class ConversationsClient {
         request: Mailchimp.GetConversationsRequest,
         requestOptions?: ConversationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.Conversation>> {
-        const { conversation_id: conversationId, fields, exclude_fields: excludeFields } = request;
+        const { conversationId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -177,7 +185,16 @@ export class ConversationsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.Conversation, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.Conversation.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -207,7 +224,7 @@ export class ConversationsClient {
      *
      * @example
      *     await client.conversations.listMessages({
-     *         conversation_id: "conversation_id"
+     *         conversationId: "conversation_id"
      *     })
      */
     public listMessages(
@@ -221,20 +238,19 @@ export class ConversationsClient {
         request: Mailchimp.ListMessagesConversationsRequest,
         requestOptions?: ConversationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListMessagesConversationsResponse>> {
-        const {
-            conversation_id: conversationId,
-            fields,
-            exclude_fields: excludeFields,
-            is_read: isRead,
-            before_timestamp: beforeTimestamp,
-            since_timestamp: sinceTimestamp,
-        } = request;
+        const { conversationId, fields, excludeFields, isRead, beforeTimestamp, sinceTimestamp } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
-            is_read: isRead != null ? isRead : undefined,
-            before_timestamp: beforeTimestamp != null ? beforeTimestamp : undefined,
-            since_timestamp: sinceTimestamp != null ? sinceTimestamp : undefined,
+            is_read:
+                isRead != null
+                    ? serializers.ListMessagesConversationsRequestIsRead.jsonOrThrow(isRead, {
+                          unrecognizedObjectKeys: "strip",
+                          omitUndefined: true,
+                      })
+                    : undefined,
+            before_timestamp: beforeTimestamp != null ? beforeTimestamp?.toISOString() : undefined,
+            since_timestamp: sinceTimestamp != null ? sinceTimestamp?.toISOString() : undefined,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -266,7 +282,13 @@ export class ConversationsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListMessagesConversationsResponse,
+                data: serializers.ListMessagesConversationsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -298,8 +320,8 @@ export class ConversationsClient {
      *
      * @example
      *     await client.conversations.getMessage({
-     *         conversation_id: "conversation_id",
-     *         message_id: "message_id"
+     *         conversationId: "conversation_id",
+     *         messageId: "message_id"
      *     })
      */
     public getMessage(
@@ -313,12 +335,7 @@ export class ConversationsClient {
         request: Mailchimp.GetMessageConversationsRequest,
         requestOptions?: ConversationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ConversationMessage>> {
-        const {
-            conversation_id: conversationId,
-            message_id: messageId,
-            fields,
-            exclude_fields: excludeFields,
-        } = request;
+        const { conversationId, messageId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -352,7 +369,16 @@ export class ConversationsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ConversationMessage, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ConversationMessage.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {

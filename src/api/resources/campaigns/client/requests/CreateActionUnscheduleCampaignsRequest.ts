@@ -3,10 +3,10 @@
 /**
  * @example
  *     {
- *         campaign_id: "campaign_id"
+ *         campaignId: "campaign_id"
  *     }
  */
 export interface CreateActionUnscheduleCampaignsRequest {
     /** The unique id for the campaign. */
-    campaign_id: string;
+    campaignId: string;
 }

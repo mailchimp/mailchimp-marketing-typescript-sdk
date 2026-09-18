@@ -1,16 +1,23 @@
 {
     "cliVersion": "5.89.4",
     "generatorName": "fernapi/fern-typescript-sdk",
-    "generatorVersion": "3.88.3",
+    "generatorVersion": "3.94.2",
     "generatorConfig": {
         "namespaceExport": "Mailchimp",
         "allowCustomFetcher": true,
-        "skipResponseValidation": true,
-        "includeApiReference": true
+        "noSerdeLayer": false,
+        "includeApiReference": true,
+        "packageJson": {
+            "license": "Apache-2.0",
+            "repository": {
+                "type": "git",
+                "url": "https://github.com/mailchimp/mailchimp-marketing-typescript-sdk"
+            }
+        }
     },
-    "originGitCommit": "f1b5e6ecfb06c6c622489ec6bc9ef8d9db831190",
+    "originGitCommit": "c7a79a5a59233943d93cc6c34bb8e872117c1cb7",
     "originGitCommitIsDirty": false,
     "invokedBy": "ci",
     "ciProvider": "github",
-    "sdkVersion": "0.0.155"
+    "sdkVersion": "0.0.214"
 }

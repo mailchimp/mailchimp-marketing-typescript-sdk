@@ -3,16 +3,16 @@
 /**
  * @example
  *     {
- *         store_id: "store_id",
- *         order_id: "order_id",
- *         line_id: "line_id"
+ *         storeId: "store_id",
+ *         orderId: "order_id",
+ *         lineId: "line_id"
  *     }
  */
 export interface DeleteStoreOrderLineEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     /** The id for the order in a store. */
-    order_id: string;
+    orderId: string;
     /** The id for the line item of an order. */
-    line_id: string;
+    lineId: string;
 }

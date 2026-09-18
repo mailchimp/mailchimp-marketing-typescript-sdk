@@ -33,7 +33,40 @@ describe("AutomationsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            automations: [
+                {
+                    links: [{}],
+                    createTime: new Date("2024-01-15T09:30:00.000Z"),
+                    emailsSent: 1,
+                    id: "id",
+                    recipients: {
+                        segmentOpts: [
+                            {
+                                conditionType: "Aim",
+                                value: "any",
+                            },
+                        ],
+                        storeId: "1a2df69xxx",
+                    },
+                    startTime: new Date("2024-01-15T09:30:00.000Z"),
+                    status: "save",
+                    triggerSettings: {
+                        workflowType: "abandonedBrowse",
+                    },
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.automations.list();
 
         expect(expected.automations).toEqual(page.data);
@@ -108,11 +141,83 @@ describe("AutomationsClient", () => {
 
         const response = await client.automations.create({
             recipients: {},
-            trigger_settings: {
-                workflow_type: "abandonedBrowse",
+            triggerSettings: {
+                workflowType: "abandonedBrowse",
             },
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            createTime: new Date("2024-01-15T09:30:00.000Z"),
+            emailsSent: 1,
+            id: "id",
+            recipients: {
+                listId: "list_id",
+                listIsActive: true,
+                listName: "list_name",
+                segmentOpts: [
+                    {
+                        conditionType: "Aim",
+                        value: "any",
+                    },
+                ],
+                storeId: "1a2df69xxx",
+            },
+            reportSummary: {
+                clickRate: 1.1,
+                clicks: 1,
+                openRate: 1.1,
+                opens: 1,
+                subscriberClicks: 1,
+                uniqueOpens: 1,
+            },
+            settings: {
+                authenticate: true,
+                autoFooter: true,
+                fromName: "from_name",
+                inlineCss: true,
+                replyTo: "reply_to",
+                title: "title",
+                toName: "to_name",
+                useConversation: true,
+            },
+            startTime: new Date("2024-01-15T09:30:00.000Z"),
+            status: "save",
+            tracking: {
+                capsule: {
+                    notes: true,
+                },
+                clicktale: "clicktale",
+                ecomm360: true,
+                goalTracking: true,
+                googleAnalytics: "google_analytics",
+                htmlClicks: true,
+                opens: true,
+                salesforce: {
+                    campaign: true,
+                    notes: true,
+                },
+                textClicks: true,
+            },
+            triggerSettings: {
+                runtime: {
+                    days: ["sunday"],
+                    hours: {
+                        type: "send_asap",
+                    },
+                },
+                workflowEmailsCount: 1,
+                workflowTitle: "workflow_title",
+                workflowType: "abandonedBrowse",
+            },
+        });
     });
 
     test("get", async () => {
@@ -179,9 +284,81 @@ describe("AutomationsClient", () => {
             .build();
 
         const response = await client.automations.get({
-            workflow_id: "workflow_id",
+            workflowId: "workflow_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            createTime: new Date("2024-01-15T09:30:00.000Z"),
+            emailsSent: 1,
+            id: "id",
+            recipients: {
+                listId: "list_id",
+                listIsActive: true,
+                listName: "list_name",
+                segmentOpts: [
+                    {
+                        conditionType: "Aim",
+                        value: "any",
+                    },
+                ],
+                storeId: "1a2df69xxx",
+            },
+            reportSummary: {
+                clickRate: 1.1,
+                clicks: 1,
+                openRate: 1.1,
+                opens: 1,
+                subscriberClicks: 1,
+                uniqueOpens: 1,
+            },
+            settings: {
+                authenticate: true,
+                autoFooter: true,
+                fromName: "from_name",
+                inlineCss: true,
+                replyTo: "reply_to",
+                title: "title",
+                toName: "to_name",
+                useConversation: true,
+            },
+            startTime: new Date("2024-01-15T09:30:00.000Z"),
+            status: "save",
+            tracking: {
+                capsule: {
+                    notes: true,
+                },
+                clicktale: "clicktale",
+                ecomm360: true,
+                goalTracking: true,
+                googleAnalytics: "google_analytics",
+                htmlClicks: true,
+                opens: true,
+                salesforce: {
+                    campaign: true,
+                    notes: true,
+                },
+                textClicks: true,
+            },
+            triggerSettings: {
+                runtime: {
+                    days: ["sunday"],
+                    hours: {
+                        type: "send_asap",
+                    },
+                },
+                workflowEmailsCount: 1,
+                workflowTitle: "workflow_title",
+                workflowType: "abandonedBrowse",
+            },
+        });
     });
 
     test("create-action-archive", async () => {
@@ -196,7 +373,7 @@ describe("AutomationsClient", () => {
             .build();
 
         const response = await client.automations.createActionArchive({
-            workflow_id: "workflow_id",
+            workflowId: "workflow_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -213,7 +390,7 @@ describe("AutomationsClient", () => {
             .build();
 
         const response = await client.automations.createActionPauseAllEmail({
-            workflow_id: "workflow_id",
+            workflowId: "workflow_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -230,7 +407,7 @@ describe("AutomationsClient", () => {
             .build();
 
         const response = await client.automations.createActionStartAllEmail({
-            workflow_id: "workflow_id",
+            workflowId: "workflow_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -282,9 +459,48 @@ describe("AutomationsClient", () => {
             .build();
 
         const response = await client.automations.listEmails({
-            workflow_id: "workflow_id",
+            workflowId: "workflow_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [[{}]],
+            emails: [
+                {
+                    links: [{}],
+                    archiveUrl: "archive_url",
+                    contentType: "content_type",
+                    createTime: new Date("2024-01-15T09:30:00.000Z"),
+                    delay: {
+                        actionDescription: "subscribers purchase anything from your store",
+                        fullDescription: "1 day after subscribers purchase anything from your store",
+                    },
+                    emailsSent: 1,
+                    hasLogoMergeTag: true,
+                    id: "id",
+                    needsBlockRefresh: true,
+                    position: 1,
+                    recipients: {
+                        segmentOpts: {
+                            conditions: [
+                                {
+                                    conditionType: "Aim",
+                                    value: "any",
+                                },
+                            ],
+                            prebuiltSegmentId: "subscribers-female",
+                        },
+                    },
+                    sendTime: new Date("2024-01-15T09:30:00.000Z"),
+                    startTime: new Date("2024-01-15T09:30:00.000Z"),
+                    status: "save",
+                    triggerSettings: {
+                        workflowType: "abandonedBrowse",
+                    },
+                    webId: 33345484,
+                    workflowId: "workflow_id",
+                },
+            ],
+            totalItems: 1,
+        });
     });
 
     test("get-email", async () => {
@@ -379,10 +595,114 @@ describe("AutomationsClient", () => {
             .build();
 
         const response = await client.automations.getEmail({
-            workflow_id: "workflow_id",
-            workflow_email_id: "workflow_email_id",
+            workflowId: "workflow_id",
+            workflowEmailId: "workflow_email_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            archiveUrl: "archive_url",
+            contentType: "content_type",
+            createTime: new Date("2024-01-15T09:30:00.000Z"),
+            delay: {
+                action: "previous_campaign_sent",
+                actionDescription: "subscribers purchase anything from your store",
+                amount: 1,
+                direction: "before",
+                fullDescription: "1 day after subscribers purchase anything from your store",
+                type: "now",
+            },
+            emailsSent: 1,
+            hasLogoMergeTag: true,
+            id: "id",
+            needsBlockRefresh: true,
+            position: 1,
+            recipients: {
+                listId: "list_id",
+                listIsActive: true,
+                listName: "list_name",
+                recipientCount: 1,
+                segmentOpts: {
+                    conditions: [
+                        {
+                            conditionType: "Aim",
+                            value: "any",
+                        },
+                    ],
+                    match: "any",
+                    prebuiltSegmentId: "subscribers-female",
+                    savedSegmentId: 1,
+                },
+                segmentText: "segment_text",
+            },
+            reportSummary: {
+                clickRate: 1.1,
+                clicks: 1,
+                openRate: 1.1,
+                opens: 1,
+                subscriberClicks: 1,
+                uniqueOpens: 1,
+            },
+            sendTime: new Date("2024-01-15T09:30:00.000Z"),
+            settings: {
+                authenticate: true,
+                autoFbPost: ["auto_fb_post"],
+                autoFooter: true,
+                autoTweet: true,
+                dragAndDrop: true,
+                fbComments: true,
+                fromName: "from_name",
+                inlineCss: true,
+                previewText: "preview_text",
+                replyTo: "reply_to",
+                subjectLine: "subject_line",
+                templateId: 1,
+                title: "title",
+            },
+            socialCard: {
+                description: "description",
+                imageUrl: "image_url",
+                title: "title",
+            },
+            startTime: new Date("2024-01-15T09:30:00.000Z"),
+            status: "save",
+            tracking: {
+                capsule: {
+                    notes: true,
+                },
+                clicktale: "clicktale",
+                ecomm360: true,
+                goalTracking: true,
+                googleAnalytics: "google_analytics",
+                htmlClicks: true,
+                opens: true,
+                salesforce: {
+                    campaign: true,
+                    notes: true,
+                },
+                textClicks: true,
+            },
+            triggerSettings: {
+                runtime: {
+                    days: ["sunday"],
+                    hours: {
+                        type: "send_asap",
+                    },
+                },
+                workflowEmailsCount: 1,
+                workflowTitle: "workflow_title",
+                workflowType: "abandonedBrowse",
+            },
+            webId: 33345484,
+            workflowId: "workflow_id",
+        });
     });
 
     test("delete-email", async () => {
@@ -397,8 +717,8 @@ describe("AutomationsClient", () => {
             .build();
 
         const response = await client.automations.deleteEmail({
-            workflow_id: "workflow_id",
-            workflow_email_id: "workflow_email_id",
+            workflowId: "workflow_id",
+            workflowEmailId: "workflow_email_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -496,10 +816,114 @@ describe("AutomationsClient", () => {
             .build();
 
         const response = await client.automations.updateEmail({
-            workflow_id: "workflow_id",
-            workflow_email_id: "workflow_email_id",
+            workflowId: "workflow_id",
+            workflowEmailId: "workflow_email_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            archiveUrl: "archive_url",
+            contentType: "content_type",
+            createTime: new Date("2024-01-15T09:30:00.000Z"),
+            delay: {
+                action: "previous_campaign_sent",
+                actionDescription: "subscribers purchase anything from your store",
+                amount: 1,
+                direction: "before",
+                fullDescription: "1 day after subscribers purchase anything from your store",
+                type: "now",
+            },
+            emailsSent: 1,
+            hasLogoMergeTag: true,
+            id: "id",
+            needsBlockRefresh: true,
+            position: 1,
+            recipients: {
+                listId: "list_id",
+                listIsActive: true,
+                listName: "list_name",
+                recipientCount: 1,
+                segmentOpts: {
+                    conditions: [
+                        {
+                            conditionType: "Aim",
+                            value: "any",
+                        },
+                    ],
+                    match: "any",
+                    prebuiltSegmentId: "subscribers-female",
+                    savedSegmentId: 1,
+                },
+                segmentText: "segment_text",
+            },
+            reportSummary: {
+                clickRate: 1.1,
+                clicks: 1,
+                openRate: 1.1,
+                opens: 1,
+                subscriberClicks: 1,
+                uniqueOpens: 1,
+            },
+            sendTime: new Date("2024-01-15T09:30:00.000Z"),
+            settings: {
+                authenticate: true,
+                autoFbPost: ["auto_fb_post"],
+                autoFooter: true,
+                autoTweet: true,
+                dragAndDrop: true,
+                fbComments: true,
+                fromName: "from_name",
+                inlineCss: true,
+                previewText: "preview_text",
+                replyTo: "reply_to",
+                subjectLine: "subject_line",
+                templateId: 1,
+                title: "title",
+            },
+            socialCard: {
+                description: "description",
+                imageUrl: "image_url",
+                title: "title",
+            },
+            startTime: new Date("2024-01-15T09:30:00.000Z"),
+            status: "save",
+            tracking: {
+                capsule: {
+                    notes: true,
+                },
+                clicktale: "clicktale",
+                ecomm360: true,
+                goalTracking: true,
+                googleAnalytics: "google_analytics",
+                htmlClicks: true,
+                opens: true,
+                salesforce: {
+                    campaign: true,
+                    notes: true,
+                },
+                textClicks: true,
+            },
+            triggerSettings: {
+                runtime: {
+                    days: ["sunday"],
+                    hours: {
+                        type: "send_asap",
+                    },
+                },
+                workflowEmailsCount: 1,
+                workflowTitle: "workflow_title",
+                workflowType: "abandonedBrowse",
+            },
+            webId: 33345484,
+            workflowId: "workflow_id",
+        });
     });
 
     test("create-email-action-pause", async () => {
@@ -514,8 +938,8 @@ describe("AutomationsClient", () => {
             .build();
 
         const response = await client.automations.createEmailActionPause({
-            workflow_id: "workflow_id",
-            workflow_email_id: "workflow_email_id",
+            workflowId: "workflow_id",
+            workflowEmailId: "workflow_email_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -532,8 +956,8 @@ describe("AutomationsClient", () => {
             .build();
 
         const response = await client.automations.createEmailActionStart({
-            workflow_id: "workflow_id",
-            workflow_email_id: "workflow_email_id",
+            workflowId: "workflow_id",
+            workflowEmailId: "workflow_email_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -569,10 +993,26 @@ describe("AutomationsClient", () => {
             .build();
 
         const response = await client.automations.listEmailQueue({
-            workflow_id: "workflow_id",
-            workflow_email_id: "workflow_email_id",
+            workflowId: "workflow_id",
+            workflowEmailId: "workflow_email_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [[{}]],
+            emailId: "email_id",
+            queue: [
+                {
+                    links: [[{}]],
+                    emailAddress: "email_address",
+                    emailId: "email_id",
+                    id: "id",
+                    listId: "list_id",
+                    nextSend: new Date("2024-01-15T09:30:00.000Z"),
+                    workflowId: "workflow_id",
+                },
+            ],
+            totalItems: 1,
+            workflowId: "workflow_id",
+        });
     });
 
     test("create-email-queue", async () => {
@@ -600,11 +1040,20 @@ describe("AutomationsClient", () => {
             .build();
 
         const response = await client.automations.createEmailQueue({
-            workflow_id: "workflow_id",
-            workflow_email_id: "workflow_email_id",
-            email_address: "email_address",
+            workflowId: "workflow_id",
+            workflowEmailId: "workflow_email_id",
+            emailAddress: "email_address",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [[{}]],
+            emailAddress: "email_address",
+            emailId: "email_id",
+            id: "id",
+            listId: "list_id",
+            listIsActive: true,
+            nextSend: new Date("2024-01-15T09:30:00.000Z"),
+            workflowId: "workflow_id",
+        });
     });
 
     test("get-email-queue", async () => {
@@ -631,11 +1080,20 @@ describe("AutomationsClient", () => {
             .build();
 
         const response = await client.automations.getEmailQueue({
-            workflow_id: "workflow_id",
-            workflow_email_id: "workflow_email_id",
-            subscriber_hash: "subscriber_hash",
+            workflowId: "workflow_id",
+            workflowEmailId: "workflow_email_id",
+            subscriberHash: "subscriber_hash",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [[{}]],
+            emailAddress: "email_address",
+            emailId: "email_id",
+            id: "id",
+            listId: "list_id",
+            listIsActive: true,
+            nextSend: new Date("2024-01-15T09:30:00.000Z"),
+            workflowId: "workflow_id",
+        });
     });
 
     test("list-removed-subscribers", async () => {
@@ -666,9 +1124,22 @@ describe("AutomationsClient", () => {
             .build();
 
         const response = await client.automations.listRemovedSubscribers({
-            workflow_id: "workflow_id",
+            workflowId: "workflow_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [[{}]],
+            subscribers: [
+                {
+                    links: [[{}]],
+                    emailAddress: "email_address",
+                    id: "id",
+                    listId: "list_id",
+                    workflowId: "workflow_id",
+                },
+            ],
+            totalItems: 1,
+            workflowId: "workflow_id",
+        });
     });
 
     test("create-removed-subscriber", async () => {
@@ -693,10 +1164,16 @@ describe("AutomationsClient", () => {
             .build();
 
         const response = await client.automations.createRemovedSubscriber({
-            workflow_id: "workflow_id",
-            email_address: "email_address",
+            workflowId: "workflow_id",
+            emailAddress: "email_address",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [[{}]],
+            emailAddress: "email_address",
+            id: "id",
+            listId: "list_id",
+            workflowId: "workflow_id",
+        });
     });
 
     test("get-removed-subscriber", async () => {
@@ -720,9 +1197,15 @@ describe("AutomationsClient", () => {
             .build();
 
         const response = await client.automations.getRemovedSubscriber({
-            workflow_id: "workflow_id",
-            subscriber_hash: "subscriber_hash",
+            workflowId: "workflow_id",
+            subscriberHash: "subscriber_hash",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [[{}]],
+            emailAddress: "email_address",
+            id: "id",
+            listId: "list_id",
+            workflowId: "workflow_id",
+        });
     });
 });

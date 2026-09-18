@@ -3,10 +3,10 @@
 /**
  * @example
  *     {
- *         connected_site_id: "connected_site_id"
+ *         connectedSiteId: "connected_site_id"
  *     }
  */
 export interface DeleteConnectedSitesRequest {
     /** The unique identifier for the site. */
-    connected_site_id: string;
+    connectedSiteId: string;
 }

@@ -1,53 +1,36 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../../../../index.js";
+
 /**
  * @example
  *     {
- *         store_id: "store_id",
- *         promo_rule_id: "promo_rule_id"
+ *         storeId: "store_id",
+ *         promoRuleId: "promo_rule_id"
  *     }
  */
 export interface UpdateStorePromoRuleEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     /** The id for the promo rule of a store. */
-    promo_rule_id: string;
-    amount?: UpdateStorePromoRuleEcommerceRequest.Amount;
+    promoRuleId: string;
+    amount?: Mailchimp.UpdateStorePromoRuleEcommerceRequestAmount;
     /** The date and time the promotion was created in ISO 8601 format. */
-    created_at_foreign?: string;
+    createdAtForeign?: string;
     /** The description of a promotion restricted to UTF-8 characters with max length 255. */
     description?: string;
     /** Whether the promo rule is currently enabled. */
     enabled?: boolean;
-    ends_at?: UpdateStorePromoRuleEcommerceRequest.EndsAt;
+    endsAt?: Mailchimp.UpdateStorePromoRuleEcommerceRequestEndsAt;
     /** A unique identifier for the promo rule. If Ecommerce platform does not support promo rule, use promo code id as promo rule id. Restricted to UTF-8 characters with max length 50. */
     id?: string;
-    starts_at?: UpdateStorePromoRuleEcommerceRequest.StartsAt;
+    startsAt?: Mailchimp.UpdateStorePromoRuleEcommerceRequestStartsAt;
     /** The target that the discount applies to. */
-    target?: UpdateStorePromoRuleEcommerceRequest.Target;
+    target?: Mailchimp.UpdateStorePromoRuleEcommerceRequestTarget;
     /** The title that will show up in promotion campaign. Restricted to UTF-8 characters with max length of 100 bytes. */
     title?: string;
     /** Type of discount. For free shipping set type to fixed. */
-    type?: UpdateStorePromoRuleEcommerceRequest.Type;
+    type?: Mailchimp.UpdateStorePromoRuleEcommerceRequestType;
     /** The date and time the promotion was updated in ISO 8601 format. */
-    updated_at_foreign?: string;
-}
-
-export namespace UpdateStorePromoRuleEcommerceRequest {
-    export type Amount = number | string;
-    export type EndsAt = string | string | string | ("" | "0000-00-00" | "0000-00-00 00:00:00");
-    export type StartsAt = string | string | string | ("" | "0000-00-00" | "0000-00-00 00:00:00");
-    /** The target that the discount applies to. */
-    export const Target = {
-        PerItem: "per_item",
-        Total: "total",
-        Shipping: "shipping",
-    } as const;
-    export type Target = (typeof Target)[keyof typeof Target];
-    /** Type of discount. For free shipping set type to fixed. */
-    export const Type = {
-        Fixed: "fixed",
-        Percentage: "percentage",
-    } as const;
-    export type Type = (typeof Type)[keyof typeof Type];
+    updatedAtForeign?: string;
 }

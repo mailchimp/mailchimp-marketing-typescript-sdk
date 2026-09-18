@@ -7,6 +7,7 @@ import * as core from "../../../../core/index.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace AuthorizedAppsClient {
@@ -37,12 +38,12 @@ export class AuthorizedAppsClient {
     public async list(
         request: Mailchimp.ListAuthorizedAppsRequest = {},
         requestOptions?: AuthorizedAppsClient.RequestOptions,
-    ): Promise<core.Page<Mailchimp.ListAuthorizedAppsResponse.Apps.Item, Mailchimp.ListAuthorizedAppsResponse>> {
+    ): Promise<core.Page<Mailchimp.ListAuthorizedAppsResponseAppsItem, Mailchimp.ListAuthorizedAppsResponse>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (
                 request: Mailchimp.ListAuthorizedAppsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListAuthorizedAppsResponse>> => {
-                const { fields, exclude_fields: excludeFields, count, offset } = request;
+                const { fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -79,7 +80,13 @@ export class AuthorizedAppsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListAuthorizedAppsResponse,
+                        data: serializers.ListAuthorizedAppsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -95,7 +102,7 @@ export class AuthorizedAppsClient {
         );
         let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
-        return new core.Page<Mailchimp.ListAuthorizedAppsResponse.Apps.Item, Mailchimp.ListAuthorizedAppsResponse>({
+        return new core.Page<Mailchimp.ListAuthorizedAppsResponseAppsItem, Mailchimp.ListAuthorizedAppsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
             hasNextPage: (response) => (response?.apps ?? []).length > 0,
@@ -118,7 +125,7 @@ export class AuthorizedAppsClient {
      *
      * @example
      *     await client.authorizedApps.get({
-     *         app_id: "app_id"
+     *         appId: "app_id"
      *     })
      */
     public get(
@@ -132,7 +139,7 @@ export class AuthorizedAppsClient {
         request: Mailchimp.GetAuthorizedAppsRequest,
         requestOptions?: AuthorizedAppsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.GetAuthorizedAppsResponse>> {
-        const { app_id: appId, fields, exclude_fields: excludeFields } = request;
+        const { appId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -166,7 +173,16 @@ export class AuthorizedAppsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.GetAuthorizedAppsResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.GetAuthorizedAppsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {

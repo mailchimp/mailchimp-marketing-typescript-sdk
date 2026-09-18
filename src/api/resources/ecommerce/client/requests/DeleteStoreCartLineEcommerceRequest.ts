@@ -3,16 +3,16 @@
 /**
  * @example
  *     {
- *         store_id: "store_id",
- *         cart_id: "cart_id",
- *         line_id: "line_id"
+ *         storeId: "store_id",
+ *         cartId: "cart_id",
+ *         lineId: "line_id"
  *     }
  */
 export interface DeleteStoreCartLineEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     /** The id for the cart. */
-    cart_id: string;
+    cartId: string;
     /** The id for the line item of a cart. */
-    line_id: string;
+    lineId: string;
 }

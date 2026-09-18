@@ -3,13 +3,13 @@
 /**
  * @example
  *     {
- *         workflow_id: "workflow_id",
- *         workflow_email_id: "workflow_email_id"
+ *         workflowId: "workflow_id",
+ *         workflowEmailId: "workflow_email_id"
  *     }
  */
 export interface ListEmailQueueAutomationsRequest {
     /** The unique id for the Automation workflow. */
-    workflow_id: string;
+    workflowId: string;
     /** The unique id for the Automation workflow email. */
-    workflow_email_id: string;
+    workflowEmailId: string;
 }

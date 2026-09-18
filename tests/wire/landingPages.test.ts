@@ -36,7 +36,38 @@ describe("LandingPagesClient", () => {
         server.mockEndpoint().get("/3.0/landing-pages").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.landingPages.list();
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            landingPages: [
+                {
+                    links: [{}],
+                    createdAt: new Date("2024-01-15T09:30:00.000Z"),
+                    createdBySource: "created_by_source",
+                    description: "description",
+                    id: "030092c2e1f0",
+                    listId: "fde02ad86b",
+                    name: "name",
+                    publishedAt: new Date("2024-01-15T09:30:00.000Z"),
+                    status: "published",
+                    storeId: "store_id",
+                    templateId: 1,
+                    title: "title",
+                    unpublishedAt: new Date("2024-01-15T09:30:00.000Z"),
+                    updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+                    url: "url",
+                    webId: 1,
+                },
+            ],
+            totalItems: 1,
+        });
     });
 
     test("create", async () => {
@@ -73,7 +104,36 @@ describe("LandingPagesClient", () => {
             .build();
 
         const response = await client.landingPages.create();
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            createdAt: new Date("2024-01-15T09:30:00.000Z"),
+            createdBySource: "created_by_source",
+            description: "description",
+            id: "030092c2e1f0",
+            listId: "fde02ad86b",
+            name: "name",
+            publishedAt: new Date("2024-01-15T09:30:00.000Z"),
+            status: "published",
+            storeId: "store_id",
+            templateId: 1,
+            title: "title",
+            tracking: {
+                enableRestrictedDataProcessing: true,
+                trackWithMailchimp: true,
+            },
+            unpublishedAt: new Date("2024-01-15T09:30:00.000Z"),
+            updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+            url: "url",
+            webId: 1,
+        });
     });
 
     test("get", async () => {
@@ -109,9 +169,38 @@ describe("LandingPagesClient", () => {
             .build();
 
         const response = await client.landingPages.get({
-            page_id: "page_id",
+            pageId: "page_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            createdAt: new Date("2024-01-15T09:30:00.000Z"),
+            createdBySource: "created_by_source",
+            description: "description",
+            id: "030092c2e1f0",
+            listId: "fde02ad86b",
+            name: "name",
+            publishedAt: new Date("2024-01-15T09:30:00.000Z"),
+            status: "published",
+            storeId: "store_id",
+            templateId: 1,
+            title: "title",
+            tracking: {
+                enableRestrictedDataProcessing: true,
+                trackWithMailchimp: true,
+            },
+            unpublishedAt: new Date("2024-01-15T09:30:00.000Z"),
+            updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+            url: "url",
+            webId: 1,
+        });
     });
 
     test("delete", async () => {
@@ -121,7 +210,7 @@ describe("LandingPagesClient", () => {
         server.mockEndpoint().delete("/3.0/landing-pages/page_id").respondWith().statusCode(200).build();
 
         const response = await client.landingPages.delete({
-            page_id: "page_id",
+            pageId: "page_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -160,9 +249,38 @@ describe("LandingPagesClient", () => {
             .build();
 
         const response = await client.landingPages.update({
-            page_id: "page_id",
+            pageId: "page_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            createdAt: new Date("2024-01-15T09:30:00.000Z"),
+            createdBySource: "created_by_source",
+            description: "description",
+            id: "030092c2e1f0",
+            listId: "fde02ad86b",
+            name: "name",
+            publishedAt: new Date("2024-01-15T09:30:00.000Z"),
+            status: "published",
+            storeId: "store_id",
+            templateId: 1,
+            title: "title",
+            tracking: {
+                enableRestrictedDataProcessing: true,
+                trackWithMailchimp: true,
+            },
+            unpublishedAt: new Date("2024-01-15T09:30:00.000Z"),
+            updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+            url: "url",
+            webId: 1,
+        });
     });
 
     test("create-action-publish", async () => {
@@ -172,7 +290,7 @@ describe("LandingPagesClient", () => {
         server.mockEndpoint().post("/3.0/landing-pages/page_id/actions/publish").respondWith().statusCode(200).build();
 
         const response = await client.landingPages.createActionPublish({
-            page_id: "page_id",
+            pageId: "page_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -189,7 +307,7 @@ describe("LandingPagesClient", () => {
             .build();
 
         const response = await client.landingPages.createActionUnpublish({
-            page_id: "page_id",
+            pageId: "page_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -213,8 +331,20 @@ describe("LandingPagesClient", () => {
             .build();
 
         const response = await client.landingPages.listContent({
-            page_id: "page_id",
+            pageId: "page_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            html: "html",
+            json: "json",
+        });
     });
 });

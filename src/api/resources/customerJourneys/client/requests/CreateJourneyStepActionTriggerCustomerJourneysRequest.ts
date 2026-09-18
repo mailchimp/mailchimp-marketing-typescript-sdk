@@ -3,16 +3,16 @@
 /**
  * @example
  *     {
- *         journey_id: 1,
- *         step_id: 1,
- *         email_address: "email_address"
+ *         journeyId: 1,
+ *         stepId: 1,
+ *         emailAddress: "email_address"
  *     }
  */
 export interface CreateJourneyStepActionTriggerCustomerJourneysRequest {
     /** The id for the flow. */
-    journey_id: number;
+    journeyId: number;
     /** The id for the Step. */
-    step_id: number;
+    stepId: number;
     /** The list member's email address. */
-    email_address: string;
+    emailAddress: string;
 }

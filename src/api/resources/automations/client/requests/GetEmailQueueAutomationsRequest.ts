@@ -3,16 +3,16 @@
 /**
  * @example
  *     {
- *         workflow_id: "workflow_id",
- *         workflow_email_id: "workflow_email_id",
- *         subscriber_hash: "subscriber_hash"
+ *         workflowId: "workflow_id",
+ *         workflowEmailId: "workflow_email_id",
+ *         subscriberHash: "subscriber_hash"
  *     }
  */
 export interface GetEmailQueueAutomationsRequest {
     /** The unique id for the Automation workflow. */
-    workflow_id: string;
+    workflowId: string;
     /** The unique id for the Automation workflow email. */
-    workflow_email_id: string;
+    workflowEmailId: string;
     /** The MD5 hash of the lowercase version of the list member's email address. */
-    subscriber_hash: string;
+    subscriberHash: string;
 }

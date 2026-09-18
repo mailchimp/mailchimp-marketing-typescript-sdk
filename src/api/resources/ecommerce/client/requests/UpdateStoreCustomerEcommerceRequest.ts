@@ -5,15 +5,15 @@ import type * as Mailchimp from "../../../../index.js";
 /**
  * @example
  *     {
- *         store_id: "store_id",
- *         customer_id: "customer_id",
+ *         storeId: "store_id",
+ *         customerId: "customer_id",
  *         body: {}
  *     }
  */
 export interface UpdateStoreCustomerEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     /** The id for the customer of a store. */
-    customer_id: string;
+    customerId: string;
     body: Mailchimp.EcommerceStoresCartsPatch;
 }

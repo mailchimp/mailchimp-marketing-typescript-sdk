@@ -22,7 +22,26 @@ describe("CampaignFoldersClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            folders: [
+                {
+                    links: [{}],
+                    count: 1,
+                    id: "id",
+                    name: "name",
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.campaignFolders.list();
 
         expect(expected.folders).toEqual(page.data);
@@ -53,7 +72,26 @@ describe("CampaignFoldersClient", () => {
         const response = await client.campaignFolders.create({
             name: "name",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            folders: [
+                {
+                    links: [{}],
+                    count: 1,
+                    id: "id",
+                    name: "name",
+                },
+            ],
+            totalItems: 1,
+        });
     });
 
     test("get", async () => {
@@ -76,9 +114,22 @@ describe("CampaignFoldersClient", () => {
             .build();
 
         const response = await client.campaignFolders.get({
-            folder_id: "folder_id",
+            folderId: "folder_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            count: 1,
+            id: "id",
+            name: "name",
+        });
     });
 
     test("delete", async () => {
@@ -88,7 +139,7 @@ describe("CampaignFoldersClient", () => {
         server.mockEndpoint().delete("/3.0/campaign-folders/folder_id").respondWith().statusCode(200).build();
 
         const response = await client.campaignFolders.delete({
-            folder_id: "folder_id",
+            folderId: "folder_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -114,9 +165,22 @@ describe("CampaignFoldersClient", () => {
             .build();
 
         const response = await client.campaignFolders.update({
-            folder_id: "folder_id",
+            folderId: "folder_id",
             name: "name",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            count: 1,
+            id: "id",
+            name: "name",
+        });
     });
 });

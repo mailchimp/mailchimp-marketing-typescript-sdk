@@ -1,79 +1,21 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../../../index.js";
+
 /**
  * The last 50 member events for a list.
  */
 export interface ListMemberActivityListsResponse {
     /** A list of link types and descriptions for the API schema documents. */
-    _links?: ListMemberActivityListsResponse.Links.Item[] | undefined;
+    links?: Mailchimp.ListMemberActivityListsResponseLinksItem[];
     /** An array of objects, each representing a member event. */
-    activity?: ListMemberActivityListsResponse.Activity.Item[] | undefined;
+    activity?: Mailchimp.ListMemberActivityListsResponseActivityItem[];
     /** As Mailchimp evolves beyond email, you may eventually have contacts without email addresses. While the `email_id` is the MD5 hash of their email address, this `contact_id` is agnostic of contact’s inclusion of an email address. */
-    contact_id?: string | undefined;
+    contactId?: string;
     /** The MD5 hash of the lowercase version of the list member's email address. */
-    email_id?: string | undefined;
+    emailId?: string;
     /** The list id. */
-    list_id?: string | undefined;
+    listId?: string;
     /** The total number of items matching the query regardless of pagination. */
-    total_items?: number | undefined;
-}
-
-export namespace ListMemberActivityListsResponse {
-    export type Links = Links.Item[];
-
-    export namespace Links {
-        /**
-         * This object represents a link from the resource where it is found to another resource or action that may be performed.
-         */
-        export interface Item {
-            /** This property contains a fully-qualified URL that can be called to retrieve the linked resource or perform the linked action. */
-            href?: string | undefined;
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            method?: Item.Method | undefined;
-            /** As with an HTML 'rel' attribute, this describes the type of link. */
-            rel?: string | undefined;
-            /** For HTTP methods that can receive bodies (POST and PUT), this is a URL representing the schema that the body should conform to. */
-            schema?: string | undefined;
-            /** For GETs, this is a URL representing the schema that the response should conform to. */
-            targetSchema?: string | undefined;
-        }
-
-        export namespace Item {
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            export const Method = {
-                Get: "GET",
-                Post: "POST",
-                Put: "PUT",
-                Patch: "PATCH",
-                Delete: "DELETE",
-                Options: "OPTIONS",
-                Head: "HEAD",
-            } as const;
-            export type Method = (typeof Method)[keyof typeof Method];
-        }
-    }
-
-    export type Activity = Activity.Item[];
-
-    export namespace Activity {
-        /**
-         * Member activity events.
-         */
-        export interface Item {
-            /** The type of action recorded for the subscriber. */
-            action?: string | undefined;
-            /** The web-based ID for the campaign. */
-            campaign_id?: string | undefined;
-            /** The ID of the parent campaign. */
-            parent_campaign?: string | undefined;
-            /** The date and time recorded for the action. */
-            timestamp?: string | undefined;
-            /** If set, the campaign's title. */
-            title?: string | undefined;
-            /** The type of campaign that was sent. */
-            type?: string | undefined;
-            /** For clicks, the URL the subscriber clicked on. */
-            url?: string | undefined;
-        }
-    }
+    totalItems?: number;
 }

@@ -3,14 +3,14 @@
 /**
  * @example
  *     {
- *         workflow_id: "workflow_id"
+ *         workflowId: "workflow_id"
  *     }
  */
 export interface GetAutomationsRequest {
     /** The unique id for the Automation workflow. */
-    workflow_id: string;
+    workflowId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

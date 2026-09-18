@@ -41,7 +41,38 @@ describe("TemplatesClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            templates: [
+                {
+                    links: [{}],
+                    active: true,
+                    category: "category",
+                    contentType: "template",
+                    createdBy: "created_by",
+                    dateCreated: new Date("2024-01-15T09:30:00.000Z"),
+                    dateEdited: new Date("2024-01-15T09:30:00.000Z"),
+                    dragAndDrop: true,
+                    editedBy: "edited_by",
+                    folderId: "folder_id",
+                    id: 1,
+                    name: "name",
+                    responsive: true,
+                    shareUrl: "share_url",
+                    thumbnail: "thumbnail",
+                    type: "type",
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.templates.list();
 
         expect(expected.templates).toEqual(page.data);
@@ -86,7 +117,32 @@ describe("TemplatesClient", () => {
             html: "html",
             name: "Freddie's Jokes",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            active: true,
+            category: "category",
+            contentType: "template",
+            createdBy: "created_by",
+            dateCreated: new Date("2024-01-15T09:30:00.000Z"),
+            dateEdited: new Date("2024-01-15T09:30:00.000Z"),
+            dragAndDrop: true,
+            editedBy: "edited_by",
+            folderId: "folder_id",
+            id: 1,
+            name: "name",
+            responsive: true,
+            shareUrl: "share_url",
+            thumbnail: "thumbnail",
+            type: "type",
+        });
     });
 
     test("get", async () => {
@@ -121,9 +177,34 @@ describe("TemplatesClient", () => {
             .build();
 
         const response = await client.templates.get({
-            template_id: "template_id",
+            templateId: "template_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            active: true,
+            category: "category",
+            contentType: "template",
+            createdBy: "created_by",
+            dateCreated: new Date("2024-01-15T09:30:00.000Z"),
+            dateEdited: new Date("2024-01-15T09:30:00.000Z"),
+            dragAndDrop: true,
+            editedBy: "edited_by",
+            folderId: "folder_id",
+            id: 1,
+            name: "name",
+            responsive: true,
+            shareUrl: "share_url",
+            thumbnail: "thumbnail",
+            type: "type",
+        });
     });
 
     test("delete", async () => {
@@ -133,7 +214,7 @@ describe("TemplatesClient", () => {
         server.mockEndpoint().delete("/3.0/templates/template_id").respondWith().statusCode(200).build();
 
         const response = await client.templates.delete({
-            template_id: "template_id",
+            templateId: "template_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -171,9 +252,34 @@ describe("TemplatesClient", () => {
             .build();
 
         const response = await client.templates.update({
-            template_id: "template_id",
+            templateId: "template_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            active: true,
+            category: "category",
+            contentType: "template",
+            createdBy: "created_by",
+            dateCreated: new Date("2024-01-15T09:30:00.000Z"),
+            dateEdited: new Date("2024-01-15T09:30:00.000Z"),
+            dragAndDrop: true,
+            editedBy: "edited_by",
+            folderId: "folder_id",
+            id: 1,
+            name: "name",
+            responsive: true,
+            shareUrl: "share_url",
+            thumbnail: "thumbnail",
+            type: "type",
+        });
     });
 
     test("list-default-content", async () => {
@@ -194,8 +300,21 @@ describe("TemplatesClient", () => {
             .build();
 
         const response = await client.templates.listDefaultContent({
-            template_id: "template_id",
+            templateId: "template_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            sections: {
+                key: "value",
+            },
+        });
     });
 });

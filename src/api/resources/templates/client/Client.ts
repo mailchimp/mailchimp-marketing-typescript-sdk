@@ -8,6 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace TemplatesClient {
@@ -16,6 +17,9 @@ export declare namespace TemplatesClient {
     export interface RequestOptions extends BaseRequestOptions {}
 }
 
+/**
+ * Email templates and their default content.
+ */
 export class TemplatesClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<TemplatesClient.Options>;
 
@@ -45,18 +49,18 @@ export class TemplatesClient {
             ): Promise<core.WithRawResponse<Mailchimp.ListTemplatesResponse>> => {
                 const {
                     fields,
-                    exclude_fields: excludeFields,
+                    excludeFields,
                     count,
                     offset,
-                    created_by: createdBy,
-                    since_date_created: sinceDateCreated,
-                    before_date_created: beforeDateCreated,
+                    createdBy,
+                    sinceDateCreated,
+                    beforeDateCreated,
                     type: type_,
                     category,
-                    folder_id: folderId,
-                    sort_field: sortField,
-                    content_type: contentType,
-                    sort_dir: sortDir,
+                    folderId,
+                    sortField,
+                    contentType,
+                    sortDir,
                 } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
@@ -69,9 +73,27 @@ export class TemplatesClient {
                     type: type_,
                     category,
                     folder_id: folderId,
-                    sort_field: sortField != null ? sortField : undefined,
-                    content_type: contentType != null ? contentType : undefined,
-                    sort_dir: sortDir != null ? sortDir : undefined,
+                    sort_field:
+                        sortField != null
+                            ? serializers.ListTemplatesRequestSortField.jsonOrThrow(sortField, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
+                    content_type:
+                        contentType != null
+                            ? serializers.ListTemplatesRequestContentType.jsonOrThrow(contentType, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
+                    sort_dir:
+                        sortDir != null
+                            ? serializers.ListTemplatesRequestSortDir.jsonOrThrow(sortDir, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
                 };
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -103,7 +125,13 @@ export class TemplatesClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListTemplatesResponse,
+                        data: serializers.ListTemplatesResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -175,7 +203,13 @@ export class TemplatesClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateTemplatesRequest.jsonOrThrow(request, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -183,7 +217,16 @@ export class TemplatesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.TemplateInstance, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.TemplateInstance.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -208,7 +251,7 @@ export class TemplatesClient {
      *
      * @example
      *     await client.templates.get({
-     *         template_id: "template_id"
+     *         templateId: "template_id"
      *     })
      */
     public get(
@@ -222,7 +265,7 @@ export class TemplatesClient {
         request: Mailchimp.GetTemplatesRequest,
         requestOptions?: TemplatesClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.TemplateInstance>> {
-        const { template_id: templateId, fields, exclude_fields: excludeFields } = request;
+        const { templateId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -256,7 +299,16 @@ export class TemplatesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.TemplateInstance, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.TemplateInstance.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -281,7 +333,7 @@ export class TemplatesClient {
      *
      * @example
      *     await client.templates.delete({
-     *         template_id: "template_id"
+     *         templateId: "template_id"
      *     })
      */
     public delete(
@@ -295,7 +347,7 @@ export class TemplatesClient {
         request: Mailchimp.DeleteTemplatesRequest,
         requestOptions?: TemplatesClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { template_id: templateId } = request;
+        const { templateId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -349,7 +401,7 @@ export class TemplatesClient {
      *
      * @example
      *     await client.templates.update({
-     *         template_id: "template_id"
+     *         templateId: "template_id"
      *     })
      */
     public update(
@@ -363,7 +415,7 @@ export class TemplatesClient {
         request: Mailchimp.UpdateTemplatesRequest,
         requestOptions?: TemplatesClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.TemplateInstance>> {
-        const { template_id: templateId, ..._body } = request;
+        const { templateId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -382,7 +434,13 @@ export class TemplatesClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateTemplatesRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -390,7 +448,16 @@ export class TemplatesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.TemplateInstance, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.TemplateInstance.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -420,7 +487,7 @@ export class TemplatesClient {
      *
      * @example
      *     await client.templates.listDefaultContent({
-     *         template_id: "template_id"
+     *         templateId: "template_id"
      *     })
      */
     public listDefaultContent(
@@ -434,7 +501,7 @@ export class TemplatesClient {
         request: Mailchimp.ListDefaultContentTemplatesRequest,
         requestOptions?: TemplatesClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListDefaultContentTemplatesResponse>> {
-        const { template_id: templateId, fields, exclude_fields: excludeFields } = request;
+        const { templateId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -469,7 +536,13 @@ export class TemplatesClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListDefaultContentTemplatesResponse,
+                data: serializers.ListDefaultContentTemplatesResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }

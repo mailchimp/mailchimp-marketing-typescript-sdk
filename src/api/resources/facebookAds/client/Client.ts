@@ -7,6 +7,7 @@ import * as core from "../../../../core/index.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace FacebookAdsClient {
@@ -42,21 +43,26 @@ export class FacebookAdsClient {
             async (
                 request: Mailchimp.ListFacebookAdsRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListFacebookAdsResponse>> => {
-                const {
-                    fields,
-                    exclude_fields: excludeFields,
-                    count,
-                    offset,
-                    sort_field: sortField,
-                    sort_dir: sortDir,
-                } = request;
+                const { fields, excludeFields, count, offset, sortField, sortDir } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
                     count,
                     offset,
-                    sort_field: sortField != null ? sortField : undefined,
-                    sort_dir: sortDir != null ? sortDir : undefined,
+                    sort_field:
+                        sortField != null
+                            ? serializers.ListFacebookAdsRequestSortField.jsonOrThrow(sortField, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
+                    sort_dir:
+                        sortDir != null
+                            ? serializers.ListFacebookAdsRequestSortDir.jsonOrThrow(sortDir, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
                 };
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -88,7 +94,13 @@ export class FacebookAdsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListFacebookAdsResponse,
+                        data: serializers.ListFacebookAdsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -107,8 +119,8 @@ export class FacebookAdsClient {
         return new core.Page<Mailchimp.FacebookAds, Mailchimp.ListFacebookAdsResponse>({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
-            hasNextPage: (response) => (response?.facebook_ads ?? []).length > 0,
-            getItems: (response) => response?.facebook_ads ?? [],
+            hasNextPage: (response) => (response?.facebookAds ?? []).length > 0,
+            getItems: (response) => response?.facebookAds ?? [],
             loadPage: (_response) => {
                 _offset += 1;
                 return list(core.setObjectProperty(request, "offset", _offset));
@@ -127,7 +139,7 @@ export class FacebookAdsClient {
      *
      * @example
      *     await client.facebookAds.get({
-     *         outreach_id: "outreach_id"
+     *         outreachId: "outreach_id"
      *     })
      */
     public get(
@@ -141,7 +153,7 @@ export class FacebookAdsClient {
         request: Mailchimp.GetFacebookAdsRequest,
         requestOptions?: FacebookAdsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.FacebookAds>> {
-        const { outreach_id: outreachId, fields, exclude_fields: excludeFields } = request;
+        const { outreachId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -175,7 +187,16 @@ export class FacebookAdsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.FacebookAds, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.FacebookAds.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {

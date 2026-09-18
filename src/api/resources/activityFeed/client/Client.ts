@@ -7,6 +7,7 @@ import * as core from "../../../../core/index.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace ActivityFeedClient {
@@ -66,7 +67,13 @@ export class ActivityFeedClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListActivityFeedResponseItem[],
+                data: serializers.activityFeed.list.Response.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -99,7 +106,7 @@ export class ActivityFeedClient {
         requestOptions?: ActivityFeedClient.RequestOptions,
     ): Promise<
         core.Page<
-            Mailchimp.ListChimpChatterActivityFeedResponse.ChimpChatter.Item,
+            Mailchimp.ListChimpChatterActivityFeedResponseChimpChatterItem,
             Mailchimp.ListChimpChatterActivityFeedResponse
         >
     > {
@@ -140,7 +147,13 @@ export class ActivityFeedClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListChimpChatterActivityFeedResponse,
+                        data: serializers.ListChimpChatterActivityFeedResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -162,13 +175,13 @@ export class ActivityFeedClient {
         let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
         return new core.Page<
-            Mailchimp.ListChimpChatterActivityFeedResponse.ChimpChatter.Item,
+            Mailchimp.ListChimpChatterActivityFeedResponseChimpChatterItem,
             Mailchimp.ListChimpChatterActivityFeedResponse
         >({
             response: dataWithRawResponse.data,
             rawResponse: dataWithRawResponse.rawResponse,
-            hasNextPage: (response) => (response?.chimp_chatter ?? []).length > 0,
-            getItems: (response) => response?.chimp_chatter ?? [],
+            hasNextPage: (response) => (response?.chimpChatter ?? []).length > 0,
+            getItems: (response) => response?.chimpChatter ?? [],
             loadPage: (_response) => {
                 _offset += 1;
                 return list(core.setObjectProperty(request, "offset", _offset));

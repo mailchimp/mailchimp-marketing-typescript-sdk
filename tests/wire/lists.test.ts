@@ -45,7 +45,46 @@ describe("ListsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            constraints: {
+                currentTotalInstances: 1,
+                maxInstances: 1,
+                mayCreate: true,
+            },
+            lists: [
+                {
+                    links: [{}],
+                    beamerAddress: "beamer_address",
+                    dateCreated: new Date("2024-01-15T09:30:00.000Z"),
+                    doubleOptin: true,
+                    emailTypeOption: true,
+                    hasWelcome: false,
+                    id: "id",
+                    listRating: 1,
+                    marketingPermissions: true,
+                    modules: ["modules"],
+                    name: "name",
+                    notifyOnSubscribe: "notify_on_subscribe",
+                    notifyOnUnsubscribe: "notify_on_unsubscribe",
+                    permissionReminder: "permission_reminder",
+                    subscribeUrlLong: "subscribe_url_long",
+                    subscribeUrlShort: "subscribe_url_short",
+                    useArchiveBar: true,
+                    visibility: "pub",
+                    webId: 1,
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.lists.list();
 
         expect(expected.lists).toEqual(page.data);
@@ -136,9 +175,9 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.create({
-            campaign_defaults: {
-                from_email: "from_email",
-                from_name: "from_name",
+            campaignDefaults: {
+                fromEmail: "from_email",
+                fromName: "from_name",
                 language: "language",
                 subject: "subject",
             },
@@ -148,11 +187,74 @@ describe("ListsClient", () => {
                 company: "company",
                 country: "country",
             },
-            email_type_option: true,
+            emailTypeOption: true,
             name: "name",
-            permission_reminder: "permission_reminder",
+            permissionReminder: "permission_reminder",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            beamerAddress: "beamer_address",
+            campaignDefaults: {
+                fromEmail: "from_email",
+                fromName: "from_name",
+                language: "language",
+                subject: "subject",
+            },
+            contact: {
+                address1: "address1",
+                address2: "address2",
+                city: "city",
+                company: "company",
+                country: "country",
+                phone: "phone",
+                state: "state",
+                zip: "zip",
+            },
+            dateCreated: new Date("2024-01-15T09:30:00.000Z"),
+            doubleOptin: true,
+            emailTypeOption: true,
+            hasWelcome: false,
+            id: "id",
+            listRating: 1,
+            marketingPermissions: true,
+            modules: ["modules"],
+            name: "name",
+            notifyOnSubscribe: "notify_on_subscribe",
+            notifyOnUnsubscribe: "notify_on_unsubscribe",
+            permissionReminder: "permission_reminder",
+            stats: {
+                avgSubRate: 1.1,
+                avgUnsubRate: 1.1,
+                campaignCount: 1,
+                campaignLastSent: new Date("2024-01-15T09:30:00.000Z"),
+                cleanedCount: 1,
+                cleanedCountSinceSend: 1,
+                clickRate: 1.1,
+                lastSubDate: new Date("2024-01-15T09:30:00.000Z"),
+                lastUnsubDate: new Date("2024-01-15T09:30:00.000Z"),
+                memberCount: 1,
+                memberCountSinceSend: 1,
+                mergeFieldCount: 1,
+                openRate: 1.1,
+                targetSubRate: 1.1,
+                totalContacts: 1,
+                unsubscribeCount: 1,
+                unsubscribeCountSinceSend: 1,
+            },
+            subscribeUrlLong: "subscribe_url_long",
+            subscribeUrlShort: "subscribe_url_short",
+            useArchiveBar: true,
+            visibility: "pub",
+            webId: 1,
+        });
     });
 
     test("get", async () => {
@@ -219,9 +321,72 @@ describe("ListsClient", () => {
         server.mockEndpoint().get("/3.0/lists/list_id").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.lists.get({
-            list_id: "list_id",
+            listId: "list_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            beamerAddress: "beamer_address",
+            campaignDefaults: {
+                fromEmail: "from_email",
+                fromName: "from_name",
+                language: "language",
+                subject: "subject",
+            },
+            contact: {
+                address1: "address1",
+                address2: "address2",
+                city: "city",
+                company: "company",
+                country: "country",
+                phone: "phone",
+                state: "state",
+                zip: "zip",
+            },
+            dateCreated: new Date("2024-01-15T09:30:00.000Z"),
+            doubleOptin: true,
+            emailTypeOption: true,
+            hasWelcome: false,
+            id: "id",
+            listRating: 1,
+            marketingPermissions: true,
+            modules: ["modules"],
+            name: "name",
+            notifyOnSubscribe: "notify_on_subscribe",
+            notifyOnUnsubscribe: "notify_on_unsubscribe",
+            permissionReminder: "permission_reminder",
+            stats: {
+                avgSubRate: 1.1,
+                avgUnsubRate: 1.1,
+                campaignCount: 1,
+                campaignLastSent: new Date("2024-01-15T09:30:00.000Z"),
+                cleanedCount: 1,
+                cleanedCountSinceSend: 1,
+                clickRate: 1.1,
+                lastSubDate: new Date("2024-01-15T09:30:00.000Z"),
+                lastUnsubDate: new Date("2024-01-15T09:30:00.000Z"),
+                memberCount: 1,
+                memberCountSinceSend: 1,
+                mergeFieldCount: 1,
+                openRate: 1.1,
+                targetSubRate: 1.1,
+                totalContacts: 1,
+                unsubscribeCount: 1,
+                unsubscribeCountSinceSend: 1,
+            },
+            subscribeUrlLong: "subscribe_url_long",
+            subscribeUrlShort: "subscribe_url_short",
+            useArchiveBar: true,
+            visibility: "pub",
+            webId: 1,
+        });
     });
 
     test("batch-subscribe-or-unsubscribe", async () => {
@@ -304,10 +469,90 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.batchSubscribeOrUnsubscribe({
-            list_id: "list_id",
+            listId: "list_id",
             members: [],
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            errorCount: 42,
+            errors: [
+                {
+                    emailAddress: "email_address",
+                    error: "error",
+                    errorCode: "ERROR_CONTACT_EXISTS",
+                    field: "field",
+                    fieldMessage: "field_message",
+                },
+            ],
+            newMembers: [
+                {
+                    links: [{}],
+                    contactId: "contact_id",
+                    emailAddress: "email_address",
+                    emailClient: "email_client",
+                    emailType: "email_type",
+                    id: "id",
+                    interests: {
+                        key: true,
+                    },
+                    ipOpt: "ip_opt",
+                    ipSignup: "ip_signup",
+                    language: "language",
+                    lastChanged: new Date("2024-01-15T09:30:00.000Z"),
+                    listId: "list_id",
+                    memberRating: 1,
+                    mergeFields: {
+                        key: "value",
+                    },
+                    status: "subscribed",
+                    tags: [{}],
+                    tagsCount: 1,
+                    timestampOpt: new Date("2024-01-15T09:30:00.000Z"),
+                    timestampSignup: new Date("2024-01-15T09:30:00.000Z"),
+                    uniqueEmailId: "unique_email_id",
+                    vip: true,
+                },
+            ],
+            totalCreated: 42,
+            totalUpdated: 42,
+            updatedMembers: [
+                {
+                    links: [{}],
+                    contactId: "contact_id",
+                    emailAddress: "email_address",
+                    emailClient: "email_client",
+                    emailType: "email_type",
+                    id: "id",
+                    interests: {
+                        key: true,
+                    },
+                    ipOpt: "ip_opt",
+                    ipSignup: "ip_signup",
+                    language: "language",
+                    lastChanged: new Date("2024-01-15T09:30:00.000Z"),
+                    listId: "list_id",
+                    memberRating: 1,
+                    mergeFields: {
+                        key: "value",
+                    },
+                    status: "subscribed",
+                    tags: [{}],
+                    tagsCount: 1,
+                    timestampOpt: new Date("2024-01-15T09:30:00.000Z"),
+                    timestampSignup: new Date("2024-01-15T09:30:00.000Z"),
+                    uniqueEmailId: "unique_email_id",
+                    vip: true,
+                },
+            ],
+        });
     });
 
     test("delete", async () => {
@@ -317,7 +562,7 @@ describe("ListsClient", () => {
         server.mockEndpoint().delete("/3.0/lists/list_id").respondWith().statusCode(200).build();
 
         const response = await client.lists.delete({
-            list_id: "list_id",
+            listId: "list_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -393,9 +638,72 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.update({
-            list_id: "list_id",
+            listId: "list_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            beamerAddress: "beamer_address",
+            campaignDefaults: {
+                fromEmail: "from_email",
+                fromName: "from_name",
+                language: "language",
+                subject: "subject",
+            },
+            contact: {
+                address1: "address1",
+                address2: "address2",
+                city: "city",
+                company: "company",
+                country: "country",
+                phone: "phone",
+                state: "state",
+                zip: "zip",
+            },
+            dateCreated: new Date("2024-01-15T09:30:00.000Z"),
+            doubleOptin: true,
+            emailTypeOption: true,
+            hasWelcome: false,
+            id: "id",
+            listRating: 1,
+            marketingPermissions: true,
+            modules: ["modules"],
+            name: "name",
+            notifyOnSubscribe: "notify_on_subscribe",
+            notifyOnUnsubscribe: "notify_on_unsubscribe",
+            permissionReminder: "permission_reminder",
+            stats: {
+                avgSubRate: 1.1,
+                avgUnsubRate: 1.1,
+                campaignCount: 1,
+                campaignLastSent: new Date("2024-01-15T09:30:00.000Z"),
+                cleanedCount: 1,
+                cleanedCountSinceSend: 1,
+                clickRate: 1.1,
+                lastSubDate: new Date("2024-01-15T09:30:00.000Z"),
+                lastUnsubDate: new Date("2024-01-15T09:30:00.000Z"),
+                memberCount: 1,
+                memberCountSinceSend: 1,
+                mergeFieldCount: 1,
+                openRate: 1.1,
+                targetSubRate: 1.1,
+                totalContacts: 1,
+                unsubscribeCount: 1,
+                unsubscribeCountSinceSend: 1,
+            },
+            subscribeUrlLong: "subscribe_url_long",
+            subscribeUrlShort: "subscribe_url_short",
+            useArchiveBar: true,
+            visibility: "pub",
+            webId: 1,
+        });
     });
 
     test("list-abuse-reports", async () => {
@@ -429,15 +737,47 @@ describe("ListsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            abuseReports: [
+                {
+                    links: [{}],
+                    campaignId: "campaign_id",
+                    date: "date",
+                    emailAddress: "email_address",
+                    emailId: "email_id",
+                    id: 1,
+                    listId: "list_id",
+                    mergeFields: {
+                        key: {
+                            addr1: "addr1",
+                            city: "city",
+                            state: "state",
+                            zip: "zip",
+                        },
+                    },
+                    vip: true,
+                },
+            ],
+            listId: "list_id",
+            totalItems: 1,
+        };
         const page = await client.lists.listAbuseReports({
-            list_id: "list_id",
+            listId: "list_id",
         });
 
-        expect(expected.abuse_reports).toEqual(page.data);
+        expect(expected.abuseReports).toEqual(page.data);
         expect(page.hasNextPage()).toBe(true);
         const nextPage = await page.getNextPage();
-        expect(expected.abuse_reports).toEqual(nextPage.data);
+        expect(expected.abuseReports).toEqual(nextPage.data);
     });
 
     test("get-abuse-report", async () => {
@@ -467,10 +807,37 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.getAbuseReport({
-            list_id: "list_id",
-            report_id: "report_id",
+            listId: "list_id",
+            reportId: "report_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            campaignId: "campaign_id",
+            date: "date",
+            emailAddress: "email_address",
+            emailId: "email_id",
+            id: 1,
+            listId: "list_id",
+            mergeFields: {
+                key: {
+                    addr1: "addr1",
+                    addr2: "addr2",
+                    city: "city",
+                    state: "state",
+                    zip: "zip",
+                    country: "country",
+                },
+            },
+            vip: true,
+        });
     });
 
     test("list-activity", async () => {
@@ -506,9 +873,36 @@ describe("ListsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            activity: [
+                {
+                    links: [{}],
+                    day: "day",
+                    emailsSent: 1,
+                    hardBounce: 1,
+                    otherAdds: 1,
+                    otherRemoves: 1,
+                    recipientClicks: 1,
+                    softBounce: 1,
+                    subs: 1,
+                    uniqueOpens: 1,
+                    unsubs: 1,
+                },
+            ],
+            listId: "list_id",
+            totalItems: 1,
+        };
         const page = await client.lists.listActivity({
-            list_id: "list_id",
+            listId: "list_id",
         });
 
         expect(expected.activity).toEqual(page.data);
@@ -537,9 +931,27 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.listClients({
-            list_id: "list_id",
+            listId: "list_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            clients: [
+                {
+                    client: "client",
+                    members: 1,
+                },
+            ],
+            listId: "list_id",
+            totalItems: 1,
+        });
     });
 
     test("list-growth-history", async () => {
@@ -577,9 +989,38 @@ describe("ListsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            history: [
+                {
+                    links: [{}],
+                    cleaned: 1,
+                    deleted: 1,
+                    existing: 1,
+                    imports: 1,
+                    listId: "list_id",
+                    month: "month",
+                    optins: 1,
+                    pending: 1,
+                    reconfirm: 1,
+                    subscribed: 1,
+                    transactional: 1,
+                    unsubscribed: 1,
+                },
+            ],
+            listId: "list_id",
+            totalItems: 1,
+        };
         const page = await client.lists.listGrowthHistory({
-            list_id: "list_id",
+            listId: "list_id",
         });
 
         expect(expected.history).toEqual(page.data);
@@ -617,10 +1058,32 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.getGrowthHistory({
-            list_id: "list_id",
+            listId: "list_id",
             month: "month",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            cleaned: 1,
+            deleted: 1,
+            existing: 1,
+            imports: 1,
+            listId: "list_id",
+            month: "month",
+            optins: 1,
+            pending: 1,
+            reconfirm: 1,
+            subscribed: 1,
+            transactional: 1,
+            unsubscribed: 1,
+        });
     });
 
     test("list-interest-categories", async () => {
@@ -644,9 +1107,31 @@ describe("ListsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            categories: [
+                {
+                    links: [{}],
+                    displayOrder: 1,
+                    id: "id",
+                    listId: "list_id",
+                    title: "title",
+                    type: "checkboxes",
+                },
+            ],
+            listId: "list_id",
+            totalItems: 1,
+        };
         const page = await client.lists.listInterestCategories({
-            list_id: "list_id",
+            listId: "list_id",
         });
 
         expect(expected.categories).toEqual(page.data);
@@ -678,11 +1163,26 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.createInterestCategory({
-            list_id: "list_id",
+            listId: "list_id",
             title: "title",
             type: "checkboxes",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            displayOrder: 1,
+            id: "id",
+            listId: "list_id",
+            title: "title",
+            type: "checkboxes",
+        });
     });
 
     test("get-interest-category", async () => {
@@ -707,10 +1207,25 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.getInterestCategory({
-            list_id: "list_id",
-            interest_category_id: "interest_category_id",
+            listId: "list_id",
+            interestCategoryId: "interest_category_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            displayOrder: 1,
+            id: "id",
+            listId: "list_id",
+            title: "title",
+            type: "checkboxes",
+        });
     });
 
     test("delete-interest-category", async () => {
@@ -725,8 +1240,8 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.deleteInterestCategory({
-            list_id: "list_id",
-            interest_category_id: "interest_category_id",
+            listId: "list_id",
+            interestCategoryId: "interest_category_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -754,10 +1269,25 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.updateInterestCategory({
-            list_id: "list_id",
-            interest_category_id: "interest_category_id",
+            listId: "list_id",
+            interestCategoryId: "interest_category_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            displayOrder: 1,
+            id: "id",
+            listId: "list_id",
+            title: "title",
+            type: "checkboxes",
+        });
     });
 
     test("list-interest-category-interests", async () => {
@@ -790,10 +1320,34 @@ describe("ListsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            categoryId: "category_id",
+            interests: [
+                {
+                    links: [{}],
+                    categoryId: "category_id",
+                    displayOrder: 1,
+                    id: "id",
+                    listId: "list_id",
+                    name: "name",
+                    subscriberCount: "subscriber_count",
+                },
+            ],
+            listId: "list_id",
+            totalItems: 1,
+        };
         const page = await client.lists.listInterestCategoryInterests({
-            list_id: "list_id",
-            interest_category_id: "interest_category_id",
+            listId: "list_id",
+            interestCategoryId: "interest_category_id",
         });
 
         expect(expected.interests).toEqual(page.data);
@@ -826,11 +1380,27 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.createInterestCategoryInterest({
-            list_id: "list_id",
-            interest_category_id: "interest_category_id",
+            listId: "list_id",
+            interestCategoryId: "interest_category_id",
             name: "name",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            categoryId: "category_id",
+            displayOrder: 1,
+            id: "id",
+            listId: "list_id",
+            name: "name",
+            subscriberCount: "subscriber_count",
+        });
     });
 
     test("get-interest-category-interest", async () => {
@@ -856,11 +1426,27 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.getInterestCategoryInterest({
-            list_id: "list_id",
-            interest_category_id: "interest_category_id",
-            interest_id: "interest_id",
+            listId: "list_id",
+            interestCategoryId: "interest_category_id",
+            interestId: "interest_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            categoryId: "category_id",
+            displayOrder: 1,
+            id: "id",
+            listId: "list_id",
+            name: "name",
+            subscriberCount: "subscriber_count",
+        });
     });
 
     test("delete-interest-category-interest", async () => {
@@ -875,9 +1461,9 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.deleteInterestCategoryInterest({
-            list_id: "list_id",
-            interest_category_id: "interest_category_id",
-            interest_id: "interest_id",
+            listId: "list_id",
+            interestCategoryId: "interest_category_id",
+            interestId: "interest_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -906,11 +1492,27 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.updateInterestCategoryInterest({
-            list_id: "list_id",
-            interest_category_id: "interest_category_id",
-            interest_id: "interest_id",
+            listId: "list_id",
+            interestCategoryId: "interest_category_id",
+            interestId: "interest_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            categoryId: "category_id",
+            displayOrder: 1,
+            id: "id",
+            listId: "list_id",
+            name: "name",
+            subscriberCount: "subscriber_count",
+        });
     });
 
     test("list-locations", async () => {
@@ -933,9 +1535,29 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.listLocations({
-            list_id: "list_id",
+            listId: "list_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            listId: "list_id",
+            locations: [
+                {
+                    cc: "cc",
+                    country: "country",
+                    percent: 1.1,
+                    total: 1,
+                },
+            ],
+            totalItems: 1,
+        });
     });
 
     test("list-members", async () => {
@@ -990,9 +1612,70 @@ describe("ListsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            listId: "list_id",
+            members: [
+                {
+                    links: [{}],
+                    consentsToOneToOneMessaging: true,
+                    contactId: "contact_id",
+                    emailAddress: "email_address",
+                    emailClient: "email_client",
+                    emailType: {
+                        key: "value",
+                    },
+                    id: "id",
+                    interests: {
+                        key: true,
+                    },
+                    ipOpt: "ip_opt",
+                    ipSignup: "ip_signup",
+                    language: "language",
+                    lastChanged: new Date("2024-01-15T09:30:00.000Z"),
+                    listId: "list_id",
+                    marketingPermissions: [{}],
+                    memberRating: 1,
+                    mergeFields: {
+                        key: {
+                            addr1: "addr1",
+                            city: "city",
+                            state: "state",
+                            zip: "zip",
+                        },
+                    },
+                    smsPhoneNumber: "sms_phone_number",
+                    smsSubscriptionLastUpdated: "sms_subscription_last_updated",
+                    smsSubscriptionStatus: "subscribed",
+                    source: "source",
+                    stats: {
+                        ecommerceData: {
+                            currencyCode: "USD",
+                        },
+                    },
+                    status: "subscribed",
+                    tags: [{}],
+                    tagsCount: 1,
+                    timestampOpt: new Date("2024-01-15T09:30:00.000Z"),
+                    timestampSignup: new Date("2024-01-15T09:30:00.000Z"),
+                    uniqueEmailId: "unique_email_id",
+                    unsubscribeReason: "unsubscribe_reason",
+                    vip: true,
+                    webId: 1,
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.lists.listMembers({
-            list_id: "list_id",
+            listId: "list_id",
         });
 
         expect(expected.members).toEqual(page.data);
@@ -1066,11 +1749,97 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.createMember({
-            list_id: "list_id",
-            email_address: "email_address",
+            listId: "list_id",
+            emailAddress: "email_address",
             status: "subscribed",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            consentsToOneToOneMessaging: true,
+            contactId: "contact_id",
+            emailAddress: "email_address",
+            emailClient: "email_client",
+            emailType: {
+                key: "value",
+            },
+            id: "id",
+            interests: {
+                key: true,
+            },
+            ipOpt: "ip_opt",
+            ipSignup: "ip_signup",
+            language: "language",
+            lastChanged: new Date("2024-01-15T09:30:00.000Z"),
+            lastNote: {
+                createdAt: new Date("2024-01-15T09:30:00.000Z"),
+                createdBy: "created_by",
+                note: "note",
+                noteId: 1,
+            },
+            listId: "list_id",
+            location: {
+                countryCode: "country_code",
+                dstoff: 1,
+                gmtoff: 1,
+                latitude: 1.1,
+                longitude: 1.1,
+                region: "region",
+                timezone: "timezone",
+            },
+            marketingPermissions: [
+                {
+                    enabled: true,
+                    marketingPermissionId: "marketing_permission_id",
+                    text: "text",
+                },
+            ],
+            memberRating: 1,
+            mergeFields: {
+                key: {
+                    addr1: "addr1",
+                    addr2: "addr2",
+                    city: "city",
+                    state: "state",
+                    zip: "zip",
+                    country: "country",
+                },
+            },
+            smsPhoneNumber: "sms_phone_number",
+            smsSubscriptionLastUpdated: "sms_subscription_last_updated",
+            smsSubscriptionStatus: "subscribed",
+            source: "source",
+            stats: {
+                avgClickRate: 1.1,
+                avgOpenRate: 1.1,
+                ecommerceData: {
+                    currencyCode: "USD",
+                    numberOfOrders: 1.1,
+                    totalRevenue: 1.1,
+                },
+            },
+            status: "subscribed",
+            tags: [
+                {
+                    id: 1,
+                    name: "name",
+                },
+            ],
+            tagsCount: 1,
+            timestampOpt: new Date("2024-01-15T09:30:00.000Z"),
+            timestampSignup: new Date("2024-01-15T09:30:00.000Z"),
+            uniqueEmailId: "unique_email_id",
+            unsubscribeReason: "unsubscribe_reason",
+            vip: true,
+            webId: 1,
+        });
     });
 
     test("get-member", async () => {
@@ -1137,10 +1906,96 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.getMember({
-            list_id: "list_id",
-            subscriber_hash: "subscriber_hash",
+            listId: "list_id",
+            subscriberHash: "subscriber_hash",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            consentsToOneToOneMessaging: true,
+            contactId: "contact_id",
+            emailAddress: "email_address",
+            emailClient: "email_client",
+            emailType: {
+                key: "value",
+            },
+            id: "id",
+            interests: {
+                key: true,
+            },
+            ipOpt: "ip_opt",
+            ipSignup: "ip_signup",
+            language: "language",
+            lastChanged: new Date("2024-01-15T09:30:00.000Z"),
+            lastNote: {
+                createdAt: new Date("2024-01-15T09:30:00.000Z"),
+                createdBy: "created_by",
+                note: "note",
+                noteId: 1,
+            },
+            listId: "list_id",
+            location: {
+                countryCode: "country_code",
+                dstoff: 1,
+                gmtoff: 1,
+                latitude: 1.1,
+                longitude: 1.1,
+                region: "region",
+                timezone: "timezone",
+            },
+            marketingPermissions: [
+                {
+                    enabled: true,
+                    marketingPermissionId: "marketing_permission_id",
+                    text: "text",
+                },
+            ],
+            memberRating: 1,
+            mergeFields: {
+                key: {
+                    addr1: "addr1",
+                    addr2: "addr2",
+                    city: "city",
+                    state: "state",
+                    zip: "zip",
+                    country: "country",
+                },
+            },
+            smsPhoneNumber: "sms_phone_number",
+            smsSubscriptionLastUpdated: "sms_subscription_last_updated",
+            smsSubscriptionStatus: "subscribed",
+            source: "source",
+            stats: {
+                avgClickRate: 1.1,
+                avgOpenRate: 1.1,
+                ecommerceData: {
+                    currencyCode: "USD",
+                    numberOfOrders: 1.1,
+                    totalRevenue: 1.1,
+                },
+            },
+            status: "subscribed",
+            tags: [
+                {
+                    id: 1,
+                    name: "name",
+                },
+            ],
+            tagsCount: 1,
+            timestampOpt: new Date("2024-01-15T09:30:00.000Z"),
+            timestampSignup: new Date("2024-01-15T09:30:00.000Z"),
+            uniqueEmailId: "unique_email_id",
+            unsubscribeReason: "unsubscribe_reason",
+            vip: true,
+            webId: 1,
+        });
     });
 
     test("upsert-member", async () => {
@@ -1208,11 +2063,97 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.upsertMember({
-            list_id: "list_id",
-            subscriber_hash: "subscriber_hash",
-            email_address: "email_address",
+            listId: "list_id",
+            subscriberHash: "subscriber_hash",
+            emailAddress: "email_address",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            consentsToOneToOneMessaging: true,
+            contactId: "contact_id",
+            emailAddress: "email_address",
+            emailClient: "email_client",
+            emailType: {
+                key: "value",
+            },
+            id: "id",
+            interests: {
+                key: true,
+            },
+            ipOpt: "ip_opt",
+            ipSignup: "ip_signup",
+            language: "language",
+            lastChanged: new Date("2024-01-15T09:30:00.000Z"),
+            lastNote: {
+                createdAt: new Date("2024-01-15T09:30:00.000Z"),
+                createdBy: "created_by",
+                note: "note",
+                noteId: 1,
+            },
+            listId: "list_id",
+            location: {
+                countryCode: "country_code",
+                dstoff: 1,
+                gmtoff: 1,
+                latitude: 1.1,
+                longitude: 1.1,
+                region: "region",
+                timezone: "timezone",
+            },
+            marketingPermissions: [
+                {
+                    enabled: true,
+                    marketingPermissionId: "marketing_permission_id",
+                    text: "text",
+                },
+            ],
+            memberRating: 1,
+            mergeFields: {
+                key: {
+                    addr1: "addr1",
+                    addr2: "addr2",
+                    city: "city",
+                    state: "state",
+                    zip: "zip",
+                    country: "country",
+                },
+            },
+            smsPhoneNumber: "sms_phone_number",
+            smsSubscriptionLastUpdated: "sms_subscription_last_updated",
+            smsSubscriptionStatus: "subscribed",
+            source: "source",
+            stats: {
+                avgClickRate: 1.1,
+                avgOpenRate: 1.1,
+                ecommerceData: {
+                    currencyCode: "USD",
+                    numberOfOrders: 1.1,
+                    totalRevenue: 1.1,
+                },
+            },
+            status: "subscribed",
+            tags: [
+                {
+                    id: 1,
+                    name: "name",
+                },
+            ],
+            tagsCount: 1,
+            timestampOpt: new Date("2024-01-15T09:30:00.000Z"),
+            timestampSignup: new Date("2024-01-15T09:30:00.000Z"),
+            uniqueEmailId: "unique_email_id",
+            unsubscribeReason: "unsubscribe_reason",
+            vip: true,
+            webId: 1,
+        });
     });
 
     test("delete-member", async () => {
@@ -1227,8 +2168,8 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.deleteMember({
-            list_id: "list_id",
-            subscriber_hash: "subscriber_hash",
+            listId: "list_id",
+            subscriberHash: "subscriber_hash",
         });
         expect(response).toEqual(undefined);
     });
@@ -1298,10 +2239,96 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.updateMember({
-            list_id: "list_id",
-            subscriber_hash: "subscriber_hash",
+            listId: "list_id",
+            subscriberHash: "subscriber_hash",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            consentsToOneToOneMessaging: true,
+            contactId: "contact_id",
+            emailAddress: "email_address",
+            emailClient: "email_client",
+            emailType: {
+                key: "value",
+            },
+            id: "id",
+            interests: {
+                key: true,
+            },
+            ipOpt: "ip_opt",
+            ipSignup: "ip_signup",
+            language: "language",
+            lastChanged: new Date("2024-01-15T09:30:00.000Z"),
+            lastNote: {
+                createdAt: new Date("2024-01-15T09:30:00.000Z"),
+                createdBy: "created_by",
+                note: "note",
+                noteId: 1,
+            },
+            listId: "list_id",
+            location: {
+                countryCode: "country_code",
+                dstoff: 1,
+                gmtoff: 1,
+                latitude: 1.1,
+                longitude: 1.1,
+                region: "region",
+                timezone: "timezone",
+            },
+            marketingPermissions: [
+                {
+                    enabled: true,
+                    marketingPermissionId: "marketing_permission_id",
+                    text: "text",
+                },
+            ],
+            memberRating: 1,
+            mergeFields: {
+                key: {
+                    addr1: "addr1",
+                    addr2: "addr2",
+                    city: "city",
+                    state: "state",
+                    zip: "zip",
+                    country: "country",
+                },
+            },
+            smsPhoneNumber: "sms_phone_number",
+            smsSubscriptionLastUpdated: "sms_subscription_last_updated",
+            smsSubscriptionStatus: "subscribed",
+            source: "source",
+            stats: {
+                avgClickRate: 1.1,
+                avgOpenRate: 1.1,
+                ecommerceData: {
+                    currencyCode: "USD",
+                    numberOfOrders: 1.1,
+                    totalRevenue: 1.1,
+                },
+            },
+            status: "subscribed",
+            tags: [
+                {
+                    id: 1,
+                    name: "name",
+                },
+            ],
+            tagsCount: 1,
+            timestampOpt: new Date("2024-01-15T09:30:00.000Z"),
+            timestampSignup: new Date("2024-01-15T09:30:00.000Z"),
+            uniqueEmailId: "unique_email_id",
+            unsubscribeReason: "unsubscribe_reason",
+            vip: true,
+            webId: 1,
+        });
     });
 
     test("create-member-action-delete-permanent", async () => {
@@ -1316,8 +2343,8 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.createMemberActionDeletePermanent({
-            list_id: "list_id",
-            subscriber_hash: "subscriber_hash",
+            listId: "list_id",
+            subscriberHash: "subscriber_hash",
         });
         expect(response).toEqual(undefined);
     });
@@ -1354,10 +2381,35 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.listMemberActivity({
-            list_id: "list_id",
-            subscriber_hash: "subscriber_hash",
+            listId: "list_id",
+            subscriberHash: "subscriber_hash",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            activity: [
+                {
+                    action: "action",
+                    campaignId: "campaign_id",
+                    parentCampaign: "parent_campaign",
+                    timestamp: new Date("2024-01-15T09:30:00.000Z"),
+                    title: "title",
+                    type: "type",
+                    url: "url",
+                },
+            ],
+            contactId: "contact_id",
+            emailId: "email_id",
+            listId: "list_id",
+            totalItems: 1,
+        });
     });
 
     test("list-member-activity-feed", async () => {
@@ -1379,10 +2431,27 @@ describe("ListsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            activity: [
+                {
+                    key: "value",
+                },
+            ],
+            emailId: "email_id",
+            listId: "list_id",
+        };
         const page = await client.lists.listMemberActivityFeed({
-            list_id: "list_id",
-            subscriber_hash: "subscriber_hash",
+            listId: "list_id",
+            subscriberHash: "subscriber_hash",
         });
 
         expect(expected.activity).toEqual(page.data);
@@ -1409,10 +2478,30 @@ describe("ListsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            events: [
+                {
+                    name: "name",
+                    occurredAt: new Date("2024-01-15T09:30:00.000Z"),
+                    properties: {
+                        key: "value",
+                    },
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.lists.listMemberEvents({
-            list_id: "list_id",
-            subscriber_hash: "subscriber_hash",
+            listId: "list_id",
+            subscriberHash: "subscriber_hash",
         });
 
         expect(expected.events).toEqual(page.data);
@@ -1435,8 +2524,8 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.createMemberEvent({
-            list_id: "list_id",
-            subscriber_hash: "subscriber_hash",
+            listId: "list_id",
+            subscriberHash: "subscriber_hash",
             name: "name",
         });
         expect(response).toEqual(undefined);
@@ -1463,10 +2552,31 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.listMemberGoals({
-            list_id: "list_id",
-            subscriber_hash: "subscriber_hash",
+            listId: "list_id",
+            subscriberHash: "subscriber_hash",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            emailId: "email_id",
+            goals: [
+                {
+                    data: "data",
+                    event: "event",
+                    goalId: 1,
+                    lastVisitedAt: new Date("2024-01-15T09:30:00.000Z"),
+                },
+            ],
+            listId: "list_id",
+            totalItems: 1,
+        });
     });
 
     test("list-member-notes", async () => {
@@ -1501,10 +2611,36 @@ describe("ListsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            emailId: "email_id",
+            listId: "list_id",
+            notes: [
+                {
+                    links: [{}],
+                    contactId: "contact_id",
+                    createdAt: new Date("2024-01-15T09:30:00.000Z"),
+                    createdBy: "created_by",
+                    emailId: "email_id",
+                    id: 1,
+                    listId: "list_id",
+                    note: "note",
+                    updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.lists.listMemberNotes({
-            list_id: "list_id",
-            subscriber_hash: "subscriber_hash",
+            listId: "list_id",
+            subscriberHash: "subscriber_hash",
         });
 
         expect(expected.notes).toEqual(page.data);
@@ -1539,10 +2675,28 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.createMemberNote({
-            list_id: "list_id",
-            subscriber_hash: "subscriber_hash",
+            listId: "list_id",
+            subscriberHash: "subscriber_hash",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            contactId: "contact_id",
+            createdAt: new Date("2024-01-15T09:30:00.000Z"),
+            createdBy: "created_by",
+            emailId: "email_id",
+            id: 1,
+            listId: "list_id",
+            note: "note",
+            updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+        });
     });
 
     test("get-member-note", async () => {
@@ -1570,11 +2724,29 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.getMemberNote({
-            list_id: "list_id",
-            subscriber_hash: "subscriber_hash",
-            note_id: "note_id",
+            listId: "list_id",
+            subscriberHash: "subscriber_hash",
+            noteId: "note_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            contactId: "contact_id",
+            createdAt: new Date("2024-01-15T09:30:00.000Z"),
+            createdBy: "created_by",
+            emailId: "email_id",
+            id: 1,
+            listId: "list_id",
+            note: "note",
+            updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+        });
     });
 
     test("delete-member-note", async () => {
@@ -1589,9 +2761,9 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.deleteMemberNote({
-            list_id: "list_id",
-            subscriber_hash: "subscriber_hash",
-            note_id: "note_id",
+            listId: "list_id",
+            subscriberHash: "subscriber_hash",
+            noteId: "note_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -1622,11 +2794,29 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.updateMemberNote({
-            list_id: "list_id",
-            subscriber_hash: "subscriber_hash",
-            note_id: "note_id",
+            listId: "list_id",
+            subscriberHash: "subscriber_hash",
+            noteId: "note_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            contactId: "contact_id",
+            createdAt: new Date("2024-01-15T09:30:00.000Z"),
+            createdBy: "created_by",
+            emailId: "email_id",
+            id: 1,
+            listId: "list_id",
+            note: "note",
+            updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+        });
     });
 
     test("list-member-tags", async () => {
@@ -1647,10 +2837,28 @@ describe("ListsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            tags: [
+                {
+                    dateAdded: new Date("2024-01-15T09:30:00.000Z"),
+                    id: 1,
+                    name: "name",
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.lists.listMemberTags({
-            list_id: "list_id",
-            subscriber_hash: "subscriber_hash",
+            listId: "list_id",
+            subscriberHash: "subscriber_hash",
         });
 
         expect(expected.tags).toEqual(page.data);
@@ -1673,8 +2881,8 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.createMemberTag({
-            list_id: "list_id",
-            subscriber_hash: "subscriber_hash",
+            listId: "list_id",
+            subscriberHash: "subscriber_hash",
             tags: [
                 {
                     name: "name",
@@ -1722,15 +2930,48 @@ describe("ListsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            listId: "list_id",
+            mergeFieldLimit: 30,
+            mergeFields: [
+                {
+                    links: [{}],
+                    defaultValue: "default_value",
+                    displayOrder: 1,
+                    helpText: "help_text",
+                    listId: "list_id",
+                    mergeFieldLimit: 30,
+                    mergeId: 1,
+                    name: "name",
+                    options: {
+                        choices: ["First Choice", "Second Choice", "Third Choice"],
+                    },
+                    public: true,
+                    required: true,
+                    tag: "tag",
+                    totalItems: 28,
+                    type: "text",
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.lists.listMergeFields({
-            list_id: "list_id",
+            listId: "list_id",
         });
 
-        expect(expected.merge_fields).toEqual(page.data);
+        expect(expected.mergeFields).toEqual(page.data);
         expect(page.hasNextPage()).toBe(true);
         const nextPage = await page.getNextPage();
-        expect(expected.merge_fields).toEqual(nextPage.data);
+        expect(expected.mergeFields).toEqual(nextPage.data);
     });
 
     test("create-merge-field", async () => {
@@ -1770,11 +3011,40 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.createMergeField({
-            list_id: "list_id",
+            listId: "list_id",
             name: "name",
             type: "text",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            defaultValue: "default_value",
+            displayOrder: 1,
+            helpText: "help_text",
+            listId: "list_id",
+            mergeFieldLimit: 30,
+            mergeId: 1,
+            name: "name",
+            options: {
+                choices: ["First Choice", "Second Choice", "Third Choice"],
+                dateFormat: "date_format",
+                defaultCountry: 1,
+                phoneFormat: "phone_format",
+                size: 1,
+            },
+            public: true,
+            required: true,
+            tag: "tag",
+            totalItems: 28,
+            type: "text",
+        });
     });
 
     test("get-merge-field", async () => {
@@ -1813,10 +3083,39 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.getMergeField({
-            list_id: "list_id",
-            merge_id: "merge_id",
+            listId: "list_id",
+            mergeId: "merge_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            defaultValue: "default_value",
+            displayOrder: 1,
+            helpText: "help_text",
+            listId: "list_id",
+            mergeFieldLimit: 30,
+            mergeId: 1,
+            name: "name",
+            options: {
+                choices: ["First Choice", "Second Choice", "Third Choice"],
+                dateFormat: "date_format",
+                defaultCountry: 1,
+                phoneFormat: "phone_format",
+                size: 1,
+            },
+            public: true,
+            required: true,
+            tag: "tag",
+            totalItems: 28,
+            type: "text",
+        });
     });
 
     test("delete-merge-field", async () => {
@@ -1826,8 +3125,8 @@ describe("ListsClient", () => {
         server.mockEndpoint().delete("/3.0/lists/list_id/merge-fields/merge_id").respondWith().statusCode(200).build();
 
         const response = await client.lists.deleteMergeField({
-            list_id: "list_id",
-            merge_id: "merge_id",
+            listId: "list_id",
+            mergeId: "merge_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -1869,10 +3168,39 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.updateMergeField({
-            list_id: "list_id",
-            merge_id: "merge_id",
+            listId: "list_id",
+            mergeId: "merge_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            defaultValue: "default_value",
+            displayOrder: 1,
+            helpText: "help_text",
+            listId: "list_id",
+            mergeFieldLimit: 30,
+            mergeId: 1,
+            name: "name",
+            options: {
+                choices: ["First Choice", "Second Choice", "Third Choice"],
+                dateFormat: "date_format",
+                defaultCountry: 1,
+                phoneFormat: "phone_format",
+                size: 1,
+            },
+            public: true,
+            required: true,
+            tag: "tag",
+            totalItems: 28,
+            type: "text",
+        });
     });
 
     test("list-segments", async () => {
@@ -1906,9 +3234,41 @@ describe("ListsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            listId: "list_id",
+            segments: [
+                {
+                    links: [{}],
+                    createdAt: new Date("2024-01-15T09:30:00.000Z"),
+                    id: 1,
+                    listId: "list_id",
+                    memberCount: 1,
+                    name: "name",
+                    options: {
+                        conditions: [
+                            {
+                                conditionType: "Aim",
+                                value: "any",
+                            },
+                        ],
+                    },
+                    type: "saved",
+                    updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.lists.listSegments({
-            list_id: "list_id",
+            listId: "list_id",
         });
 
         expect(expected.segments).toEqual(page.data);
@@ -1943,10 +3303,36 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.createSegment({
-            list_id: "list_id",
+            listId: "list_id",
             name: "name",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            createdAt: new Date("2024-01-15T09:30:00.000Z"),
+            id: 1,
+            listId: "list_id",
+            memberCount: 1,
+            name: "name",
+            options: {
+                conditions: [
+                    {
+                        conditionType: "Aim",
+                        value: "any",
+                    },
+                ],
+                match: "any",
+            },
+            type: "saved",
+            updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+        });
     });
 
     test("get-segment", async () => {
@@ -1974,10 +3360,36 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.getSegment({
-            list_id: "list_id",
-            segment_id: "segment_id",
+            listId: "list_id",
+            segmentId: "segment_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            createdAt: new Date("2024-01-15T09:30:00.000Z"),
+            id: 1,
+            listId: "list_id",
+            memberCount: 1,
+            name: "name",
+            options: {
+                conditions: [
+                    {
+                        conditionType: "Aim",
+                        value: "any",
+                    },
+                ],
+                match: "any",
+            },
+            type: "saved",
+            updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+        });
     });
 
     test("batch-add-or-remove-members", async () => {
@@ -2052,10 +3464,87 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.batchAddOrRemoveMembers({
-            list_id: "list_id",
-            segment_id: "segment_id",
+            listId: "list_id",
+            segmentId: "segment_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            errorCount: 42,
+            errors: [
+                {
+                    emailAddresses: ["email_addresses"],
+                    error: "error",
+                },
+            ],
+            membersAdded: [
+                {
+                    links: [{}],
+                    contactId: "contact_id",
+                    emailAddress: "email_address",
+                    emailClient: "email_client",
+                    emailType: "email_type",
+                    id: "id",
+                    interests: {
+                        key: true,
+                    },
+                    ipOpt: "ip_opt",
+                    ipSignup: "ip_signup",
+                    language: "language",
+                    lastChanged: new Date("2024-01-15T09:30:00.000Z"),
+                    listId: "list_id",
+                    memberRating: 1,
+                    mergeFields: {
+                        key: "value",
+                    },
+                    status: "subscribed",
+                    tags: [{}],
+                    tagsCount: 1,
+                    timestampOpt: new Date("2024-01-15T09:30:00.000Z"),
+                    timestampSignup: new Date("2024-01-15T09:30:00.000Z"),
+                    uniqueEmailId: "unique_email_id",
+                    vip: true,
+                },
+            ],
+            membersRemoved: [
+                {
+                    links: [{}],
+                    contactId: "contact_id",
+                    emailAddress: "email_address",
+                    emailClient: "email_client",
+                    emailType: "email_type",
+                    id: "id",
+                    interests: {
+                        key: true,
+                    },
+                    ipOpt: "ip_opt",
+                    ipSignup: "ip_signup",
+                    language: "language",
+                    lastChanged: new Date("2024-01-15T09:30:00.000Z"),
+                    listId: "list_id",
+                    memberRating: 1,
+                    mergeFields: {
+                        key: "value",
+                    },
+                    status: "subscribed",
+                    tags: [{}],
+                    tagsCount: 1,
+                    timestampOpt: new Date("2024-01-15T09:30:00.000Z"),
+                    timestampSignup: new Date("2024-01-15T09:30:00.000Z"),
+                    uniqueEmailId: "unique_email_id",
+                    vip: true,
+                },
+            ],
+            totalAdded: 42,
+            totalRemoved: 42,
+        });
     });
 
     test("delete-segment", async () => {
@@ -2065,8 +3554,8 @@ describe("ListsClient", () => {
         server.mockEndpoint().delete("/3.0/lists/list_id/segments/segment_id").respondWith().statusCode(200).build();
 
         const response = await client.lists.deleteSegment({
-            list_id: "list_id",
-            segment_id: "segment_id",
+            listId: "list_id",
+            segmentId: "segment_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -2097,10 +3586,36 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.updateSegment({
-            list_id: "list_id",
-            segment_id: "segment_id",
+            listId: "list_id",
+            segmentId: "segment_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            createdAt: new Date("2024-01-15T09:30:00.000Z"),
+            id: 1,
+            listId: "list_id",
+            memberCount: 1,
+            name: "name",
+            options: {
+                conditions: [
+                    {
+                        conditionType: "Aim",
+                        value: "any",
+                    },
+                ],
+                match: "any",
+            },
+            type: "saved",
+            updatedAt: new Date("2024-01-15T09:30:00.000Z"),
+        });
     });
 
     test("list-segment-members", async () => {
@@ -2143,10 +3658,53 @@ describe("ListsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const expected = rawResponseBody;
+        const expected = {
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            members: [
+                {
+                    links: [{}],
+                    emailAddress: "email_address",
+                    emailClient: "email_client",
+                    emailType: "email_type",
+                    fullName: "full_name",
+                    id: "id",
+                    interests: {
+                        key: true,
+                    },
+                    ipOpt: "ip_opt",
+                    ipSignup: "ip_signup",
+                    language: "language",
+                    lastChanged: new Date("2024-01-15T09:30:00.000Z"),
+                    listId: "list_id",
+                    memberRating: 1,
+                    mergeFields: {
+                        key: {
+                            addr1: "addr1",
+                            city: "city",
+                            state: "state",
+                            zip: "zip",
+                        },
+                    },
+                    status: "subscribed",
+                    timestampOpt: new Date("2024-01-15T09:30:00.000Z"),
+                    timestampSignup: new Date("2024-01-15T09:30:00.000Z"),
+                    uniqueEmailId: "unique_email_id",
+                    vip: true,
+                },
+            ],
+            totalItems: 1,
+        };
         const page = await client.lists.listSegmentMembers({
-            list_id: "list_id",
-            segment_id: "segment_id",
+            listId: "list_id",
+            segmentId: "segment_id",
         });
 
         expect(expected.members).toEqual(page.data);
@@ -2203,11 +3761,68 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.createSegmentMember({
-            list_id: "list_id",
-            segment_id: "segment_id",
-            email_address: "email_address",
+            listId: "list_id",
+            segmentId: "segment_id",
+            emailAddress: "email_address",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            emailAddress: "email_address",
+            emailClient: "email_client",
+            emailType: "email_type",
+            fullName: "full_name",
+            id: "id",
+            interests: {
+                key: true,
+            },
+            ipOpt: "ip_opt",
+            ipSignup: "ip_signup",
+            language: "language",
+            lastChanged: new Date("2024-01-15T09:30:00.000Z"),
+            lastNote: {
+                createdAt: new Date("2024-01-15T09:30:00.000Z"),
+                createdBy: "created_by",
+                note: "note",
+                noteId: 1,
+            },
+            listId: "list_id",
+            location: {
+                countryCode: "country_code",
+                dstoff: 1,
+                gmtoff: 1,
+                latitude: 1.1,
+                longitude: 1.1,
+                timezone: "timezone",
+            },
+            memberRating: 1,
+            mergeFields: {
+                key: {
+                    addr1: "addr1",
+                    addr2: "addr2",
+                    city: "city",
+                    state: "state",
+                    zip: "zip",
+                    country: "country",
+                },
+            },
+            stats: {
+                avgClickRate: 1.1,
+                avgOpenRate: 1.1,
+            },
+            status: "subscribed",
+            timestampOpt: new Date("2024-01-15T09:30:00.000Z"),
+            timestampSignup: new Date("2024-01-15T09:30:00.000Z"),
+            uniqueEmailId: "unique_email_id",
+            vip: true,
+        });
     });
 
     test("delete-segment-member", async () => {
@@ -2222,9 +3837,9 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.deleteSegmentMember({
-            list_id: "list_id",
-            segment_id: "segment_id",
-            subscriber_hash: "subscriber_hash",
+            listId: "list_id",
+            segmentId: "segment_id",
+            subscriberHash: "subscriber_hash",
         });
         expect(response).toEqual(undefined);
     });
@@ -2268,9 +3883,54 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.listSignupForms({
-            list_id: "list_id",
+            listId: "list_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            listId: "list_id",
+            signupForms: [
+                {
+                    links: [{}],
+                    contents: [
+                        {
+                            value: "Signup message goes here",
+                        },
+                    ],
+                    header: {
+                        imageAlt: "This is an image",
+                        imageBorderColor: "#896d6d",
+                        imageBorderWidth: "2",
+                        imageHeight: "200",
+                        imageLink: "gotothisimage.com",
+                        imageUrl:
+                            "http://gallery.mailchimp.com/332310cb9a420a9e7fea2858a/images/2491208c-9458-4834-a708-fef4ee736472.png",
+                        imageWidth: "800",
+                        text: "Header Text goes here",
+                    },
+                    listId: "4ca5becb8d",
+                    signupFormUrl: "signup_form_url",
+                    styles: [
+                        {
+                            options: [
+                                {
+                                    property: "background-color",
+                                    value: "#111111",
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+            totalItems: 1,
+        });
     });
 
     test("create-signup-form", async () => {
@@ -2309,9 +3969,52 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.createSignupForm({
-            list_id: "list_id",
+            listId: "list_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            contents: [
+                {
+                    section: "signup_message",
+                    value: "Signup message goes here",
+                },
+            ],
+            header: {
+                imageAlign: "none",
+                imageAlt: "This is an image",
+                imageBorderColor: "#896d6d",
+                imageBorderStyle: "none",
+                imageBorderWidth: "2",
+                imageHeight: "200",
+                imageLink: "gotothisimage.com",
+                imageTarget: "_blank",
+                imageUrl:
+                    "http://gallery.mailchimp.com/332310cb9a420a9e7fea2858a/images/2491208c-9458-4834-a708-fef4ee736472.png",
+                imageWidth: "800",
+                text: "Header Text goes here",
+            },
+            listId: "4ca5becb8d",
+            signupFormUrl: "signup_form_url",
+            styles: [
+                {
+                    options: [
+                        {
+                            property: "background-color",
+                            value: "#111111",
+                        },
+                    ],
+                    selector: "page_background",
+                },
+            ],
+        });
     });
 
     test("list-surveys", async () => {
@@ -2329,9 +4032,11 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.listSurveys({
-            list_id: "list_id",
+            listId: "list_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            key: "value",
+        });
     });
 
     test("create-survey", async () => {
@@ -2350,9 +4055,11 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.createSurvey({
-            list_id: "list_id",
+            listId: "list_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            key: "value",
+        });
     });
 
     test("get-survey", async () => {
@@ -2370,10 +4077,12 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.getSurvey({
-            list_id: "list_id",
-            survey_id: "survey_id",
+            listId: "list_id",
+            surveyId: "survey_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            key: "value",
+        });
     });
 
     test("delete-survey", async () => {
@@ -2383,8 +4092,8 @@ describe("ListsClient", () => {
         server.mockEndpoint().delete("/3.0/lists/list_id/surveys/survey_id").respondWith().statusCode(200).build();
 
         const response = await client.lists.deleteSurvey({
-            list_id: "list_id",
-            survey_id: "survey_id",
+            listId: "list_id",
+            surveyId: "survey_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -2405,10 +4114,12 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.updateSurvey({
-            list_id: "list_id",
-            survey_id: "survey_id",
+            listId: "list_id",
+            surveyId: "survey_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            key: "value",
+        });
     });
 
     test("create-list-survey-action-replicate", async () => {
@@ -2427,10 +4138,12 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.createListSurveyActionReplicate({
-            list_idPathParam: "list_id",
-            survey_id: "survey_id",
+            listIdPathParam: "list_id",
+            surveyId: "survey_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            key: "value",
+        });
     });
 
     test("list-tag-search", async () => {
@@ -2448,9 +4161,17 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.listTagSearch({
-            list_id: "list_id",
+            listId: "list_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            tags: [
+                {
+                    id: 1,
+                    name: "name",
+                },
+            ],
+            totalItems: 1,
+        });
     });
 
     test("list-webhooks", async () => {
@@ -2479,7 +4200,6 @@ describe("ListsClient", () => {
                     id: "5d9a5e3f7b",
                     list_id: "4ca5becb8d",
                     signing_enabled: true,
-                    signing_secret: "zI3tsLziqBWhlz6V4PRlGg41u0gdhu7LhYXX4wa0ARM",
                     sources: { admin: true, api: true, user: true },
                     url: "http://yourdomain.com/webhook",
                 },
@@ -2495,9 +4215,47 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.listWebhooks({
-            list_id: "list_id",
+            listId: "list_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            listId: "list_id",
+            totalItems: 1,
+            webhooks: [
+                {
+                    links: [{}],
+                    events: {
+                        campaign: true,
+                        cleaned: true,
+                        profile: true,
+                        subscribe: true,
+                        unsubscribe: true,
+                        upemail: true,
+                        smsSubscribe: true,
+                        smsUnsubscribe: true,
+                        upsms: true,
+                        smsCampaign: true,
+                    },
+                    id: "5d9a5e3f7b",
+                    listId: "4ca5becb8d",
+                    signingEnabled: true,
+                    sources: {
+                        admin: true,
+                        api: true,
+                        user: true,
+                    },
+                    url: "http://yourdomain.com/webhook",
+                },
+            ],
+        });
     });
 
     test("create-webhook", async () => {
@@ -2521,9 +4279,9 @@ describe("ListsClient", () => {
             id: "5d9a5e3f7b",
             list_id: "4ca5becb8d",
             signing_enabled: true,
-            signing_secret: "zI3tsLziqBWhlz6V4PRlGg41u0gdhu7LhYXX4wa0ARM",
             sources: { admin: true, api: true, user: true },
             url: "http://yourdomain.com/webhook",
+            signing_secret: "zI3tsLziqBWhlz6V4PRlGg41u0gdhu7LhYXX4wa0ARM",
         };
 
         server
@@ -2536,10 +4294,42 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.createWebhook({
-            list_id: "list_id",
+            listId: "list_id",
             body: {},
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            events: {
+                campaign: true,
+                cleaned: true,
+                profile: true,
+                subscribe: true,
+                unsubscribe: true,
+                upemail: true,
+                smsSubscribe: true,
+                smsUnsubscribe: true,
+                upsms: true,
+                smsCampaign: true,
+            },
+            id: "5d9a5e3f7b",
+            listId: "4ca5becb8d",
+            signingEnabled: true,
+            sources: {
+                admin: true,
+                api: true,
+                user: true,
+            },
+            url: "http://yourdomain.com/webhook",
+            signingSecret: "zI3tsLziqBWhlz6V4PRlGg41u0gdhu7LhYXX4wa0ARM",
+        });
     });
 
     test("get-webhook", async () => {
@@ -2563,7 +4353,6 @@ describe("ListsClient", () => {
             id: "5d9a5e3f7b",
             list_id: "4ca5becb8d",
             signing_enabled: true,
-            signing_secret: "zI3tsLziqBWhlz6V4PRlGg41u0gdhu7LhYXX4wa0ARM",
             sources: { admin: true, api: true, user: true },
             url: "http://yourdomain.com/webhook",
         };
@@ -2577,10 +4366,41 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.getWebhook({
-            list_id: "list_id",
-            webhook_id: "webhook_id",
+            listId: "list_id",
+            webhookId: "webhook_id",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            events: {
+                campaign: true,
+                cleaned: true,
+                profile: true,
+                subscribe: true,
+                unsubscribe: true,
+                upemail: true,
+                smsSubscribe: true,
+                smsUnsubscribe: true,
+                upsms: true,
+                smsCampaign: true,
+            },
+            id: "5d9a5e3f7b",
+            listId: "4ca5becb8d",
+            signingEnabled: true,
+            sources: {
+                admin: true,
+                api: true,
+                user: true,
+            },
+            url: "http://yourdomain.com/webhook",
+        });
     });
 
     test("delete-webhook", async () => {
@@ -2590,8 +4410,8 @@ describe("ListsClient", () => {
         server.mockEndpoint().delete("/3.0/lists/list_id/webhooks/webhook_id").respondWith().statusCode(200).build();
 
         const response = await client.lists.deleteWebhook({
-            list_id: "list_id",
-            webhook_id: "webhook_id",
+            listId: "list_id",
+            webhookId: "webhook_id",
         });
         expect(response).toEqual(undefined);
     });
@@ -2617,7 +4437,6 @@ describe("ListsClient", () => {
             id: "5d9a5e3f7b",
             list_id: "4ca5becb8d",
             signing_enabled: true,
-            signing_secret: "zI3tsLziqBWhlz6V4PRlGg41u0gdhu7LhYXX4wa0ARM",
             sources: { admin: true, api: true, user: true },
             url: "http://yourdomain.com/webhook",
         };
@@ -2632,10 +4451,41 @@ describe("ListsClient", () => {
             .build();
 
         const response = await client.lists.updateWebhook({
-            list_id: "list_id",
-            webhook_id: "webhook_id",
+            listId: "list_id",
+            webhookId: "webhook_id",
             body: {},
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            links: [
+                {
+                    href: "href",
+                    method: "GET",
+                    rel: "rel",
+                    schema: "schema",
+                    targetSchema: "targetSchema",
+                },
+            ],
+            events: {
+                campaign: true,
+                cleaned: true,
+                profile: true,
+                subscribe: true,
+                unsubscribe: true,
+                upemail: true,
+                smsSubscribe: true,
+                smsUnsubscribe: true,
+                upsms: true,
+                smsCampaign: true,
+            },
+            id: "5d9a5e3f7b",
+            listId: "4ca5becb8d",
+            signingEnabled: true,
+            sources: {
+                admin: true,
+                api: true,
+                user: true,
+            },
+            url: "http://yourdomain.com/webhook",
+        });
     });
 });

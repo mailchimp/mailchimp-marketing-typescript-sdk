@@ -8,6 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace BatchesClient {
@@ -16,6 +17,9 @@ export declare namespace BatchesClient {
     export interface RequestOptions extends BaseRequestOptions {}
 }
 
+/**
+ * Submit and monitor batch operations that run many requests asynchronously.
+ */
 export class BatchesClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<BatchesClient.Options>;
 
@@ -43,7 +47,7 @@ export class BatchesClient {
             async (
                 request: Mailchimp.ListBatchesRequest,
             ): Promise<core.WithRawResponse<Mailchimp.ListBatchesResponse>> => {
-                const { fields, exclude_fields: excludeFields, count, offset } = request;
+                const { fields, excludeFields, count, offset } = request;
                 const _queryParams: Record<string, unknown> = {
                     fields,
                     exclude_fields: excludeFields,
@@ -80,7 +84,13 @@ export class BatchesClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListBatchesResponse,
+                        data: serializers.ListBatchesResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -154,7 +164,13 @@ export class BatchesClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateBatchesRequest.jsonOrThrow(request, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -162,7 +178,16 @@ export class BatchesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.Batch, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.Batch.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -187,7 +212,7 @@ export class BatchesClient {
      *
      * @example
      *     await client.batches.get({
-     *         batch_id: "batch_id"
+     *         batchId: "batch_id"
      *     })
      */
     public get(
@@ -201,7 +226,7 @@ export class BatchesClient {
         request: Mailchimp.GetBatchesRequest,
         requestOptions?: BatchesClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.Batch>> {
-        const { batch_id: batchId, fields, exclude_fields: excludeFields } = request;
+        const { batchId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -235,7 +260,16 @@ export class BatchesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.Batch, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.Batch.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -260,7 +294,7 @@ export class BatchesClient {
      *
      * @example
      *     await client.batches.delete({
-     *         batch_id: "batch_id"
+     *         batchId: "batch_id"
      *     })
      */
     public delete(
@@ -274,7 +308,7 @@ export class BatchesClient {
         request: Mailchimp.DeleteBatchesRequest,
         requestOptions?: BatchesClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { batch_id: batchId } = request;
+        const { batchId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,

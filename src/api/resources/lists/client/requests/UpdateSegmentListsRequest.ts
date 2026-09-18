@@ -5,39 +5,19 @@ import type * as Mailchimp from "../../../../index.js";
 /**
  * @example
  *     {
- *         list_id: "list_id",
- *         segment_id: "segment_id"
+ *         listId: "list_id",
+ *         segmentId: "segment_id"
  *     }
  */
 export interface UpdateSegmentListsRequest {
     /** The unique ID for the list. */
-    list_id: string;
+    listId: string;
     /** The unique id for the segment. */
-    segment_id: string;
+    segmentId: string;
     /** The name of the segment. */
     name?: string;
     /** The [conditions of the segment](https://mailchimp.com/help/save-and-manage-segments/). Static and fuzzy segments don't have conditions. */
-    options?: UpdateSegmentListsRequest.Options;
+    options?: Mailchimp.UpdateSegmentListsRequestOptions;
     /** An array of emails to be used for a static segment. Any emails provided that are not present on the list will be ignored. Passing an empty array for an existing static segment will reset that segment and remove all members. This field cannot be provided with the `options` field. */
-    static_segment?: string[];
-}
-
-export namespace UpdateSegmentListsRequest {
-    /**
-     * The [conditions of the segment](https://mailchimp.com/help/save-and-manage-segments/). Static and fuzzy segments don't have conditions.
-     */
-    export interface Options {
-        conditions?: Mailchimp.SegmentType | undefined;
-        /** Match type. */
-        match?: Options.Match | undefined;
-    }
-
-    export namespace Options {
-        /** Match type. */
-        export const Match = {
-            Any: "any",
-            All: "all",
-        } as const;
-        export type Match = (typeof Match)[keyof typeof Match];
-    }
+    staticSegment?: string[];
 }

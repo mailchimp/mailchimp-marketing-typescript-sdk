@@ -3,14 +3,14 @@
 /**
  * @example
  *     {
- *         app_id: "app_id"
+ *         appId: "app_id"
  *     }
  */
 export interface GetAuthorizedAppsRequest {
     /** The unique id for the connected authorized application. */
-    app_id: string;
+    appId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

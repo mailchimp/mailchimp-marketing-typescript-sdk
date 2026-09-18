@@ -8,6 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace LandingPagesClient {
@@ -46,10 +47,22 @@ export class LandingPagesClient {
         request: Mailchimp.ListLandingPagesRequest = {},
         requestOptions?: LandingPagesClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListLandingPagesResponse>> {
-        const { sort_dir: sortDir, sort_field: sortField, fields, exclude_fields: excludeFields, count } = request;
+        const { sortDir, sortField, fields, excludeFields, count } = request;
         const _queryParams: Record<string, unknown> = {
-            sort_dir: sortDir != null ? sortDir : undefined,
-            sort_field: sortField != null ? sortField : undefined,
+            sort_dir:
+                sortDir != null
+                    ? serializers.ListLandingPagesRequestSortDir.jsonOrThrow(sortDir, {
+                          unrecognizedObjectKeys: "strip",
+                          omitUndefined: true,
+                      })
+                    : undefined,
+            sort_field:
+                sortField != null
+                    ? serializers.ListLandingPagesRequestSortField.jsonOrThrow(sortField, {
+                          unrecognizedObjectKeys: "strip",
+                          omitUndefined: true,
+                      })
+                    : undefined,
             fields,
             exclude_fields: excludeFields,
             count,
@@ -83,7 +96,16 @@ export class LandingPagesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.ListLandingPagesResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.ListLandingPagesResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -120,7 +142,7 @@ export class LandingPagesClient {
         request: Mailchimp.CreateLandingPagesRequest = {},
         requestOptions?: LandingPagesClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.LandingPage>> {
-        const { use_default_list: useDefaultList, ..._body } = request;
+        const { useDefaultList, ..._body } = request;
         const _queryParams: Record<string, unknown> = {
             use_default_list: useDefaultList,
         };
@@ -146,7 +168,13 @@ export class LandingPagesClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateLandingPagesRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -154,7 +182,16 @@ export class LandingPagesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.LandingPage, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.LandingPage.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -179,7 +216,7 @@ export class LandingPagesClient {
      *
      * @example
      *     await client.landingPages.get({
-     *         page_id: "page_id"
+     *         pageId: "page_id"
      *     })
      */
     public get(
@@ -193,7 +230,7 @@ export class LandingPagesClient {
         request: Mailchimp.GetLandingPagesRequest,
         requestOptions?: LandingPagesClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.LandingPage>> {
-        const { page_id: pageId, fields, exclude_fields: excludeFields } = request;
+        const { pageId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -227,7 +264,16 @@ export class LandingPagesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.LandingPage, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.LandingPage.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -252,7 +298,7 @@ export class LandingPagesClient {
      *
      * @example
      *     await client.landingPages.delete({
-     *         page_id: "page_id"
+     *         pageId: "page_id"
      *     })
      */
     public delete(
@@ -266,7 +312,7 @@ export class LandingPagesClient {
         request: Mailchimp.DeleteLandingPagesRequest,
         requestOptions?: LandingPagesClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { page_id: pageId } = request;
+        const { pageId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -320,7 +366,7 @@ export class LandingPagesClient {
      *
      * @example
      *     await client.landingPages.update({
-     *         page_id: "page_id"
+     *         pageId: "page_id"
      *     })
      */
     public update(
@@ -334,7 +380,7 @@ export class LandingPagesClient {
         request: Mailchimp.UpdateLandingPagesRequest,
         requestOptions?: LandingPagesClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.LandingPage>> {
-        const { page_id: pageId, ..._body } = request;
+        const { pageId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -353,7 +399,13 @@ export class LandingPagesClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateLandingPagesRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -361,7 +413,16 @@ export class LandingPagesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.LandingPage, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.LandingPage.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -391,7 +452,7 @@ export class LandingPagesClient {
      *
      * @example
      *     await client.landingPages.createActionPublish({
-     *         page_id: "page_id"
+     *         pageId: "page_id"
      *     })
      */
     public createActionPublish(
@@ -405,7 +466,7 @@ export class LandingPagesClient {
         request: Mailchimp.CreateActionPublishLandingPagesRequest,
         requestOptions?: LandingPagesClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { page_id: pageId } = request;
+        const { pageId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -459,7 +520,7 @@ export class LandingPagesClient {
      *
      * @example
      *     await client.landingPages.createActionUnpublish({
-     *         page_id: "page_id"
+     *         pageId: "page_id"
      *     })
      */
     public createActionUnpublish(
@@ -473,7 +534,7 @@ export class LandingPagesClient {
         request: Mailchimp.CreateActionUnpublishLandingPagesRequest,
         requestOptions?: LandingPagesClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { page_id: pageId } = request;
+        const { pageId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -527,7 +588,7 @@ export class LandingPagesClient {
      *
      * @example
      *     await client.landingPages.listContent({
-     *         page_id: "page_id"
+     *         pageId: "page_id"
      *     })
      */
     public listContent(
@@ -541,7 +602,7 @@ export class LandingPagesClient {
         request: Mailchimp.ListContentLandingPagesRequest,
         requestOptions?: LandingPagesClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListContentLandingPagesResponse>> {
-        const { page_id: pageId, fields, exclude_fields: excludeFields } = request;
+        const { pageId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -576,7 +637,13 @@ export class LandingPagesClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListContentLandingPagesResponse,
+                data: serializers.ListContentLandingPagesResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }

@@ -3,13 +3,13 @@
 /**
  * @example
  *     {
- *         store_id: "store_id",
- *         promo_rule_id: "promo_rule_id"
+ *         storeId: "store_id",
+ *         promoRuleId: "promo_rule_id"
  *     }
  */
 export interface DeleteStorePromoRuleEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     /** The id for the promo rule of a store. */
-    promo_rule_id: string;
+    promoRuleId: string;
 }

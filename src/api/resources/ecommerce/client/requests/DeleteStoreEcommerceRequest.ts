@@ -3,10 +3,10 @@
 /**
  * @example
  *     {
- *         store_id: "store_id"
+ *         storeId: "store_id"
  *     }
  */
 export interface DeleteStoreEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
 }

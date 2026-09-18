@@ -7,199 +7,53 @@ import type * as Mailchimp from "../index.js";
  */
 export interface ECommerceOrder {
     /** A list of link types and descriptions for the API schema documents. */
-    _links?: ECommerceOrder.Links.Item[] | undefined;
+    links?: Mailchimp.ECommerceOrderLinksItem[];
     /** The billing address for the order. */
-    billing_address?: ECommerceOrder.BillingAddress | undefined;
+    billingAddress?: Mailchimp.ECommerceOrderBillingAddress;
     /** A string that uniquely identifies the campaign associated with an order. */
-    campaign_id?: string | undefined;
+    campaignId?: string;
     /** A cart id that the order was placed for. */
-    cart_id?: string | undefined;
+    cartId?: string;
     /** The date and time the order was cancelled in ISO 8601 format. */
-    cancelled_at_foreign?: string | undefined;
+    cancelledAtForeign?: Date;
     /** The three-letter ISO 4217 code for the currency that the store accepts. */
-    currency_code?: string | undefined;
-    customer?: Mailchimp.ECommerceCustomer | undefined;
+    currencyCode?: string;
+    customer?: Mailchimp.ECommerceCustomer;
     /** The total amount of the discounts to be applied to the price of the order. */
-    discount_total?: number | undefined;
+    discountTotal?: number;
     /** The order status. Use this parameter to trigger [Order Notifications](https://mailchimp.com/developer/marketing/docs/e-commerce/#order-notifications). */
-    financial_status?: string | undefined;
+    financialStatus?: string;
     /** The fulfillment status for the order. Use this parameter to trigger [Order Notifications](https://mailchimp.com/developer/marketing/docs/e-commerce/#order-notifications). */
-    fulfillment_status?: string | undefined;
+    fulfillmentStatus?: string;
     /** A unique identifier for the order. */
-    id?: string | undefined;
+    id?: string;
     /** The URL for the page where the buyer landed when entering the shop. */
-    landing_site?: string | undefined;
+    landingSite?: string;
     /** An array of the order's line items. */
-    lines?: Mailchimp.ECommerceOrderLineItem[] | undefined;
-    order_total?: ECommerceOrder.OrderTotal | undefined;
+    lines?: Mailchimp.ECommerceOrderLineItem[];
+    orderTotal?: Mailchimp.ECommerceOrderOrderTotal;
     /** The URL for the order. */
-    order_url?: string | undefined;
+    orderUrl?: string;
     /** The outreach associated with this order. For example, an email campaign or Facebook ad. */
-    outreach?: ECommerceOrder.Outreach | undefined;
+    outreach?: Mailchimp.ECommerceOrderOutreach;
     /** The date and time the order was processed in ISO 8601 format. */
-    processed_at_foreign?: string | undefined;
+    processedAtForeign?: Date;
     /** The promo codes applied on the order */
-    promos?: ECommerceOrder.Promos.Item[] | undefined;
+    promos?: Mailchimp.ECommerceOrderPromosItem[];
     /** The shipping address for the order. */
-    shipping_address?: ECommerceOrder.ShippingAddress | undefined;
-    shipping_total?: ECommerceOrder.ShippingTotal | undefined;
+    shippingAddress?: Mailchimp.ECommerceOrderShippingAddress;
+    shippingTotal?: Mailchimp.ECommerceOrderShippingTotal;
     /** The unique identifier for the store. */
-    store_id?: string | undefined;
-    tax_total?: ECommerceOrder.TaxTotal | undefined;
+    storeId?: string;
+    taxTotal?: Mailchimp.ECommerceOrderTaxTotal;
     /** The tracking carrier associated with the order. */
-    tracking_carrier?: string | undefined;
+    trackingCarrier?: string;
     /** The Mailchimp tracking code for the order. Uses the 'mc_tc' parameter in E-Commerce tracking URLs. */
-    tracking_code?: ECommerceOrder.TrackingCode | undefined;
+    trackingCode?: Mailchimp.ECommerceOrderTrackingCode;
     /** The tracking number associated with the order. */
-    tracking_number?: string | undefined;
+    trackingNumber?: string;
     /** The tracking URL associated with the order. */
-    tracking_url?: string | undefined;
+    trackingUrl?: string;
     /** The date and time the order was updated in ISO 8601 format. */
-    updated_at_foreign?: string | undefined;
-}
-
-export namespace ECommerceOrder {
-    export type Links = Links.Item[];
-
-    export namespace Links {
-        /**
-         * This object represents a link from the resource where it is found to another resource or action that may be performed.
-         */
-        export interface Item {
-            /** This property contains a fully-qualified URL that can be called to retrieve the linked resource or perform the linked action. */
-            href?: string | undefined;
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            method?: Item.Method | undefined;
-            /** As with an HTML 'rel' attribute, this describes the type of link. */
-            rel?: string | undefined;
-            /** For HTTP methods that can receive bodies (POST and PUT), this is a URL representing the schema that the body should conform to. */
-            schema?: string | undefined;
-            /** For GETs, this is a URL representing the schema that the response should conform to. */
-            targetSchema?: string | undefined;
-        }
-
-        export namespace Item {
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            export const Method = {
-                Get: "GET",
-                Post: "POST",
-                Put: "PUT",
-                Patch: "PATCH",
-                Delete: "DELETE",
-                Options: "OPTIONS",
-                Head: "HEAD",
-            } as const;
-            export type Method = (typeof Method)[keyof typeof Method];
-        }
-    }
-
-    /**
-     * The billing address for the order.
-     */
-    export interface BillingAddress {
-        /** The billing address for the order. */
-        address1?: string | undefined;
-        /** An additional field for the billing address. */
-        address2?: string | undefined;
-        /** The city in the billing address. */
-        city?: string | undefined;
-        /** The company associated with the billing address. */
-        company?: string | undefined;
-        /** The country in the billing address. */
-        country?: string | undefined;
-        /** The two-letter code for the country in the billing address. */
-        country_code?: string | undefined;
-        /** The latitude for the billing address location. */
-        latitude?: number | undefined;
-        /** The longitude for the billing address location. */
-        longitude?: number | undefined;
-        /** The name associated with an order's billing address. */
-        name?: string | undefined;
-        /** The phone number for the billing address. */
-        phone?: string | undefined;
-        /** The postal or zip code in the billing address. */
-        postal_code?: string | undefined;
-        /** The state or normalized province in the billing address. */
-        province?: string | undefined;
-        /** The two-letter code for the province or state in the billing address. */
-        province_code?: string | undefined;
-    }
-
-    export type OrderTotal = number | string;
-
-    /**
-     * The outreach associated with this order. For example, an email campaign or Facebook ad.
-     */
-    export interface Outreach {
-        /** A unique identifier for the outreach. Can be an email campaign ID. */
-        id?: string | undefined;
-        /** The name for the outreach. */
-        name?: string | undefined;
-        /** The date and time the Outreach was published in ISO 8601 format. */
-        published_time?: string | undefined;
-        /** The type of the outreach. */
-        type?: string | undefined;
-    }
-
-    export type Promos = Promos.Item[];
-
-    export namespace Promos {
-        export interface Item {
-            /** The amount of discount applied on the total price. For example if the total cost was $100 and the customer paid $95.5, amount_discounted will be 4.5 For free shipping set amount_discounted to 0 */
-            amount_discounted?: number | undefined;
-            /** The Promo Code */
-            code?: string | undefined;
-            /** Type of discount. For free shipping set type to fixed */
-            type?: Item.Type | undefined;
-        }
-
-        export namespace Item {
-            /** Type of discount. For free shipping set type to fixed */
-            export const Type = {
-                Fixed: "fixed",
-                Percentage: "percentage",
-            } as const;
-            export type Type = (typeof Type)[keyof typeof Type];
-        }
-    }
-
-    /**
-     * The shipping address for the order.
-     */
-    export interface ShippingAddress {
-        /** The shipping address for the order. */
-        address1?: string | undefined;
-        /** An additional field for the shipping address. */
-        address2?: string | undefined;
-        /** The city in the order's shipping address. */
-        city?: string | undefined;
-        /** The company associated with an order's shipping address. */
-        company?: string | undefined;
-        /** The country in the order's shipping address. */
-        country?: string | undefined;
-        /** The two-letter code for the country in the shipping address. */
-        country_code?: string | undefined;
-        /** The latitude for the shipping address location. */
-        latitude?: number | undefined;
-        /** The longitude for the shipping address location. */
-        longitude?: number | undefined;
-        /** The name associated with an order's shipping address. */
-        name?: string | undefined;
-        /** The phone number for the order's shipping address */
-        phone?: string | undefined;
-        /** The postal or zip code in the order's shipping address. */
-        postal_code?: string | undefined;
-        /** The state or normalized province in the order's shipping address. */
-        province?: string | undefined;
-        /** The two-letter code for the province or state the order's shipping address is located in. */
-        province_code?: string | undefined;
-    }
-
-    export type ShippingTotal = number | string;
-    export type TaxTotal = number | string;
-    /** The Mailchimp tracking code for the order. Uses the 'mc_tc' parameter in E-Commerce tracking URLs. */
-    export const TrackingCode = {
-        Prec: "prec",
-    } as const;
-    export type TrackingCode = (typeof TrackingCode)[keyof typeof TrackingCode];
+    updatedAtForeign?: Date;
 }

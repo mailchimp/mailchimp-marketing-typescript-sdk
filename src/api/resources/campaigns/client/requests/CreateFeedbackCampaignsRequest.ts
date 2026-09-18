@@ -3,17 +3,17 @@
 /**
  * @example
  *     {
- *         campaign_id: "campaign_id",
+ *         campaignId: "campaign_id",
  *         message: "message"
  *     }
  */
 export interface CreateFeedbackCampaignsRequest {
     /** The unique id for the campaign. */
-    campaign_id: string;
+    campaignId: string;
     /** The block id for the editable block that the feedback addresses. */
-    block_id?: number;
+    blockId?: number;
     /** The status of feedback. */
-    is_complete?: boolean;
+    isComplete?: boolean;
     /** The content of the feedback. */
     message: string;
 }

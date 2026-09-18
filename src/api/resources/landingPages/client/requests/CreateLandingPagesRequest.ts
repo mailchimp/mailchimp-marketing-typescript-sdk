@@ -1,45 +1,28 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../../../../index.js";
+
 /**
  * @example
  *     {}
  */
 export interface CreateLandingPagesRequest {
     /** Will create the Landing Page using the account's Default List instead of requiring a list_id. */
-    use_default_list?: boolean;
+    useDefaultList?: boolean;
     /** The description of this landing page. */
     description?: string;
     /** The list's ID associated with this landing page. */
-    list_id?: string;
+    listId?: string;
     /** The name of this landing page. */
     name?: string;
     /** The ID of the store associated with this landing page. */
-    store_id?: string;
+    storeId?: string;
     /** The template_id of this landing page. */
-    template_id?: number;
+    templateId?: number;
     /** The title of this landing page seen in the browser's title bar. */
     title?: string;
     /** The tracking settings applied to this landing page. */
-    tracking?: CreateLandingPagesRequest.Tracking;
+    tracking?: Mailchimp.CreateLandingPagesRequestTracking;
     /** The type of template the landing page has. */
-    type?: CreateLandingPagesRequest.Type;
-}
-
-export namespace CreateLandingPagesRequest {
-    /**
-     * The tracking settings applied to this landing page.
-     */
-    export interface Tracking {
-        /** Google offers restricted data processing in connection with the California Consumer Privacy Act (CCPA) to restrict how Google uses certain identifiers and other data processed in the provision of its services. You can learn more about Google's restricted data processing within Google Ads [here](https://privacy.google.com/businesses/rdp/). */
-        enable_restricted_data_processing?: boolean | undefined;
-        /** Use cookies to track unique visitors and calculate overall conversion rate. Learn more [here](https://mailchimp.com/help/use-track-mailchimp/). */
-        track_with_mailchimp?: boolean | undefined;
-    }
-
-    /** The type of template the landing page has. */
-    export const Type = {
-        Signup: "signup",
-        Product: "product",
-    } as const;
-    export type Type = (typeof Type)[keyof typeof Type];
+    type?: Mailchimp.CreateLandingPagesRequestType;
 }

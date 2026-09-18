@@ -32,7 +32,20 @@ describe("VerifiedDomainsClient", () => {
             .build();
 
         const response = await client.verifiedDomains.list();
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            domains: [
+                {
+                    authenticated: true,
+                    domain: "domain",
+                    isFreeEmailProvider: true,
+                    status: "VERIFICATION_IN_PROGRESS",
+                    verificationEmail: "verification_email",
+                    verificationSent: new Date("2024-01-15T09:30:00.000Z"),
+                    verified: true,
+                },
+            ],
+            totalItems: 1,
+        });
     });
 
     test("create", async () => {
@@ -59,9 +72,17 @@ describe("VerifiedDomainsClient", () => {
             .build();
 
         const response = await client.verifiedDomains.create({
-            verification_email: "verification_email",
+            verificationEmail: "verification_email",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            authenticated: true,
+            domain: "domain",
+            isFreeEmailProvider: true,
+            status: "VERIFICATION_IN_PROGRESS",
+            verificationEmail: "verification_email",
+            verificationSent: new Date("2024-01-15T09:30:00.000Z"),
+            verified: true,
+        });
     });
 
     test("get", async () => {
@@ -87,9 +108,17 @@ describe("VerifiedDomainsClient", () => {
             .build();
 
         const response = await client.verifiedDomains.get({
-            domain_name: "domain_name",
+            domainName: "domain_name",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            authenticated: true,
+            domain: "domain",
+            isFreeEmailProvider: true,
+            status: "VERIFICATION_IN_PROGRESS",
+            verificationEmail: "verification_email",
+            verificationSent: new Date("2024-01-15T09:30:00.000Z"),
+            verified: true,
+        });
     });
 
     test("delete", async () => {
@@ -99,7 +128,7 @@ describe("VerifiedDomainsClient", () => {
         server.mockEndpoint().delete("/3.0/verified-domains/domain_name").respondWith().statusCode(200).build();
 
         const response = await client.verifiedDomains.delete({
-            domain_name: "domain_name",
+            domainName: "domain_name",
         });
         expect(response).toEqual(undefined);
     });
@@ -128,9 +157,17 @@ describe("VerifiedDomainsClient", () => {
             .build();
 
         const response = await client.verifiedDomains.createActionVerify({
-            domain_name: "domain_name",
+            domainName: "domain_name",
             code: "code",
         });
-        expect(response).toEqual(rawResponseBody);
+        expect(response).toEqual({
+            authenticated: true,
+            domain: "domain",
+            isFreeEmailProvider: true,
+            status: "VERIFICATION_IN_PROGRESS",
+            verificationEmail: "verification_email",
+            verificationSent: new Date("2024-01-15T09:30:00.000Z"),
+            verified: true,
+        });
     });
 });

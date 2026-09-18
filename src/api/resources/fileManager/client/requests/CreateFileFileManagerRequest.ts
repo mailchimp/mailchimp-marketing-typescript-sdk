@@ -3,15 +3,15 @@
 /**
  * @example
  *     {
- *         file_data: "file_data",
+ *         fileData: "file_data",
  *         name: "name"
  *     }
  */
 export interface CreateFileFileManagerRequest {
     /** The base64-encoded contents of the file. */
-    file_data: string;
+    fileData: string;
     /** The id of the folder. */
-    folder_id?: number;
+    folderId?: number;
     /** The name of the file. */
     name: string;
 }

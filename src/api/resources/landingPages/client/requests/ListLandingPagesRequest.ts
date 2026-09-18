@@ -8,13 +8,13 @@ import type * as Mailchimp from "../../../../index.js";
  */
 export interface ListLandingPagesRequest {
     /** Determines the order direction for sorted results. */
-    sort_dir?: Mailchimp.ListLandingPagesRequestSortDir;
+    sortDir?: Mailchimp.ListLandingPagesRequestSortDir;
     /** Returns files sorted by the specified field. */
-    sort_field?: Mailchimp.ListLandingPagesRequestSortField;
+    sortField?: Mailchimp.ListLandingPagesRequestSortField;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
     /** The number of records to return. Default value is 10. Maximum value is 1000 */
     count?: number;
 }

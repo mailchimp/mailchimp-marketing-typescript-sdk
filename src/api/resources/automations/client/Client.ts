@@ -8,6 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
+import * as serializers from "../../../../serialization/index.js";
 import type * as Mailchimp from "../../../index.js";
 
 export declare namespace AutomationsClient {
@@ -16,6 +17,9 @@ export declare namespace AutomationsClient {
     export interface RequestOptions extends BaseRequestOptions {}
 }
 
+/**
+ * Classic automation workflows, their emails, and queued subscribers.
+ */
 export class AutomationsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<AutomationsClient.Options>;
 
@@ -47,11 +51,11 @@ export class AutomationsClient {
                     count,
                     offset,
                     fields,
-                    exclude_fields: excludeFields,
-                    before_create_time: beforeCreateTime,
-                    since_create_time: sinceCreateTime,
-                    before_start_time: beforeStartTime,
-                    since_start_time: sinceStartTime,
+                    excludeFields,
+                    beforeCreateTime,
+                    sinceCreateTime,
+                    beforeStartTime,
+                    sinceStartTime,
                     status,
                 } = request;
                 const _queryParams: Record<string, unknown> = {
@@ -59,11 +63,17 @@ export class AutomationsClient {
                     offset,
                     fields,
                     exclude_fields: excludeFields,
-                    before_create_time: beforeCreateTime != null ? beforeCreateTime : undefined,
-                    since_create_time: sinceCreateTime != null ? sinceCreateTime : undefined,
-                    before_start_time: beforeStartTime != null ? beforeStartTime : undefined,
-                    since_start_time: sinceStartTime != null ? sinceStartTime : undefined,
-                    status: status != null ? status : undefined,
+                    before_create_time: beforeCreateTime != null ? beforeCreateTime?.toISOString() : undefined,
+                    since_create_time: sinceCreateTime != null ? sinceCreateTime?.toISOString() : undefined,
+                    before_start_time: beforeStartTime != null ? beforeStartTime?.toISOString() : undefined,
+                    since_start_time: sinceStartTime != null ? sinceStartTime?.toISOString() : undefined,
+                    status:
+                        status != null
+                            ? serializers.ListAutomationsRequestStatus.jsonOrThrow(status, {
+                                  unrecognizedObjectKeys: "strip",
+                                  omitUndefined: true,
+                              })
+                            : undefined,
                 };
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -95,7 +105,13 @@ export class AutomationsClient {
                 });
                 if (_response.ok) {
                     return {
-                        data: _response.body as Mailchimp.ListAutomationsResponse,
+                        data: serializers.ListAutomationsResponse.parseOrThrow(_response.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
                         rawResponse: _response.rawResponse,
                     };
                 }
@@ -135,8 +151,8 @@ export class AutomationsClient {
      * @example
      *     await client.automations.create({
      *         recipients: {},
-     *         trigger_settings: {
-     *             workflow_type: "abandonedBrowse"
+     *         triggerSettings: {
+     *             workflowType: "abandonedBrowse"
      *         }
      *     })
      */
@@ -169,7 +185,13 @@ export class AutomationsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateAutomationsRequest.jsonOrThrow(request, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -177,7 +199,16 @@ export class AutomationsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.AutomationWorkflow, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.AutomationWorkflow.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -202,7 +233,7 @@ export class AutomationsClient {
      *
      * @example
      *     await client.automations.get({
-     *         workflow_id: "workflow_id"
+     *         workflowId: "workflow_id"
      *     })
      */
     public get(
@@ -216,7 +247,7 @@ export class AutomationsClient {
         request: Mailchimp.GetAutomationsRequest,
         requestOptions?: AutomationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.AutomationWorkflow>> {
-        const { workflow_id: workflowId, fields, exclude_fields: excludeFields } = request;
+        const { workflowId, fields, excludeFields } = request;
         const _queryParams: Record<string, unknown> = {
             fields,
             exclude_fields: excludeFields,
@@ -250,7 +281,16 @@ export class AutomationsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.AutomationWorkflow, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.AutomationWorkflow.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -280,7 +320,7 @@ export class AutomationsClient {
      *
      * @example
      *     await client.automations.createActionArchive({
-     *         workflow_id: "workflow_id"
+     *         workflowId: "workflow_id"
      *     })
      */
     public createActionArchive(
@@ -294,7 +334,7 @@ export class AutomationsClient {
         request: Mailchimp.CreateActionArchiveAutomationsRequest,
         requestOptions?: AutomationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { workflow_id: workflowId } = request;
+        const { workflowId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -348,7 +388,7 @@ export class AutomationsClient {
      *
      * @example
      *     await client.automations.createActionPauseAllEmail({
-     *         workflow_id: "workflow_id"
+     *         workflowId: "workflow_id"
      *     })
      */
     public createActionPauseAllEmail(
@@ -362,7 +402,7 @@ export class AutomationsClient {
         request: Mailchimp.CreateActionPauseAllEmailAutomationsRequest,
         requestOptions?: AutomationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { workflow_id: workflowId } = request;
+        const { workflowId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -416,7 +456,7 @@ export class AutomationsClient {
      *
      * @example
      *     await client.automations.createActionStartAllEmail({
-     *         workflow_id: "workflow_id"
+     *         workflowId: "workflow_id"
      *     })
      */
     public createActionStartAllEmail(
@@ -430,7 +470,7 @@ export class AutomationsClient {
         request: Mailchimp.CreateActionStartAllEmailAutomationsRequest,
         requestOptions?: AutomationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { workflow_id: workflowId } = request;
+        const { workflowId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -484,7 +524,7 @@ export class AutomationsClient {
      *
      * @example
      *     await client.automations.listEmails({
-     *         workflow_id: "workflow_id"
+     *         workflowId: "workflow_id"
      *     })
      */
     public listEmails(
@@ -498,7 +538,7 @@ export class AutomationsClient {
         request: Mailchimp.ListEmailsAutomationsRequest,
         requestOptions?: AutomationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListEmailsAutomationsResponse>> {
-        const { workflow_id: workflowId } = request;
+        const { workflowId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -523,7 +563,13 @@ export class AutomationsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListEmailsAutomationsResponse,
+                data: serializers.ListEmailsAutomationsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -555,8 +601,8 @@ export class AutomationsClient {
      *
      * @example
      *     await client.automations.getEmail({
-     *         workflow_id: "workflow_id",
-     *         workflow_email_id: "workflow_email_id"
+     *         workflowId: "workflow_id",
+     *         workflowEmailId: "workflow_email_id"
      *     })
      */
     public getEmail(
@@ -570,7 +616,7 @@ export class AutomationsClient {
         request: Mailchimp.GetEmailAutomationsRequest,
         requestOptions?: AutomationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.AutomationWorkflowEmail>> {
-        const { workflow_id: workflowId, workflow_email_id: workflowEmailId } = request;
+        const { workflowId, workflowEmailId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -594,7 +640,16 @@ export class AutomationsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.AutomationWorkflowEmail, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.AutomationWorkflowEmail.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -624,8 +679,8 @@ export class AutomationsClient {
      *
      * @example
      *     await client.automations.deleteEmail({
-     *         workflow_id: "workflow_id",
-     *         workflow_email_id: "workflow_email_id"
+     *         workflowId: "workflow_id",
+     *         workflowEmailId: "workflow_email_id"
      *     })
      */
     public deleteEmail(
@@ -639,7 +694,7 @@ export class AutomationsClient {
         request: Mailchimp.DeleteEmailAutomationsRequest,
         requestOptions?: AutomationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { workflow_id: workflowId, workflow_email_id: workflowEmailId } = request;
+        const { workflowId, workflowEmailId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -693,8 +748,8 @@ export class AutomationsClient {
      *
      * @example
      *     await client.automations.updateEmail({
-     *         workflow_id: "workflow_id",
-     *         workflow_email_id: "workflow_email_id"
+     *         workflowId: "workflow_id",
+     *         workflowEmailId: "workflow_email_id"
      *     })
      */
     public updateEmail(
@@ -708,7 +763,7 @@ export class AutomationsClient {
         request: Mailchimp.UpdateEmailAutomationsRequest,
         requestOptions?: AutomationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.AutomationWorkflowEmail>> {
-        const { workflow_id: workflowId, workflow_email_id: workflowEmailId, ..._body } = request;
+        const { workflowId, workflowEmailId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -727,7 +782,13 @@ export class AutomationsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.UpdateEmailAutomationsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -735,7 +796,16 @@ export class AutomationsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Mailchimp.AutomationWorkflowEmail, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.AutomationWorkflowEmail.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -765,8 +835,8 @@ export class AutomationsClient {
      *
      * @example
      *     await client.automations.createEmailActionPause({
-     *         workflow_id: "workflow_id",
-     *         workflow_email_id: "workflow_email_id"
+     *         workflowId: "workflow_id",
+     *         workflowEmailId: "workflow_email_id"
      *     })
      */
     public createEmailActionPause(
@@ -780,7 +850,7 @@ export class AutomationsClient {
         request: Mailchimp.CreateEmailActionPauseAutomationsRequest,
         requestOptions?: AutomationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { workflow_id: workflowId, workflow_email_id: workflowEmailId } = request;
+        const { workflowId, workflowEmailId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -834,8 +904,8 @@ export class AutomationsClient {
      *
      * @example
      *     await client.automations.createEmailActionStart({
-     *         workflow_id: "workflow_id",
-     *         workflow_email_id: "workflow_email_id"
+     *         workflowId: "workflow_id",
+     *         workflowEmailId: "workflow_email_id"
      *     })
      */
     public createEmailActionStart(
@@ -849,7 +919,7 @@ export class AutomationsClient {
         request: Mailchimp.CreateEmailActionStartAutomationsRequest,
         requestOptions?: AutomationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<void>> {
-        const { workflow_id: workflowId, workflow_email_id: workflowEmailId } = request;
+        const { workflowId, workflowEmailId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -903,8 +973,8 @@ export class AutomationsClient {
      *
      * @example
      *     await client.automations.listEmailQueue({
-     *         workflow_id: "workflow_id",
-     *         workflow_email_id: "workflow_email_id"
+     *         workflowId: "workflow_id",
+     *         workflowEmailId: "workflow_email_id"
      *     })
      */
     public listEmailQueue(
@@ -918,7 +988,7 @@ export class AutomationsClient {
         request: Mailchimp.ListEmailQueueAutomationsRequest,
         requestOptions?: AutomationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListEmailQueueAutomationsResponse>> {
-        const { workflow_id: workflowId, workflow_email_id: workflowEmailId } = request;
+        const { workflowId, workflowEmailId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -943,7 +1013,13 @@ export class AutomationsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListEmailQueueAutomationsResponse,
+                data: serializers.ListEmailQueueAutomationsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -975,9 +1051,9 @@ export class AutomationsClient {
      *
      * @example
      *     await client.automations.createEmailQueue({
-     *         workflow_id: "workflow_id",
-     *         workflow_email_id: "workflow_email_id",
-     *         email_address: "email_address"
+     *         workflowId: "workflow_id",
+     *         workflowEmailId: "workflow_email_id",
+     *         emailAddress: "email_address"
      *     })
      */
     public createEmailQueue(
@@ -991,7 +1067,7 @@ export class AutomationsClient {
         request: Mailchimp.CreateEmailQueueAutomationsRequest,
         requestOptions?: AutomationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.SubscriberInAutomationQueue>> {
-        const { workflow_id: workflowId, workflow_email_id: workflowEmailId, ..._body } = request;
+        const { workflowId, workflowEmailId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1010,7 +1086,13 @@ export class AutomationsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateEmailQueueAutomationsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1019,7 +1101,13 @@ export class AutomationsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.SubscriberInAutomationQueue,
+                data: serializers.SubscriberInAutomationQueue.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -1051,9 +1139,9 @@ export class AutomationsClient {
      *
      * @example
      *     await client.automations.getEmailQueue({
-     *         workflow_id: "workflow_id",
-     *         workflow_email_id: "workflow_email_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         workflowId: "workflow_id",
+     *         workflowEmailId: "workflow_email_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public getEmailQueue(
@@ -1067,11 +1155,7 @@ export class AutomationsClient {
         request: Mailchimp.GetEmailQueueAutomationsRequest,
         requestOptions?: AutomationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.SubscriberInAutomationQueue>> {
-        const {
-            workflow_id: workflowId,
-            workflow_email_id: workflowEmailId,
-            subscriber_hash: subscriberHash,
-        } = request;
+        const { workflowId, workflowEmailId, subscriberHash } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1096,7 +1180,13 @@ export class AutomationsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.SubscriberInAutomationQueue,
+                data: serializers.SubscriberInAutomationQueue.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -1128,7 +1218,7 @@ export class AutomationsClient {
      *
      * @example
      *     await client.automations.listRemovedSubscribers({
-     *         workflow_id: "workflow_id"
+     *         workflowId: "workflow_id"
      *     })
      */
     public listRemovedSubscribers(
@@ -1142,7 +1232,7 @@ export class AutomationsClient {
         request: Mailchimp.ListRemovedSubscribersAutomationsRequest,
         requestOptions?: AutomationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.ListRemovedSubscribersAutomationsResponse>> {
-        const { workflow_id: workflowId } = request;
+        const { workflowId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1167,7 +1257,13 @@ export class AutomationsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.ListRemovedSubscribersAutomationsResponse,
+                data: serializers.ListRemovedSubscribersAutomationsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -1199,8 +1295,8 @@ export class AutomationsClient {
      *
      * @example
      *     await client.automations.createRemovedSubscriber({
-     *         workflow_id: "workflow_id",
-     *         email_address: "email_address"
+     *         workflowId: "workflow_id",
+     *         emailAddress: "email_address"
      *     })
      */
     public createRemovedSubscriber(
@@ -1214,7 +1310,7 @@ export class AutomationsClient {
         request: Mailchimp.CreateRemovedSubscriberAutomationsRequest,
         requestOptions?: AutomationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.SubscriberRemovedFromAutomationWorkflow>> {
-        const { workflow_id: workflowId, ..._body } = request;
+        const { workflowId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1233,7 +1329,13 @@ export class AutomationsClient {
             contentType: "application/json",
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            body: mergeAdditionalBodyParameters(
+                serializers.CreateRemovedSubscriberAutomationsRequest.jsonOrThrow(_body, {
+                    unrecognizedObjectKeys: "strip",
+                    omitUndefined: true,
+                }),
+                requestOptions?.additionalBodyParameters,
+            ),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1242,7 +1344,13 @@ export class AutomationsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.SubscriberRemovedFromAutomationWorkflow,
+                data: serializers.SubscriberRemovedFromAutomationWorkflow.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -1274,8 +1382,8 @@ export class AutomationsClient {
      *
      * @example
      *     await client.automations.getRemovedSubscriber({
-     *         workflow_id: "workflow_id",
-     *         subscriber_hash: "subscriber_hash"
+     *         workflowId: "workflow_id",
+     *         subscriberHash: "subscriber_hash"
      *     })
      */
     public getRemovedSubscriber(
@@ -1289,7 +1397,7 @@ export class AutomationsClient {
         request: Mailchimp.GetRemovedSubscriberAutomationsRequest,
         requestOptions?: AutomationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Mailchimp.SubscriberRemovedFromAutomationWorkflow>> {
-        const { workflow_id: workflowId, subscriber_hash: subscriberHash } = request;
+        const { workflowId, subscriberHash } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1314,7 +1422,13 @@ export class AutomationsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Mailchimp.SubscriberRemovedFromAutomationWorkflow,
+                data: serializers.SubscriberRemovedFromAutomationWorkflow.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }

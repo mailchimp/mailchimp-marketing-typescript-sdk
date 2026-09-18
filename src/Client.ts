@@ -2,6 +2,7 @@
 
 import { AccountExportsClient } from "./api/resources/accountExports/client/Client.js";
 import { ActivityFeedClient } from "./api/resources/activityFeed/client/Client.js";
+import { AudiencesClient } from "./api/resources/audiences/client/Client.js";
 import { AuthorizedAppsClient } from "./api/resources/authorizedApps/client/Client.js";
 import { AutomationsClient } from "./api/resources/automations/client/Client.js";
 import { BatchesClient } from "./api/resources/batches/client/Client.js";
@@ -42,6 +43,7 @@ export class MailchimpClient {
     protected _root: RootClient | undefined;
     protected _accountExports: AccountExportsClient | undefined;
     protected _activityFeed: ActivityFeedClient | undefined;
+    protected _audiences: AudiencesClient | undefined;
     protected _authorizedApps: AuthorizedAppsClient | undefined;
     protected _automations: AutomationsClient | undefined;
     protected _batchWebhooks: BatchWebhooksClient | undefined;
@@ -81,6 +83,10 @@ export class MailchimpClient {
 
     public get activityFeed(): ActivityFeedClient {
         return (this._activityFeed ??= new ActivityFeedClient(this._options));
+    }
+
+    public get audiences(): AudiencesClient {
+        return (this._audiences ??= new AudiencesClient(this._options));
     }
 
     public get authorizedApps(): AuthorizedAppsClient {

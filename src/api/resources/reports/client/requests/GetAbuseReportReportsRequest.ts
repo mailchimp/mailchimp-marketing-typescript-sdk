@@ -3,17 +3,17 @@
 /**
  * @example
  *     {
- *         campaign_id: "campaign_id",
- *         report_id: "report_id"
+ *         campaignId: "campaign_id",
+ *         reportId: "report_id"
  *     }
  */
 export interface GetAbuseReportReportsRequest {
     /** The unique id for the campaign. */
-    campaign_id: string;
+    campaignId: string;
     /** The id for the abuse report. */
-    report_id: string;
+    reportId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
 }

@@ -3,18 +3,18 @@
 /**
  * @example
  *     {
- *         list_id: "list_id",
- *         interest_category_id: "interest_category_id",
+ *         listId: "list_id",
+ *         interestCategoryId: "interest_category_id",
  *         name: "name"
  *     }
  */
 export interface CreateInterestCategoryInterestListsRequest {
     /** The unique ID for the list. */
-    list_id: string;
+    listId: string;
     /** The unique ID for the interest category. */
-    interest_category_id: string;
+    interestCategoryId: string;
     /** The display order for interests. */
-    display_order?: number;
+    displayOrder?: number;
     /** The name of the interest. This can be shown publicly on a subscription form. */
     name: string;
 }

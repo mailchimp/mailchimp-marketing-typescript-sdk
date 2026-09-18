@@ -46,7 +46,7 @@ import { MailchimpClient } from "@mailchimp/mailchimp-marketing";
 
 const client = new MailchimpClient({ token: "YOUR_TOKEN" });
 await client.accountExports.create({
-    include_stages: ["audiences", "gallery_files"]
+    includeStages: ["audiences", "gallery_files"]
 });
 ```
 
@@ -111,7 +111,7 @@ for await (const item of pageableResponse) {
 // Or you can manually iterate page-by-page
 let page = await client.accountExports.list();
 while (page.hasNextPage()) {
-    page = page.getNextPage();
+    page = await page.getNextPage();
 }
 
 // You can also access the underlying response

@@ -1,47 +1,33 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../../../../index.js";
+
 /**
  * @example
  *     {
- *         list_id: "list_id",
- *         merge_id: "merge_id"
+ *         listId: "list_id",
+ *         mergeId: "merge_id"
  *     }
  */
 export interface UpdateMergeFieldListsRequest {
     /** The unique ID for the list. */
-    list_id: string;
+    listId: string;
     /** The id for the merge field. */
-    merge_id: string;
+    mergeId: string;
     /** The default value for the merge field if `null`. */
-    default_value?: string;
+    defaultValue?: string;
     /** The order that the merge field displays on the list signup form. */
-    display_order?: number;
+    displayOrder?: number;
     /** Extra text to help the subscriber fill out the form. */
-    help_text?: string;
+    helpText?: string;
     /** The name of the merge field (audience field). */
     name?: string;
     /** Extra options for some merge field types. */
-    options?: UpdateMergeFieldListsRequest.Options;
+    options?: Mailchimp.UpdateMergeFieldListsRequestOptions;
     /** Whether the merge field is displayed on the signup form. */
     public?: boolean;
     /** Whether the merge field is required to import a contact. */
     required?: boolean;
     /** The merge tag used for Mailchimp campaigns and [adding contact information](https://mailchimp.com/developer/marketing/docs/merge-fields/#add-merge-data-to-contacts). */
     tag?: string;
-}
-
-export namespace UpdateMergeFieldListsRequest {
-    /**
-     * Extra options for some merge field types.
-     */
-    export interface Options {
-        /** In a radio or dropdown non-group field, the available options for members to pick from. */
-        choices?: string[] | undefined;
-        /** In a date or birthday field, the format of the date. */
-        date_format?: string | undefined;
-        /** In an address field, the default country code if none supplied. */
-        default_country?: number | undefined;
-        /** In a phone field, the phone number type: US or International. */
-        phone_format?: string | undefined;
-    }
 }

@@ -3,10 +3,10 @@
 /**
  * @example
  *     {
- *         workflow_id: "workflow_id"
+ *         workflowId: "workflow_id"
  *     }
  */
 export interface CreateActionStartAllEmailAutomationsRequest {
     /** The unique id for the Automation workflow. */
-    workflow_id: string;
+    workflowId: string;
 }

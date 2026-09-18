@@ -1,95 +1,43 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../index.js";
+
 /**
  * A summary of an individual landing page's settings and content.
  */
 export interface LandingPage {
     /** A list of link types and descriptions for the API schema documents. */
-    _links?: LandingPage.Links.Item[] | undefined;
+    links?: Mailchimp.LandingPageLinksItem[];
     /** The time this landing page was created. */
-    created_at?: string | undefined;
+    createdAt?: Date;
     /** Created by mobile or web */
-    created_by_source?: string | undefined;
+    createdBySource?: string;
     /** The description of this landing page. */
-    description?: string | undefined;
+    description?: string;
     /** A string that uniquely identifies this landing page. */
-    id?: string | undefined;
+    id?: string;
     /** The list's ID associated with this landing page. */
-    list_id?: string | undefined;
+    listId?: string;
     /** The name of this landing page. */
-    name?: string | undefined;
+    name?: string;
     /** The time this landing page was published. */
-    published_at?: string | undefined;
+    publishedAt?: Date;
     /** The status of this landing page. */
-    status?: LandingPage.Status | undefined;
+    status?: Mailchimp.LandingPageStatus;
     /** The ID of the store associated with this landing page. */
-    store_id?: string | undefined;
+    storeId?: string;
     /** The template_id of this landing page. */
-    template_id?: number | undefined;
+    templateId?: number;
     /** The title of this landing page seen in the browser's title bar. */
-    title?: string | undefined;
+    title?: string;
     /** The tracking settings applied to this landing page. */
-    tracking?: LandingPage.Tracking | undefined;
+    tracking?: Mailchimp.LandingPageTracking;
     /** The time this landing page was unpublished. */
-    unpublished_at?: string | undefined;
+    unpublishedAt?: Date;
     /** The time this landing page was updated at. */
-    updated_at?: string | undefined;
+    updatedAt?: Date;
     /** The url of the published landing page. */
-    url?: string | undefined;
+    url?: string;
     /** The ID used in the Mailchimp web application. */
-    web_id?: number | undefined;
-}
-
-export namespace LandingPage {
-    export type Links = Links.Item[];
-
-    export namespace Links {
-        /**
-         * This object represents a link from the resource where it is found to another resource or action that may be performed.
-         */
-        export interface Item {
-            /** This property contains a fully-qualified URL that can be called to retrieve the linked resource or perform the linked action. */
-            href?: string | undefined;
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            method?: Item.Method | undefined;
-            /** As with an HTML 'rel' attribute, this describes the type of link. */
-            rel?: string | undefined;
-            /** For HTTP methods that can receive bodies (POST and PUT), this is a URL representing the schema that the body should conform to. */
-            schema?: string | undefined;
-            /** For GETs, this is a URL representing the schema that the response should conform to. */
-            targetSchema?: string | undefined;
-        }
-
-        export namespace Item {
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            export const Method = {
-                Get: "GET",
-                Post: "POST",
-                Put: "PUT",
-                Patch: "PATCH",
-                Delete: "DELETE",
-                Options: "OPTIONS",
-                Head: "HEAD",
-            } as const;
-            export type Method = (typeof Method)[keyof typeof Method];
-        }
-    }
-
-    /** The status of this landing page. */
-    export const Status = {
-        Published: "published",
-        Unpublished: "unpublished",
-        Draft: "draft",
-    } as const;
-    export type Status = (typeof Status)[keyof typeof Status];
-
-    /**
-     * The tracking settings applied to this landing page.
-     */
-    export interface Tracking {
-        /** Google offers restricted data processing in connection with the California Consumer Privacy Act (CCPA) to restrict how Google uses certain identifiers and other data processed in the provision of its services. You can learn more about Google's restricted data processing within Google Ads [here](https://privacy.google.com/businesses/rdp/). */
-        enable_restricted_data_processing?: boolean | undefined;
-        /** Use cookies to track unique visitors and calculate overall conversion rate. Learn more [here](https://mailchimp.com/help/use-track-mailchimp/). */
-        track_with_mailchimp?: boolean | undefined;
-    }
+    webId?: number;
 }

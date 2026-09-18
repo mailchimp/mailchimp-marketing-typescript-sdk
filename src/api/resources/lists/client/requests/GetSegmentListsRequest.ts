@@ -3,23 +3,23 @@
 /**
  * @example
  *     {
- *         list_id: "list_id",
- *         segment_id: "segment_id"
+ *         listId: "list_id",
+ *         segmentId: "segment_id"
  *     }
  */
 export interface GetSegmentListsRequest {
     /** The unique ID for the list. */
-    list_id: string;
+    listId: string;
     /** The unique id for the segment. */
-    segment_id: string;
+    segmentId: string;
     /** A comma-separated list of fields to return. Reference parameters of sub-objects with dot notation. */
     fields?: string | string[];
     /** A comma-separated list of fields to exclude. Reference parameters of sub-objects with dot notation. */
-    exclude_fields?: string | string[];
+    excludeFields?: string | string[];
     /** Include cleaned members in response */
-    include_cleaned?: boolean;
+    includeCleaned?: boolean;
     /** Include transactional members in response */
-    include_transactional?: boolean;
+    includeTransactional?: boolean;
     /** Include unsubscribed members in response */
-    include_unsubscribed?: boolean;
+    includeUnsubscribed?: boolean;
 }

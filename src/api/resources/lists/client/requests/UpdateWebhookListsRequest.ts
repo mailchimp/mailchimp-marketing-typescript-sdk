@@ -5,15 +5,15 @@ import type * as Mailchimp from "../../../../index.js";
 /**
  * @example
  *     {
- *         list_id: "list_id",
- *         webhook_id: "webhook_id",
+ *         listId: "list_id",
+ *         webhookId: "webhook_id",
  *         body: {}
  *     }
  */
 export interface UpdateWebhookListsRequest {
     /** The unique ID for the list. */
-    list_id: string;
+    listId: string;
     /** The webhook's id. */
-    webhook_id: string;
+    webhookId: string;
     body: Mailchimp.AddWebhook;
 }

@@ -1,185 +1,47 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../index.js";
+
 /**
  * An individual store in an account.
  */
 export interface ECommerceStore {
     /** A list of link types and descriptions for the API schema documents. */
-    _links?: ECommerceStore.Links.Item[] | undefined;
+    links?: Mailchimp.ECommerceStoreLinksItem[];
     /** The store address. */
-    address?: ECommerceStore.Address | undefined;
+    address?: Mailchimp.ECommerceStoreAddress;
     /** Details for the automations attached to this store. */
-    automations?: ECommerceStore.Automations | undefined;
+    automations?: Mailchimp.ECommerceStoreAutomations;
     /** The Connected Site associated with the store. */
-    connected_site?: ECommerceStore.ConnectedSite | undefined;
+    connectedSite?: Mailchimp.ECommerceStoreConnectedSite;
     /** The date and time the store was created in ISO 8601 format. */
-    created_at?: string | undefined;
+    createdAt?: Date;
     /** The three-letter ISO 4217 code for the currency that the store accepts. */
-    currency_code?: string | undefined;
+    currencyCode?: string;
     /** The store domain.  The store domain must be unique within a user account. */
-    domain?: string | undefined;
+    domain?: string;
     /** The email address for the store. */
-    email_address?: string | undefined;
+    emailAddress?: string;
     /** The unique identifier for the store. */
-    id?: string | undefined;
+    id?: string;
     /** Whether to disable automations because the store is currently [syncing](https://mailchimp.com/developer/marketing/docs/e-commerce/#pausing-store-automations). */
-    is_syncing?: boolean | undefined;
+    isSyncing?: boolean;
     /** The unique identifier for the list that's associated with the store. The `list_id` for a specific store can't change. */
-    list_id?: string | undefined;
+    listId?: string;
     /** The status of the list connected to the store, namely if it's deleted or disabled. */
-    list_is_active?: boolean | undefined;
+    listIsActive?: boolean;
     /** The currency format for the store. For example: `$`, `£`, etc. */
-    money_format?: string | undefined;
+    moneyFormat?: string;
     /** The name of the store. */
-    name?: string | undefined;
+    name?: string;
     /** The store phone number. */
-    phone?: string | undefined;
+    phone?: string;
     /** The e-commerce platform of the store. */
-    platform?: string | undefined;
+    platform?: string;
     /** The primary locale for the store. For example: `en`, `de`, etc. */
-    primary_locale?: string | undefined;
+    primaryLocale?: string;
     /** The timezone for the store. */
-    timezone?: string | undefined;
+    timezone?: string;
     /** The date and time the store was last updated in ISO 8601 format. */
-    updated_at?: string | undefined;
-}
-
-export namespace ECommerceStore {
-    export type Links = Links.Item[];
-
-    export namespace Links {
-        /**
-         * This object represents a link from the resource where it is found to another resource or action that may be performed.
-         */
-        export interface Item {
-            /** This property contains a fully-qualified URL that can be called to retrieve the linked resource or perform the linked action. */
-            href?: string | undefined;
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            method?: Item.Method | undefined;
-            /** As with an HTML 'rel' attribute, this describes the type of link. */
-            rel?: string | undefined;
-            /** For HTTP methods that can receive bodies (POST and PUT), this is a URL representing the schema that the body should conform to. */
-            schema?: string | undefined;
-            /** For GETs, this is a URL representing the schema that the response should conform to. */
-            targetSchema?: string | undefined;
-        }
-
-        export namespace Item {
-            /** The HTTP method that should be used when accessing the URL defined in 'href'. */
-            export const Method = {
-                Get: "GET",
-                Post: "POST",
-                Put: "PUT",
-                Patch: "PATCH",
-                Delete: "DELETE",
-                Options: "OPTIONS",
-                Head: "HEAD",
-            } as const;
-            export type Method = (typeof Method)[keyof typeof Method];
-        }
-    }
-
-    /**
-     * The store address.
-     */
-    export interface Address {
-        /** The store's mailing address. */
-        address1?: string | undefined;
-        /** An additional field for the store's mailing address. */
-        address2?: string | undefined;
-        /** The city the store is located in. */
-        city?: string | undefined;
-        /** The store's country. */
-        country?: string | undefined;
-        /** The two-letter code for to the store's country. */
-        country_code?: string | undefined;
-        /** The latitude of the store location. */
-        latitude?: number | undefined;
-        /** The longitude of the store location. */
-        longitude?: number | undefined;
-        /** The store's postal or zip code. */
-        postal_code?: string | undefined;
-        /** The store's state name or normalized province. */
-        province?: string | undefined;
-        /** The two-letter code for the store's province or state. */
-        province_code?: string | undefined;
-    }
-
-    /**
-     * Details for the automations attached to this store.
-     */
-    export interface Automations {
-        /** abandonedBrowse automation details. abandonedBrowse is also known as Product Retargeting Email or Retarget Site Visitors on the web. */
-        abandoned_browse?: Automations.AbandonedBrowse | undefined;
-        /** abandonedCart automation details. */
-        abandoned_cart?: Automations.AbandonedCart | undefined;
-    }
-
-    export namespace Automations {
-        /**
-         * abandonedBrowse automation details. abandonedBrowse is also known as Product Retargeting Email or Retarget Site Visitors on the web.
-         */
-        export interface AbandonedBrowse {
-            /** Unique ID of automation parent campaign. */
-            id?: string | undefined;
-            /** Whether this store supports the abandonedBrowse automation. */
-            is_supported?: boolean | undefined;
-            /** Status of the abandonedBrowse automation. */
-            status?: AbandonedBrowse.Status | undefined;
-        }
-
-        export namespace AbandonedBrowse {
-            /** Status of the abandonedBrowse automation. */
-            export const Status = {
-                Save: "save",
-                Sending: "sending",
-                Paused: "paused",
-            } as const;
-            export type Status = (typeof Status)[keyof typeof Status];
-        }
-
-        /**
-         * abandonedCart automation details.
-         */
-        export interface AbandonedCart {
-            /** Unique ID of automation parent campaign. */
-            id?: string | undefined;
-            /** Whether this store supports the abandonedCart automation. */
-            is_supported?: boolean | undefined;
-            /** Status of the abandonedCart automation. */
-            status?: AbandonedCart.Status | undefined;
-        }
-
-        export namespace AbandonedCart {
-            /** Status of the abandonedCart automation. */
-            export const Status = {
-                Save: "save",
-                Sending: "sending",
-                Paused: "paused",
-            } as const;
-            export type Status = (typeof Status)[keyof typeof Status];
-        }
-    }
-
-    /**
-     * The Connected Site associated with the store.
-     */
-    export interface ConnectedSite {
-        /** The unique identifier for the connected site. */
-        site_foreign_id?: string | undefined;
-        /** The script used to connect your site with Mailchimp. */
-        site_script?: ConnectedSite.SiteScript | undefined;
-    }
-
-    export namespace ConnectedSite {
-        /**
-         * The script used to connect your site with Mailchimp.
-         */
-        export interface SiteScript {
-            /** A pre-built script that you can copy-and-paste into your site to integrate it with Mailchimp. */
-            fragment?: string | undefined;
-            /** The URL used for any integrations that offer built-in support for connected sites. */
-            url?: string | undefined;
-        }
-    }
+    updatedAt?: Date;
 }

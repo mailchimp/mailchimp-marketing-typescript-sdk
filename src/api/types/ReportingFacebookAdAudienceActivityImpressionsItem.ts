@@ -1,0 +1,6 @@
+//  This file was auto-generated from our API Definition.
+
+export interface ReportingFacebookAdAudienceActivityImpressionsItem {
+    date?: string;
+    impressions?: number;
+}

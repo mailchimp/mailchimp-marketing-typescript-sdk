@@ -1,29 +1,31 @@
 //  This file was auto-generated from our API Definition.
 
+import type * as Mailchimp from "../../../../index.js";
+
 /**
  * @example
  *     {
- *         store_id: "store_id",
- *         product_id: "product_id",
- *         variant_id: "variant_id"
+ *         storeId: "store_id",
+ *         productId: "product_id",
+ *         variantId: "variant_id"
  *     }
  */
 export interface UpsertStoreProductVariantEcommerceRequest {
     /** The store id. */
-    store_id: string;
+    storeId: string;
     /** The id for the product of a store. */
-    product_id: string;
+    productId: string;
     /** The id for the product variant. */
-    variant_id: string;
+    variantId: string;
     /** The backorders of a product variant. */
     backorders?: string;
     /** A unique identifier for the product variant. */
     id?: string;
     /** The image URL for a product variant. */
-    image_url?: string;
+    imageUrl?: string;
     /** The inventory quantity of a product variant. */
-    inventory_quantity?: number;
-    price?: UpsertStoreProductVariantEcommerceRequest.Price;
+    inventoryQuantity?: number;
+    price?: Mailchimp.UpsertStoreProductVariantEcommerceRequestPrice;
     /** The stock keeping unit (SKU) of a product variant. */
     sku?: string;
     /** The title of a product variant. */
@@ -32,8 +34,4 @@ export interface UpsertStoreProductVariantEcommerceRequest {
     url?: string;
     /** The visibility of a product variant. */
     visibility?: string;
-}
-
-export namespace UpsertStoreProductVariantEcommerceRequest {
-    export type Price = number | string;
 }

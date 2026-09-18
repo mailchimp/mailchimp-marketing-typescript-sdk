@@ -5,9 +5,9 @@
  */
 export interface CreateFeedbackCampaignsResponse {
     /** The block id for the editable block that the feedback addresses. */
-    block_id?: number | undefined;
+    blockId?: number;
     /** The status of feedback. */
-    is_complete?: boolean | undefined;
+    isComplete?: boolean;
     /** The content of the feedback. */
     message: string;
 }
