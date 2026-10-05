@@ -1,6 +1,6 @@
 {
     "name": "@mailchimp/mailchimp-marketing",
-    "version": "0.0.214",
+    "version": "1.0.2",
     "private": false,
     "repository": {
         "type": "git",
